@@ -1,16 +1,11 @@
+import LoginView from './src/components/LoginView'
 import React, { createContext, ReactElement } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Text, View } from 'react-native'
-import ViewportProvider, { useDimensions } from 'react-native-viewport-provider'
+import ViewportProvider from 'react-native-viewport-provider'
 
 function AppContent(): ReactElement {
-  const { width, height } = useDimensions()
-  return (
-    <View style={ styles.container }>
-      <Text>Hello There!</Text>
-      <Text>width: { width } ; height: { height }</Text>
-    </View>
-  )
+  return <LoginView />
 }
 
 interface AppContextData {}
