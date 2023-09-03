@@ -1,9 +1,17 @@
-import { fontSize, margin, textColor, textContainer } from '../styles.json'
+import { fontSize, googleColor, margin, textColor, textContainer } from '../styles.json'
 import icon from '../../assets/adaptive-icon.png'
-import { Image, StyleSheet, Text, View as ReactView } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View as ReactView } from 'react-native'
 import React, { ReactElement } from 'react'
 import { useViewport } from 'react-native-viewport-provider'
 import View from './View'
+
+function LogInButton(): ReactElement {
+  return (
+    <TouchableOpacity activeOpacity={ 0.7 } style={ useViewport( styles.logInButton ) }>
+      <Text style={ useViewport( styles.buttonText ) }>Continuar</Text>
+    </TouchableOpacity>
+  )
+}
 
 function LoginView(): ReactElement {
   return (
@@ -13,6 +21,7 @@ function LoginView(): ReactElement {
           Para comenzar a utilizar nuestros servicios debe iniciar sesión con Google
         </Text>
         <Image source={ icon } style={ useViewport( styles.backgroundLogo ) } />
+        <LogInButton />
       </ReactView>
     </View>
   )
@@ -39,7 +48,29 @@ const styles = StyleSheet.create( {
     width: '30.58vw' as unknown as number,
     height: '30.58vw' as unknown as number,
     alignSelf: 'center',
-    borderRadius: 10,
+    borderRadius: '2vw' as unknown as number,
+  },
+  logInButton: {
+    width: `100vw - ( ${ margin } * 2 )` as unknown as number,
+    height: `${ fontSize } * 1.76` as unknown as number,
+    position: 'absolute',
+    left: margin as unknown as number,
+    bottom: margin as unknown as number,
+    borderRadius: '2vw' as unknown as number,
+    backgroundColor: googleColor,
+    shadowColor: 'black',
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 3,
+    aligItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: `${ fontSize } * 1.05` as unknown as number,
+    fontWeight: '700',
+    alignSelf: 'center',
   },
 } )
 
