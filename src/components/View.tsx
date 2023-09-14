@@ -1,9 +1,7 @@
-import { fontSize, margin, textColor, textContainer } from '../styles.json'
+import { backgroundColor, fontSize, margin, textColor, textContainer } from '../styles.json'
 import React, { ReactElement } from 'react'
 import { StyleSheet, Text, View as ReactView } from 'react-native'
 import { useViewport } from 'react-native-viewport-provider'
-
-
 
 interface ViewProps {
   title: string
@@ -26,6 +24,7 @@ const styles = StyleSheet.create( {
   viewContainer: {
     width: '100%',
     height: '100%',
+    backgroundColor: backgroundColor,
   },
   viewName: {
     marginTop: margin as unknown as number,

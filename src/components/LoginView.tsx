@@ -1,29 +1,51 @@
+import AppContext from '../../app_context'
+import { BooleanCardCallerProps, Link } from './BooleanCard'
 import { fontSize, googleColor, margin, textColor, textContainer } from '../styles.json'
+import { FunctionVoid } from '../types'
 import icon from '../../assets/adaptive-icon.png'
 import { Image, StyleSheet, Text, TouchableOpacity, View as ReactView } from 'react-native'
-import React, { ReactElement } from 'react'
+import React, { useContext, ReactElement } from 'react'
 import { useViewport } from 'react-native-viewport-provider'
 import View from './View'
 
-function LogInButton(): ReactElement {
+interface LogInButtonProps { action:FunctionVoid }
+
+function LogInButton( props:LogInButtonProps ): ReactElement {
+  const { action } = props
   return (
-    <TouchableOpacity activeOpacity={ 0.7 } style={ useViewport( styles.logInButton ) }>
+    <TouchableOpacity activeOpacity={ 0.7 } onPress={ action } style={ useViewport( styles.logInButton ) }>
       <Text style={ useViewport( styles.buttonText ) }>Continuar</Text>
     </TouchableOpacity>
   )
 }
 
 function LoginView(): ReactElement {
+  const { SwitchableBooleanCard } = useContext( AppContext )
   return (
+    <>
     <View title="Bienvenido">
       <ReactView style={ styles.container }>
         <Text style={ useViewport( styles.welcomeText ) }>
           Para comenzar a utilizar nuestros servicios debe iniciar sesión con Google
         </Text>
         <Image source={ icon } style={ useViewport( styles.backgroundLogo ) } />
-        <LogInButton />
+        <LogInButton action={
+          () => {
+            const link: Link = {
+              text: 'Leer más',
+              action() { console.log( '<a></a>' ) }
+            }
+            const callerProps: BooleanCardCallerProps = {
+              text: 'Al continuar, confirma estar de acuerdo con nuestra política de privacidad.',
+              link: link,
+              action() { console.log( 'Continue...' ) },
+            }
+            SwitchableBooleanCard.call( callerProps )
+          }
+        } />
       </ReactView>
     </View>
+    </>
   )
 }
 

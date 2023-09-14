@@ -1,23 +1,34 @@
+import AppContext, { AppContextData } from './app_context'
+import { backgroundColor } from './src/styles.json'
+import BooleanCard from './src/components/BooleanCard'
 import LoginView from './src/components/LoginView'
-import React, { createContext, ReactElement } from 'react'
+import React, { ReactElement, useContext, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
+import useSwitch from 'react-component-switcher'
 import ViewportProvider from 'react-native-viewport-provider'
 
 function AppContent(): ReactElement {
-  return <LoginView />
-}
-
-interface AppContextData {}
-
-const AppContext = createContext( {} as AppContextData )
-
-function App(): ReactElement {
-  const data: AppContextData = {}
+  const { SwitchableBooleanCard } = useContext( AppContext )
   return (
     <>
-      <StatusBar style="dark" />
+      <SwitchableBooleanCard.Component quit={ SwitchableBooleanCard.hide } />
+      <LoginView />
+    </>
+  )
+}
+
+function App(): ReactElement {
+  const [ barColor, setBarColor ] = useState( backgroundColor )
+  const SwitchableBooleanCard = useSwitch( BooleanCard, 400 )
+  const data: AppContextData = {
+    setBarColor: setBarColor,
+    SwitchableBooleanCard: SwitchableBooleanCard,
+  }
+  return (
+    <>
       <AppContext.Provider value={ data }>
+        <StatusBar backgroundColor={ barColor } style="dark" />
         <ViewportProvider>
           <AppContent />
         </ViewportProvider>

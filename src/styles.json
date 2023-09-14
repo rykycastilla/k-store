@@ -2,6 +2,8 @@
   "margin": "4.86vw",
   "fontSize": "5.83vw",
   "textContainer": "7.64vw",
+  "backgroundColor": "#FAFAFA",
+  "accentTextColor": "#6AA3B4",
   "textColor": "#223026",
   "googleColor": "#2596BE"
 }
