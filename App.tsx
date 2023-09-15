@@ -2,19 +2,25 @@ import AppContext, { AppContextData } from './app_context'
 import { backgroundColor } from './src/styles.json'
 import BooleanCard from './src/components/BooleanCard'
 import LoginView from './src/components/LoginView'
-import React, { ReactElement, useContext, useState } from 'react'
+import React, { ReactElement, useEffect, useContext, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet } from 'react-native'
 import useSwitch from 'react-component-switcher'
 import ViewportProvider from 'react-native-viewport-provider'
+import Views from './src/components/Views'
 
 function AppContent(): ReactElement {
   const { SwitchableBooleanCard } = useContext( AppContext )
+  const SwitchableLoginView = useSwitch( LoginView, 400 )
+  useEffect( () => {
+    SwitchableLoginView.call( '' as unknown )
+  }, [] )
   return (
     <>
       <SwitchableBooleanCard.Component quit={ SwitchableBooleanCard.hide } />
-      <LoginView />
+      <SwitchableLoginView.Component quit={ SwitchableLoginView.hide } />
+      <Views />
     </>
   )
 }

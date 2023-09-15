@@ -73,7 +73,7 @@ const styles = StyleSheet.create( {
     position: 'absolute',
     top: 0,
     left: 0,
-    zIndex: 1,
+    zIndex: 3,
   },
   darkWall: { backgroundColor: 'rgba( 0, 0, 0, 0.4 )' },
   card: {
