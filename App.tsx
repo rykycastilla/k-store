@@ -3,6 +3,7 @@ import { backgroundColor } from './src/styles.json'
 import BooleanCard from './src/components/BooleanCard'
 import LoginView from './src/components/LoginView'
 import React, { ReactElement, useContext, useState } from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet } from 'react-native'
 import useSwitch from 'react-component-switcher'
@@ -29,9 +30,11 @@ function App(): ReactElement {
     <>
       <AppContext.Provider value={ data }>
         <StatusBar backgroundColor={ barColor } style="dark" />
-        <ViewportProvider>
-          <AppContent />
-        </ViewportProvider>
+        <SafeAreaView>
+          <ViewportProvider>
+            <AppContent />
+          </ViewportProvider>
+        </SafeAreaView>
       </AppContext.Provider>
     </>
   )
