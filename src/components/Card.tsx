@@ -1,7 +1,9 @@
-import { Animated, StyleSheet, View } from 'react-native'
+import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import AppContext from '../../app_context'
-import { backgroundColor, margin } from '../styles.json'
+import { accentTextColor, backgroundColor, fontSize, margin, textColor } from '../styles.json'
 import { BlurView } from 'expo-blur'
+import { FunctionVoid } from '../types'
+import { HideFunction } from 'react-component-switcher'
 import React, { ReactElement, useContext, useEffect, useRef } from 'react'
 import { useViewport } from 'react-native-viewport-provider'
 
@@ -36,13 +38,41 @@ enum Opacity {
   SHOW = 1,
 }
 
+interface ButtonProps {
+  text: string,
+  color?: boolean,
+  action: FunctionVoid,
+}
+
+function Button( props:ButtonProps ): ReactElement {
+  const { text, color, action } = props
+  const textColorStyle: object = {
+    color: color
+      ? accentTextColor
+      : textColor
+  }
+  return (
+    <TouchableOpacity activeOpacity={ 0.5 } onPress={ action } style={ useViewport( styles.button ) }>
+      <Text style={ [ textColorStyle, useViewport( styles.buttonText ) ] }>{ text }</Text>
+    </TouchableOpacity>
+  )
+}
+
+function accept( action:FunctionVoid, quit:HideFunction ) {
+  action()
+  quit()
+}
+
 interface CardProps {
   children: ReactElement|ReactElement[],
   hiding: boolean,
+  quit: HideFunction,
+  action: FunctionVoid,
+  alert?: boolean,
 }
 
 function Card( props:CardProps ): ReactElement {
-  const { children, hiding } = props
+  const { children, hiding, quit, action, alert } = props
   const { setBarColor } = useContext( AppContext )
   useEffect( () => {
     if( hiding ) {
@@ -60,6 +90,8 @@ function Card( props:CardProps ): ReactElement {
       <BlurView intensity={ 4 } tint="dark" style={ [ styles.container, styles.darkWall ] }>
         <View style={ useViewport( styles.card ) }>
           { children }
+          { alert ? <></> : <Button text="Cancelar" action={ quit } /> }
+          <Button text="Aceptar" color action={ () => accept( action, quit ) } />
         </View>
       </BlurView>
     </AnimatedContainer>
@@ -88,7 +120,20 @@ const styles = StyleSheet.create( {
     shadowOpacity: 0.7,
     shadowRadius: 3,
     elevation: 4,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
+  button: {
+    width: '50%',
+    marginTop: `${ margin } * 2` as unknown as number,
+    marginBottom: margin as unknown as number,
+  },
+  buttonText: {
+    fontSize: `${ fontSize } * 1.05` as unknown as number,
+    fontWeight: '700',
+    textAlign: 'center',
+  }
 } )
 
 export default Card

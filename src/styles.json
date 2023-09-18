@@ -3,6 +3,7 @@
   "fontSize": "5.83vw",
   "textContainer": "7.64vw",
   "backgroundColor": "#FAFAFA",
+  "containerColor": "#DADADA",
   "accentColor": "#00C6AB",
   "accentTextColor": "#6AA3B4",
   "textColor": "#223026",

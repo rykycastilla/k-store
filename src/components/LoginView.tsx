@@ -1,5 +1,6 @@
-import { Animated, Image, StyleSheet, Text, TouchableOpacity, View as ReactView } from 'react-native'
+import { Animated, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import AppContext from '../../app_context'
+import AppView from './AppView'
 import { BooleanCardCallerProps, Link } from './BooleanCard'
 import { fontSize, googleColor, margin, textColor, textContainer } from '../styles.json'
 import { FunctionVoid } from '../types'
@@ -7,14 +8,13 @@ import { HideFunction, useHiding } from 'react-component-switcher'
 import icon from '../../assets/adaptive-icon.png'
 import React, { ReactElement, useEffect, useContext, useRef } from 'react'
 import { useViewport } from 'react-native-viewport-provider'
-import View from './View'
 
 interface LogInButtonProps { action:FunctionVoid }
 
 function LogInButton( props:LogInButtonProps ): ReactElement {
   const { action } = props
   return (
-    <TouchableOpacity activeOpacity={ 0.7 } onPress={ action } style={ useViewport( styles.logInButton ) }>
+    <TouchableOpacity activeOpacity={ 0.5 } onPress={ action } style={ useViewport( styles.logInButton ) }>
       <Text style={ useViewport( styles.buttonText ) }>Continuar</Text>
     </TouchableOpacity>
   )
@@ -38,8 +38,8 @@ function LoginView( props:LoginViewProps, callerProps:unknown, id:number ): Reac
   }, [ hiding ] )
   return (
     <Animated.View style={ [ styles.superContainer, styles.container, { opacity: opacity } ] }>
-      <View title="Bienvenido">
-        <ReactView style={ styles.container }>
+      <AppView title="Bienvenido">
+        <View style={ styles.container }>
           <Text style={ useViewport( styles.welcomeText ) }>
             Para comenzar a utilizar nuestros servicios debe iniciar sesión con Google
           </Text>
@@ -60,8 +60,8 @@ function LoginView( props:LoginViewProps, callerProps:unknown, id:number ): Reac
               SwitchableBooleanCard.call( callerProps )
             }
           } />
-        </ReactView>
-      </View>
+        </View>
+      </AppView>
     </Animated.View>
   )
 }

@@ -1,6 +1,6 @@
 import { accentColor, backgroundColor, fontSize, margin, textColor, textContainer } from '../styles.json'
 import React, { ReactElement } from 'react'
-import { StyleSheet, Text, View as ReactView } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { useViewport } from 'react-native-viewport-provider'
 
 interface ViewProps {
@@ -9,18 +9,18 @@ interface ViewProps {
   color?: boolean,
 }
 
-function View( props:ViewProps ): ReactElement {
+function AppView( props:ViewProps ): ReactElement {
   const { title, children, color } = props
   const viewNameColor: object = {
     color: color ? accentColor : textColor,
   }
   return (
-    <ReactView style={ styles.viewContainer }>
+    <View style={ styles.viewContainer }>
       <Text style={ [ useViewport( styles.viewName ), viewNameColor ] }>{ title }</Text>
-      <ReactView style={ useViewport( styles.viewBody ) }>
+      <View style={ useViewport( styles.viewBody ) }>
         { children }
-      </ReactView>
-    </ReactView>
+      </View>
+    </View>
   )
 }
 
@@ -44,4 +44,4 @@ const styles = StyleSheet.create( {
   },
 } )
 
-export default View
+export default AppView

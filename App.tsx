@@ -1,8 +1,9 @@
 import AppContext, { AppContextData } from './app_context'
 import { backgroundColor } from './src/styles.json'
 import BooleanCard from './src/components/BooleanCard'
+import InventoryCard from './src/components/InventoryCard'
 import LoginView from './src/components/LoginView'
-import React, { ReactElement, useEffect, useContext, useState } from 'react'
+import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet } from 'react-native'
@@ -11,13 +12,14 @@ import ViewportProvider from 'react-native-viewport-provider'
 import Views from './src/components/Views'
 
 function AppContent(): ReactElement {
-  const { SwitchableBooleanCard } = useContext( AppContext )
+  const { SwitchableBooleanCard, SwitchableInventoryCard } = useContext( AppContext )
   const SwitchableLoginView = useSwitch( LoginView, 400 )
   useEffect( () => {
     SwitchableLoginView.call( '' as unknown )
   }, [] )
   return (
     <>
+      <SwitchableInventoryCard.Component quit={ SwitchableInventoryCard.hide } />
       <SwitchableBooleanCard.Component quit={ SwitchableBooleanCard.hide } />
       <SwitchableLoginView.Component quit={ SwitchableLoginView.hide } />
       <Views />
@@ -28,9 +30,11 @@ function AppContent(): ReactElement {
 function App(): ReactElement {
   const [ barColor, setBarColor ] = useState( backgroundColor )
   const SwitchableBooleanCard = useSwitch( BooleanCard, 400 )
+  const SwitchableInventoryCard = useSwitch( InventoryCard, 400 )
   const data: AppContextData = {
     setBarColor: setBarColor,
     SwitchableBooleanCard: SwitchableBooleanCard,
+    SwitchableInventoryCard: SwitchableInventoryCard,
   }
   return (
     <>
