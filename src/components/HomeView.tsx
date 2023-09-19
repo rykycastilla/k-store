@@ -3,15 +3,12 @@ import AppContext from '../../app_context'
 import AppView from './AppView'
 import homeEdit from '../../assets/images/home_edit.png'
 import { Image, StyleSheet, TouchableOpacity } from 'react-native'
-import inventory, { InventoryIndex } from '../interfaces/inventory'
-import React, { ReactElement, useContext, useState } from 'react'
+import Inventory from './Inventory'
+import React, { ReactElement, useContext } from 'react'
 import { useViewport } from 'react-native-viewport-provider'
 
 function ModifyButton(): ReactElement {
   const { SwitchableInventoryCard } = useContext( AppContext )
-  const [ inventoryData, setInventoryData ] = useState( {} as InventoryIndex )
-  inventory.initialize( setInventoryData )
-  console.log( inventoryData )
   return (
     <TouchableOpacity
       activeOpacity={ 0.5 }
@@ -25,6 +22,7 @@ function ModifyButton(): ReactElement {
 function HomeView(): ReactElement {
   return (
     <AppView title="Inventario" color>
+      <Inventory />
       <ModifyButton />
     </AppView>
   )
@@ -34,9 +32,8 @@ const styles = StyleSheet.create( {
   button: {
     width: '10.28vw' as unknown as number,
     height: '10.28vw' as unknown as number,
-    position: 'absolute',
-    left: margin as unknown as number,
-    bottom: margin as unknown as number,
+    marginLeft: margin as unknown as number,
+    marginTop: margin as unknown as number,
     borderRadius: '5.14vw' as unknown as number,
     backgroundColor: accentColor,
     shadowColor: 'black',
