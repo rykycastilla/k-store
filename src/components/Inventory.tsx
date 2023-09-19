@@ -1,6 +1,6 @@
-import { accentTextColor, backgroundColor, fontSize, margin, textContainer } from '../styles.json'
+import { accentTextColor, fontSize, margin, textContainer } from '../styles.json'
 import inventory, { InventoryIndex } from '../interfaces/inventory'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useViewport } from 'react-native-viewport-provider'
 
