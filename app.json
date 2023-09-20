@@ -3,6 +3,7 @@
     "name": "K-Store",
     "slug": "K-Store",
     "version": "1.0.0",
+    "scheme": "kstore",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -31,6 +32,9 @@
       "eas": {
         "projectId": "1c27ce2c-24ef-4d48-b26a-07ec7e6f58a5"
       }
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }

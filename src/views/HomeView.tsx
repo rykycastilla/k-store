@@ -3,7 +3,7 @@ import AppContext from '../../app_context'
 import AppView from './AppView'
 import homeEdit from '../../assets/images/home_edit.png'
 import { Image, StyleSheet, TouchableOpacity } from 'react-native'
-import Inventory from './Inventory'
+import Inventory from '../components/Inventory'
 import React, { ReactElement, useContext } from 'react'
 import { useViewport } from 'react-native-viewport-provider'
 

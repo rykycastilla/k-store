@@ -46,7 +46,9 @@ function Inventory(): ReactElement {
   )
 }
 
-const VIEW_BODY_HEIGHT = `100vh - ( ${ margin } * 2 + ${ textContainer } )`,
+import { dockSize } from '../styles.json'
+
+const VIEW_BODY_HEIGHT = `100vh - ( ${ margin } * 2 + ${ textContainer } + ${ dockSize } )`,
   CARD_COLOR = '#F0F0F0',
   BORDER = 14
 

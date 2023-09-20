@@ -1,7 +1,7 @@
 import { Animated, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import AppContext from '../../app_context'
 import AppView from './AppView'
-import { BooleanCardCallerProps, Link } from './BooleanCard'
+import { BooleanCardCallerProps, Link } from '../components/BooleanCard'
 import { fontSize, googleColor, margin, textColor, textContainer } from '../styles.json'
 import { FunctionVoid } from '../types'
 import { HideFunction, useHiding } from 'react-component-switcher'

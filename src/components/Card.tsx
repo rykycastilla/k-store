@@ -1,10 +1,9 @@
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import AppContext from '../../app_context'
 import { accentTextColor, backgroundColor, fontSize, margin, textColor } from '../styles.json'
 import { BlurView } from 'expo-blur'
 import { FunctionVoid } from '../types'
 import { HideFunction } from 'react-component-switcher'
-import React, { ReactElement, useContext, useEffect, useRef } from 'react'
+import React, { ReactElement, useEffect, useRef } from 'react'
 import { useViewport } from 'react-native-viewport-provider'
 
 class AnimationDispatcher {
@@ -71,18 +70,20 @@ interface CardProps {
   alert?: boolean,
 }
 
+import { setStatusBarBackgroundColor } from 'expo-status-bar'
+
 function Card( props:CardProps ): ReactElement {
   const { children, hiding, quit, action, alert } = props
-  const { setBarColor } = useContext( AppContext )
+  // Setting status bar color and animation
   useEffect( () => {
     if( hiding ) {
       animationDispatcher.start( Opacity.HIDE )
-      setBarColor( backgroundColor )
+      setStatusBarBackgroundColor( backgroundColor, true )
     }
     else {
       animationDispatcher.start( Opacity.SHOW )
       // Background color with "Card Blur"
-      setBarColor( '#989494' )
+      setStatusBarBackgroundColor( '#989494', true )
     }
   }, [ hiding ] )
   return (
