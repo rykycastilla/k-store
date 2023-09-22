@@ -18,19 +18,24 @@ import { useViewport } from 'react-native-viewport-provider'
 type BC = SwitchableComponent<BooleanCardProps,BooleanCardCallerProps>
 
 function inventoryCardAction( action:string, article:string, amount:string, BooleanCard:BC ) {  
-  // Verify if input data is valid
-  const booleanCardCallerProps: BooleanCardCallerProps = {
+  // Building "Alerts"
+  const invalidAlert: BooleanCardCallerProps = {
     text: 'Los datos introducidos son inválidos',
     action: 'alert',
   }
+  const invalidOperation: BooleanCardCallerProps = {
+    text: 'La cantidad en inventario no puede ser inferior a cero',
+    action: 'alert',
+  }
+  // Verify if input data is valid
   const invalidAmount: boolean = !N.test( amount ),
     invalidArticle: boolean = article === ''
-  if( invalidAmount || invalidArticle ) { BooleanCard.call( booleanCardCallerProps ) }  // Invalid
+  if( invalidAmount || invalidArticle ) { BooleanCard.call( invalidAlert ) }  // Invalid
   else {  // Valid
     const operation: number = ( action === 'add' ) ? 1 : -1
     let amountDiference = Number( amount )
     inventory.setAmount( operation, article, amountDiference, () => {
-      BooleanCard.call( booleanCardCallerProps )
+      BooleanCard.call( invalidOperation )
     } )
   }
 }

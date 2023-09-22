@@ -1,5 +1,6 @@
 import { Animated, ImageSourcePropType, Pressable, StyleSheet, View } from 'react-native'
 import { backgroundColor, dockSize } from '../styles.json'
+import { CallSwitchable } from '../types'
 import dockArticlesIcon from '../../assets/images/dock_articles_icon.png'
 import dockArticlesIconActive from '../../assets/images/dock_articles_icon_active.png'
 import dockHomeIcon from '../../assets/images/dock_home_icon.png'
@@ -13,8 +14,6 @@ enum Opacity {
   SHOW = 1,
   HIDE = 0,
 }
-
-type AnimatedCall = CallFunction<unknown>
 
 interface AnimatedWallProps { quit:HideFunction }
 
@@ -43,7 +42,7 @@ interface NavButtonProps {
   url: string,
   image: ImageSourcePropType,
   activeImage: ImageSourcePropType,
-  callAnimatedWall: AnimatedCall,
+  callAnimatedWall: CallSwitchable,
 }
 
 function NavButton( props:NavButtonProps ): ReactElement {
@@ -110,7 +109,7 @@ function NavButton( props:NavButtonProps ): ReactElement {
   )
 }
 
-interface DockProps { callAnimatedWall:AnimatedCall }
+interface DockProps { callAnimatedWall:CallSwitchable }
 
 function Dock( props:DockProps ): ReactElement {
   const { callAnimatedWall } = props

@@ -20,6 +20,7 @@ const styles = StyleSheet.create( {
     height: '6.39vw' as unknown as number,
     borderRadius: '1.5vw' as unknown as number,
     backgroundColor: containerColor,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -1,4 +1,5 @@
 import AppContext, { AppContextData } from '../app_context'
+import ArticlesCard from '../src/components/ArticlesCard'
 import { backgroundColor } from '../src/styles.json'
 import BooleanCard from '../src/components/BooleanCard'
 import InventoryCard from '../src/components/InventoryCard'
@@ -12,7 +13,7 @@ import ViewportProvider from 'react-native-viewport-provider'
 import ViewSelector from '../src/components/ViewSelector'
 
 function AppContent(): ReactElement {
-  const { SwitchableBooleanCard, SwitchableInventoryCard } = useContext( AppContext )
+  const { SwitchableBooleanCard, SwitchableInventoryCard, SwitchableArticlesCard } = useContext( AppContext )
   const SwitchableLoginView = useSwitch( LoginView, 400 )
   useEffect( () => {
     SwitchableLoginView.call( '' as unknown )
@@ -23,6 +24,7 @@ function AppContent(): ReactElement {
   }, [] )
   return (
     <>
+      <SwitchableArticlesCard.Component quit={ SwitchableArticlesCard.hide } />
       <SwitchableInventoryCard.Component quit={ SwitchableInventoryCard.hide } />
       <SwitchableBooleanCard.Component quit={ SwitchableBooleanCard.hide } />
       <SwitchableLoginView.Component quit={ SwitchableLoginView.hide } />
@@ -34,9 +36,11 @@ function AppContent(): ReactElement {
 function App(): ReactElement {
   const SwitchableBooleanCard = useSwitch( BooleanCard, 400 )
   const SwitchableInventoryCard = useSwitch( InventoryCard, 400 )
+  const SwitchableArticlesCard = useSwitch( ArticlesCard, 400 )
   const data: AppContextData = {
     SwitchableBooleanCard: SwitchableBooleanCard,
     SwitchableInventoryCard: SwitchableInventoryCard,
+    SwitchableArticlesCard: SwitchableArticlesCard,
   }
   return (
     <>
