@@ -1,4 +1,4 @@
-import { accentTextColor, fontSize, margin, textContainer } from '../styles.json'
+import { accentTextColor, dockSize, fontSize, margin, textContainer } from '../styles.json'
 import inventory, { InventoryIndex } from '../interfaces/inventory'
 import React, { ReactElement, useState } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -45,8 +45,6 @@ function Inventory(): ReactElement {
     </View>
   )
 }
-
-import { dockSize } from '../styles.json'
 
 const VIEW_BODY_HEIGHT = `100vh - ( ${ margin } * 2 + ${ textContainer } + ${ dockSize } )`,
   CARD_COLOR = '#F0F0F0',
