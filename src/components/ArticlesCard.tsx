@@ -1,13 +1,12 @@
 import AppContext from '../../app_context'
 import articles from '../interfaces/articles'
-import { BooleanCardProps, BooleanCardCallerProps } from './BooleanCard'
+import { BooleanCardCallerProps } from './BooleanCard'
 import Card from './Card'
 import CustomTextInput from './CustomTextInput'
-import { HideFunction, SwitchableComponent, useHiding } from 'react-component-switcher'
+import { HideFunction, useHiding } from 'react-component-switcher'
 import { Q_ } from '../exp'
 import React, { ReactElement, useContext, useState } from 'react'
-
-type SBC = SwitchableComponent<BooleanCardProps,BooleanCardCallerProps>
+import { SBC } from '../types'
 
 function articlesCardAction( name:string, weight:string, price:string, BooleanCard:SBC ) {
   // Building "Alerts"

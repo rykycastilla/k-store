@@ -3,8 +3,11 @@ import { accentTextColor, backgroundColor, fontSize, margin, textColor } from '.
 import { BlurView } from 'expo-blur'
 import { FunctionVoid } from '../types'
 import { HideFunction } from 'react-component-switcher'
+import Opacity from '../interfaces/Opacity'
 import React, { ReactElement, useEffect, useRef } from 'react'
 import { useViewport } from 'react-native-viewport-provider'
+
+
 
 class AnimationDispatcher {
   public value: Animated.Value | null = null
@@ -30,11 +33,6 @@ function AnimatedContainer( props:AnimatedContainerProps ): ReactElement {
   const opacity = useRef( new Animated.Value( 0 ) ).current
   animationDispatcher.load( opacity )
   return <Animated.View style={ [ styles.container, { opacity: opacity } ] }>{ children }</Animated.View>
-}
-
-enum Opacity {
-  HIDE = 0,
-  SHOW = 1,
 }
 
 interface ButtonProps {

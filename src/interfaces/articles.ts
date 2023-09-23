@@ -6,10 +6,12 @@ class Article {
   name: string
   weight: number
   price: number
-  constructor( name:string, weight:number, price:number ) {
+  id: string
+  constructor( name:string, weight:number, price:number, id:string ) {
     this.name = name
     this.weight = weight
     this.price = price
+    this.id = id
   }
 }
 
@@ -45,7 +47,14 @@ class Articles extends Storage<Article> {
     // Creating id
     const id: string = this.getId( storage )
     // Saving new article
-    storage[ id ] = new Article( name, weight, price )
+    storage[ id ] = new Article( name, weight, price, id )
+    this.storage = storage
+  }
+  // Delete the item with the specific "id"
+  public delete( id:string ) {
+    const { storage } = this
+    if( !storage ) { return }
+    delete storage[ id ]
     this.storage = storage
   }
 }

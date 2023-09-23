@@ -1,5 +1,5 @@
 import AppContext from '../../app_context'
-import { BooleanCardCallerProps, BooleanCardProps } from './BooleanCard'
+import { BooleanCardCallerProps } from './BooleanCard'
 import Card from './Card'
 import CustomTextInput from './CustomTextInput'
 import { fontSize, margin, textColor } from '../styles.json'
@@ -9,15 +9,12 @@ import inventory from '../interfaces/inventory'
 import { N } from '../exp'
 import { Picker } from '@react-native-picker/picker'
 import React, { ReactElement } from 'react'
-import { StateSetter } from '../types'
+import { SBC, StateSetter } from '../types'
 import { StyleSheet } from 'react-native'
-import { SwitchableComponent } from 'react-component-switcher'
 import { useContext, useState } from 'react'
 import { useViewport } from 'react-native-viewport-provider'
 
-type BC = SwitchableComponent<BooleanCardProps,BooleanCardCallerProps>
-
-function inventoryCardAction( action:string, article:string, amount:string, BooleanCard:BC ) {  
+function inventoryCardAction( action:string, article:string, amount:string, BooleanCard:SBC ) {  
   // Building "Alerts"
   const invalidAlert: BooleanCardCallerProps = {
     text: 'Los datos introducidos son inválidos',

@@ -16,7 +16,7 @@ function AppContent(): ReactElement {
   const { SwitchableBooleanCard, SwitchableInventoryCard, SwitchableArticlesCard } = useContext( AppContext )
   const SwitchableLoginView = useSwitch( LoginView, 400 )
   useEffect( () => {
-    SwitchableLoginView.call( '' as unknown )
+    SwitchableLoginView.call()
     setTimeout( () => {
       setStatusBarStyle( 'dark' )
       setStatusBarBackgroundColor( backgroundColor, true )
