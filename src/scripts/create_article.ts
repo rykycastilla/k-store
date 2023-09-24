@@ -1,10 +1,10 @@
-import articles from '../interfaces/articles'
 import { FunctionVoid } from '../types'
+import inventory from '../interfaces/inventory'
 
 function createArticle( name:string, weight:string, price:string, catchName:FunctionVoid ) {
   const articleWeight = Number( weight ),
     articlePrice = Number( price )
-  articles.add( name, articleWeight, articlePrice, catchName )
+  inventory.add( name, articleWeight, articlePrice, catchName )
 }
 
 export default createArticle

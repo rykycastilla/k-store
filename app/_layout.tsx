@@ -2,9 +2,10 @@ import AppContext, { AppContextData } from '../app_context'
 import ArticlesCard from '../src/components/ArticlesCard'
 import { backgroundColor } from '../src/styles.json'
 import BooleanCard from '../src/components/BooleanCard'
+import inventory, { InventoryIndex } from '../src/interfaces/inventory'
 import InventoryCard from '../src/components/InventoryCard'
 import LoginView from '../src/views/LoginView'
-import React, { ReactElement, useContext, useEffect } from 'react'
+import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { setStatusBarBackgroundColor, setStatusBarStyle } from 'expo-status-bar'
 import { StyleSheet } from 'react-native'
@@ -37,10 +38,15 @@ function App(): ReactElement {
   const SwitchableBooleanCard = useSwitch( BooleanCard, 400 )
   const SwitchableInventoryCard = useSwitch( InventoryCard, 400 )
   const SwitchableArticlesCard = useSwitch( ArticlesCard, 400 )
+  const [ inventoryData, setInventoryData ] = useState( {} as InventoryIndex )
+  useEffect( () => {
+    inventory.use( setInventoryData )
+  }, [] )
   const data: AppContextData = {
     SwitchableBooleanCard: SwitchableBooleanCard,
     SwitchableInventoryCard: SwitchableInventoryCard,
     SwitchableArticlesCard: SwitchableArticlesCard,
+    inventoryData: inventoryData,
   }
   return (
     <>

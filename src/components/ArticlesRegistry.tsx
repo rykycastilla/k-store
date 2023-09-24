@@ -1,12 +1,12 @@
 import AppContext from '../../app_context'
 import ArticleButton from './ArticleButton'
-import articles, { ArticlesIndex } from '../interfaces/articles'
 import { ArticlesCardCallerProps } from './ArticlesCard'
 import { BooleanCardCallerProps } from './BooleanCard'
 import deleteIcon from '../../assets/images/delete_icon.png'
 import { dockSize, fontSize, margin, textColor, textContainer } from '../styles.json'
 import editIcon from '../../assets/images/edit_icon.png'
-import React, { ReactElement, useContext, useEffect, useState } from 'react'
+import inventory, { InventoryIndex } from '../interfaces/inventory'
+import React, { ReactElement, useContext } from 'react'
 import { SBC } from '../types'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import useSwitch, { CallFunction } from 'react-component-switcher'
@@ -15,7 +15,7 @@ import { useViewport } from 'react-native-viewport-provider'
 function deleteAction( id:string, BooleanCard:SBC ) {
   const callerProps: BooleanCardCallerProps = {
     text: '¿Desea eliminar este artículo?\nLos datos de los registros serán preservados',
-    action() { articles.delete( id ) }
+    action() { inventory.delete( id ) }
   }
   BooleanCard.call( callerProps )
 }
@@ -83,7 +83,7 @@ function ArticleItem( props:ArticleItemProps ): ReactElement {
   )
 }
 
-interface ArticleItemListProps { structure:ArticlesIndex }
+interface ArticleItemListProps { structure:InventoryIndex }
 
 function ArticleItemList( props:ArticleItemListProps ): ReactElement {
   const { structure } = props
@@ -103,14 +103,11 @@ function ArticleItemList( props:ArticleItemListProps ): ReactElement {
 }
 
 function ArticlesRegistry(): ReactElement {
-  const [ articlesData, setArticlesData ] = useState( {} as ArticlesIndex )
-  useEffect( () => {
-    articles.initialize( setArticlesData )
-  }, [] )
+  const { inventoryData } = useContext( AppContext )
   return (
     <View style={ useViewport( styles.container ) }>
       <ScrollView>
-        <ArticleItemList structure={ articlesData } />
+        <ArticleItemList structure={ inventoryData } />
       </ScrollView>
     </View>
   )

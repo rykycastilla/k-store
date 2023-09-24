@@ -2,17 +2,13 @@ import AppContext from '../../app_context'
 import { BooleanCardCallerProps } from './BooleanCard'
 import Card from './Card'
 import CustomTextInput from './CustomTextInput'
-import { fontSize, margin, textColor } from '../styles.json'
+import getIndexNames from '../scripts/get_index_names'
 import { HideFunction, useHiding } from 'react-component-switcher'
-import InputContainer from './InputContainer'
 import inventory from '../interfaces/inventory'
 import { N } from '../exp'
-import { Picker } from '@react-native-picker/picker'
-import React, { ReactElement } from 'react'
+import Picker from './Picker'
+import React, { ReactElement, useContext, useState } from 'react'
 import { SBC, StateSetter } from '../types'
-import { StyleSheet } from 'react-native'
-import { useContext, useState } from 'react'
-import { useViewport } from 'react-native-viewport-provider'
 
 function inventoryCardAction( action:string, article:string, amount:string, BooleanCard:SBC ) {  
   // Building "Alerts"
@@ -26,7 +22,7 @@ function inventoryCardAction( action:string, article:string, amount:string, Bool
   }
   // Verify if input data is valid
   const invalidAmount: boolean = !N.test( amount ),
-    invalidArticle: boolean = article === ''
+    invalidArticle: boolean = article === 'null'
   if( invalidAmount || invalidArticle ) { BooleanCard.call( invalidAlert ) }  // Invalid
   else {  // Valid
     const operation: number = ( action === 'add' ) ? 1 : -1
@@ -44,13 +40,35 @@ interface ActionPickerProps {
 
 function ActionPicker( props:ActionPickerProps ): ReactElement {
   const { actionValue:action, setActionValue:setAction } = props
+  const names = [ 'Agregar', 'Quitar' ],
+    values = [ 'add', 'quit' ]
   return (
-      <InputContainer>
-      <Picker selectedValue={ action } onValueChange={ ( value:string ) => setAction( value ) } style={ useViewport( styles.picker ) }>
-        <Picker.Item label="Agregar" value="add" />
-        <Picker.Item label="Quitar" value="quit" />
-      </Picker>
-    </InputContainer>
+    <Picker
+      names={ names }
+      values={ values }
+      selected={ action }
+      setSelected={ setAction } />
+  )
+}
+
+interface ArticlePickerProps {
+  value: string,
+  setValue: StateSetter<string>,
+}
+
+function ArticlePicker( props:ArticlePickerProps ): ReactElement {
+  const { value, setValue } = props
+  const { inventoryData } = useContext( AppContext )
+  const { names, ids } = getIndexNames( inventoryData )
+  // Using this by default
+  names.push( '--- Artículo ---' )
+  ids.push( 'null' )
+  return (
+    <Picker
+      names={ names }
+      values={ ids }
+      selected={ value }
+      setSelected={ setValue } />
   )
 }
 
@@ -59,7 +77,7 @@ interface InventoryCardProps { quit:HideFunction }
 function InventoryCard( props:InventoryCardProps, callerProps:unknown, id:number ): ReactElement {
   const { quit } = props
   const [ actionValue, setActionValue ] = useState( 'add' )
-  const [ articleValue, setArticleValue ] = useState( '' )
+  const [ articleValue, setArticleValue ] = useState( 'null' )
   const [ amountValue, setAmountValue ] = useState( '' )
   const hiding = useHiding( id )
   const { SwitchableBooleanCard:SBC } = useContext( AppContext )
@@ -76,19 +94,11 @@ function InventoryCard( props:InventoryCardProps, callerProps:unknown, id:number
         } 
       }>
       <ActionPicker actionValue={ actionValue } setActionValue={ setActionValue } />
-      <CustomTextInput title="Artículo" setValue={ setArticleValue }  />
+      <ArticlePicker value={ articleValue } setValue={ setArticleValue } />
       <CustomTextInput title="Cantidad" setValue={ setAmountValue }  />
     </Card>
   )
 }
-
-const styles = StyleSheet.create( {
-  picker: {
-    width: `100vw - ${ margin } * 5` as unknown as number,
-    color: textColor,
-    fontSize: `${ fontSize } * 0.75` as unknown as number,
-  },
-} )
 
 export default InventoryCard
 export { InventoryCardProps }

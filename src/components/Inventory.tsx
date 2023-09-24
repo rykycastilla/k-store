@@ -1,20 +1,27 @@
 import { accentTextColor, dockSize, fontSize, margin, textContainer } from '../styles.json'
-import inventory, { InventoryIndex } from '../interfaces/inventory'
-import React, { ReactElement, useState } from 'react'
+import AppContext from '../../app_context'
+import { InventoryIndex } from '../interfaces/inventory'
+import React, { ReactElement, useContext } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useViewport } from 'react-native-viewport-provider'
 
 interface ItemCardProps {
   article: string,
+  price: number,
+  weight: number,
   amount: number,
 }
 
 function ItemCard( props:ItemCardProps ): ReactElement {
-  const { article, amount } = props
+  const { article, price, weight, amount } = props
   return (
     <View style={ useViewport( styles.itemCard ) }>
       <Text style={ useViewport( styles.articleName ) }>{ article }</Text>
-      <Text style={ useViewport( styles.amount ) }>{ amount }</Text>
+      <View style={ useViewport( styles.propertiesContainer ) }>
+        <Text style={ useViewport( styles.properties ) }>{ price }$</Text>
+        <Text style={ useViewport( styles.properties ) }>{ weight }Kg</Text>
+        <Text style={ useViewport( styles.amount ) }>{ amount }</Text>
+      </View>
     </View>
   )
 }
@@ -23,20 +30,19 @@ interface ItemCardsProps { structure:InventoryIndex }
 
 function ItemCards( props:ItemCardsProps ): ReactElement {
   const { structure } = props
-  const articles: string[] = Object.keys( structure )
+  const articles = Object.values( structure )
   const itemlist: ReactElement[] = []
   for( const article of articles ) {
     // Building each inventory item
-    const { amount } = structure[ article ]
-    const item = <ItemCard key={ article } article={ article } amount={ amount } />
+    const { name, price, weight, amount, id } = article
+    const item = <ItemCard key={ id } article={ name } price={ price } weight={ weight } amount={ amount } />
     itemlist.push( item )
   }
   return <>{ itemlist }</>
 }
 
 function Inventory(): ReactElement {
-  const [ inventoryData, setInventoryData ] = useState( {} as InventoryIndex )
-  inventory.initialize( setInventoryData )
+  const { inventoryData } = useContext( AppContext )
   return (
     <View style={ useViewport( styles.container ) }>
       <ScrollView>
@@ -75,6 +81,22 @@ const styles = StyleSheet.create( {
     color: accentTextColor,
     fontSize: `${ fontSize } * 0.9` as unknown as number,
     fontWeight: '700',
+  },
+  propertiesContainer: {
+    height: '8.66vw' as unknown as number,
+    width: '46.11vw' as unknown as number,
+    fontSize: `${ fontSize } * 0.9` as unknown as number,
+    fontWeight: '700',
+    flexDirection: 'row',
+    alignSelf: 'flex-end',
+  },
+  properties: {
+    width: '15.37vw' as unknown as number,
+    height: '8.66vw' as unknown as number,
+    color: '#416864',
+    fontSize: `${ fontSize } * 0.9` as unknown as number,
+    fontWeight: '700',
+    textAlign: 'center',
   },
   amount: {
     width: '15.37vw' as unknown as number,
