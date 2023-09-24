@@ -15,7 +15,7 @@ class Storage<T> {
   private readonly storageToken: string  // Name of the key at persistant storage
   private data: Index<T> | null = null  // This property store the current index
   private setIndex: IndexSetter<T> = () => {}  // React Setter
-  private readonly loadIndex: IndexPromise<T>
+  protected readonly loadIndex: IndexPromise<T>
   constructor( storageToken:string ) {
     this.storageToken = storageToken
     this.loadIndex = new Promise( async( resolve ) => {

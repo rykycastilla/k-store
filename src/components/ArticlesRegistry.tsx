@@ -1,13 +1,15 @@
 import AppContext from '../../app_context'
 import ArticleButton from './ArticleButton'
 import articles, { ArticlesIndex } from '../interfaces/articles'
+import { ArticlesCardCallerProps } from './ArticlesCard'
 import { BooleanCardCallerProps } from './BooleanCard'
 import deleteIcon from '../../assets/images/delete_icon.png'
 import { dockSize, fontSize, margin, textColor, textContainer } from '../styles.json'
+import editIcon from '../../assets/images/edit_icon.png'
 import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import { SBC } from '../types'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import useSwitch from 'react-component-switcher'
+import useSwitch, { CallFunction } from 'react-component-switcher'
 import { useViewport } from 'react-native-viewport-provider'
 
 function deleteAction( id:string, BooleanCard:SBC ) {
@@ -16,6 +18,18 @@ function deleteAction( id:string, BooleanCard:SBC ) {
     action() { articles.delete( id ) }
   }
   BooleanCard.call( callerProps )
+}
+
+type CallArticlesCard = CallFunction<ArticlesCardCallerProps>
+
+function editAction( id:string, name:string, weight:string, price:string, call:CallArticlesCard ) {
+  const callerProps: ArticlesCardCallerProps = {
+    articleId: id,
+    defaultName: name,
+    defaultWeight: weight,
+    defaultPrice: price,
+  }
+  call( callerProps )
 }
 
 interface ArticleItemProps {
@@ -29,8 +43,9 @@ interface ArticleItemProps {
 function ArticleItem( props:ArticleItemProps ): ReactElement {
   const { name, weight, price, id, top } = props
   const title: string = `    - ${ name } (${ weight }Kg, ${ price }$)`
-  const { SwitchableBooleanCard } = useContext( AppContext )
+  const { SwitchableBooleanCard, SwitchableArticlesCard } = useContext( AppContext )
   const SwitchableDeleteButton = useSwitch( ArticleButton, 100 )
+  const SwitchableEditButton = useSwitch( ArticleButton, 100 )
   const topStyle: object = top
     ? { borderTopWidth: 2, borderTopColor: '#CACACA' }
     : {}
@@ -39,10 +54,14 @@ function ArticleItem( props:ArticleItemProps ): ReactElement {
       style={ [ useViewport( styles.articleItem ), topStyle ] }
       onPress={
         () => {
-          // Switching between "show" and "hide" delete button to press the container
-          const { showing, call, hide } = SwitchableDeleteButton
-          if( showing ) { hide() }
-          else { call() }
+          // Switching between "show" and "hide" buttons to press the container
+          if( SwitchableDeleteButton.showing && SwitchableEditButton.showing ) {
+              SwitchableDeleteButton.hide()
+              SwitchableEditButton.hide()
+            } else {
+              SwitchableDeleteButton.call()
+              SwitchableEditButton.call()
+          }
         }
       }>
       <Text style={ useViewport( styles.articleName ) }>{ title }</Text>
@@ -50,6 +69,15 @@ function ArticleItem( props:ArticleItemProps ): ReactElement {
         image={ deleteIcon }
         action={
           () => deleteAction( id, SwitchableBooleanCard )
+        } />
+        <SwitchableEditButton.Component
+        image={ editIcon }
+        action={
+          () => {
+            const textWeight = String( weight ),
+              textPrice = String( price )
+            editAction( id, name, textWeight, textPrice, SwitchableArticlesCard.call )
+          }
         } />
     </Pressable>
   )
@@ -103,12 +131,12 @@ const styles = StyleSheet.create( {
     height: '11.11vw' as unknown as number,
     marginLeft: margin as unknown as number,
     borderBottomWidth: 2,
-    flexWrap: 'wrap',
     borderBottomColor: '#CACACA',
+    flexWrap: 'wrap',
     justifyContent: 'center',
   },
   articleName: {
-    width: `${ `100vw - ${ margin } * 2` } - ( ${ margin } * 2 + ${ ITEM_CONTENT_SIZE } )` as unknown as number,
+    width: `${ `100vw - ${ margin } * 2` } - ( ${ margin } * 3 + ${ ITEM_CONTENT_SIZE } * 2 )` as unknown as number,
     color: textColor,
     fontSize: ITEM_CONTENT_SIZE as unknown as number,
   },

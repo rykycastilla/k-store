@@ -7,18 +7,20 @@ import { useViewport } from 'react-native-viewport-provider'
 
 interface TextInputCardProps {
   title: string,
+  defaultValue?: string,
   setValue: StateSetter<string>,
   unit?: string,
 }
 
 function CustomTextInput( props:TextInputCardProps ): ReactElement {
-  const { title, setValue, unit } = props
+  const { title, defaultValue, setValue, unit } = props
   return (
     <View style={ styles.container }>
       <Text style={ useViewport( styles.title ) }>{ title }</Text>
       <InputContainer noMargin>
         <TextInput
           onChangeText={ ( value:string ) => setValue( value ) }
+          defaultValue={ defaultValue }
           style={ useViewport( styles.input ) } />
           <Text style={ useViewport( styles.unit ) }>{ unit }</Text>
       </InputContainer>

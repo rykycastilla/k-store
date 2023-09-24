@@ -1,15 +1,16 @@
 import AppContext from '../../app_context'
-import articles from '../interfaces/articles'
 import { BooleanCardCallerProps } from './BooleanCard'
 import Card from './Card'
+import createArticle from '../scripts/create_article'
 import CustomTextInput from './CustomTextInput'
+import editArticle from '../scripts/edit_article'
+import { FunctionVoid, SBC } from '../types'
 import { HideFunction, useHiding } from 'react-component-switcher'
 import { Q_ } from '../exp'
 import React, { ReactElement, useContext, useState } from 'react'
-import { SBC } from '../types'
 
-function articlesCardAction( name:string, weight:string, price:string, BooleanCard:SBC ) {
-  // Building "Alerts"
+function articlesCardAction( id:string, defaultName:string, name:string, weight:string, price:string, BooleanCard:SBC ) {
+  // Building "Alert"
   const invalidAlert: BooleanCardCallerProps = {
     text: 'Los datos introducidos son inválidos',
     action: 'alert',
@@ -17,6 +18,9 @@ function articlesCardAction( name:string, weight:string, price:string, BooleanCa
   const nameAlert: BooleanCardCallerProps = {
     text: 'Este nombre ya existe',
     action: 'alert',
+  }
+  const catchName: FunctionVoid = () => {
+    BooleanCard.call( nameAlert )
   }
   // Verify if input data is valid
   const invalidName: boolean = name === '',
@@ -26,23 +30,39 @@ function articlesCardAction( name:string, weight:string, price:string, BooleanCa
     BooleanCard.call( invalidAlert )
   }
   else {  // Valid
-    const articleWeight = Number( weight ),
-      articlePrice = Number( price )
-    articles.add( name, articleWeight, articlePrice, () => {
-      BooleanCard.call( nameAlert )
-    } )
+    // If id is empty the user is trying to create and article, else, the user is trying to edit
+    if( id ) { editArticle( id, defaultName, name, weight, price, BooleanCard, catchName ) }
+    else{ createArticle( name, weight, price, catchName ) }
   }
 }
 
 interface ArticlesCardProps { quit:HideFunction }
 
-function ArticlesCard( props:ArticlesCardProps, callerProps:unknown, id:number ): ReactElement {
+interface ArticlesCardCallerProps {
+  articleId: string,
+  defaultName: string,
+  defaultWeight: string,
+  defaultPrice: string,
+}
+
+function ArticlesCard( props:ArticlesCardProps, callerProps:ArticlesCardCallerProps|undefined, id:number ): ReactElement {
   const { quit } = props
+  // Setting "callerProps" values by default
+  if( !callerProps ) {
+    callerProps = {
+      articleId: '',
+      defaultName: '',
+      defaultWeight: '',
+      defaultPrice: '',
+      
+    }
+  }
+  const { articleId, defaultName, defaultWeight, defaultPrice } = callerProps
   const hiding = useHiding( id )
   const { SwitchableBooleanCard } = useContext( AppContext )
-  const [ name, setName ] = useState( '' )
-  const [ weight, setWeight ] = useState( '' )
-  const [ price, setPrice ] = useState( '' )
+  const [ name, setName ] = useState( defaultName )
+  const [ weight, setWeight ] = useState( defaultWeight )
+  const [ price, setPrice ] = useState( defaultPrice )
   return (
     <Card
       quit={ quit }
@@ -51,16 +71,16 @@ function ArticlesCard( props:ArticlesCardProps, callerProps:unknown, id:number )
         () => {
           setTimeout( () => {
             // Waiting to hide InventoryCard
-            articlesCardAction( name, weight, price, SwitchableBooleanCard )
+            articlesCardAction( articleId, defaultName, name, weight, price, SwitchableBooleanCard )
           }, 400 )
         }
       }>
-      <CustomTextInput title="Nombre" setValue={ setName } />
-      <CustomTextInput title="Peso" unit="Kg" setValue={ setWeight } />
-      <CustomTextInput title="Precio" unit="$" setValue={ setPrice } />
+      <CustomTextInput title="Nombre" defaultValue={ defaultName } setValue={ setName } />
+      <CustomTextInput title="Peso" defaultValue={ defaultWeight } unit="Kg" setValue={ setWeight } />
+      <CustomTextInput title="Precio" defaultValue={ defaultPrice } unit="$" setValue={ setPrice } />
     </Card>
   )
 }
 
 export default ArticlesCard
-export { ArticlesCardProps }
+export { ArticlesCardCallerProps, ArticlesCardProps }

@@ -14,7 +14,6 @@ interface ArticleButtonProps {
 function ArticleButton( props:ArticleButtonProps, callerProps:unknown, id:number ): ReactElement {
   const { image, action } = props
   const hiding = useHiding( id )
-  console.log( hiding )
   const opacity = useRef( new Animated.Value( 0 ) ).current
   useEffect( () => {
     const toValue: number = hiding
@@ -37,8 +36,8 @@ function ArticleButton( props:ArticleButtonProps, callerProps:unknown, id:number
 
 const styles = StyleSheet.create( {
   container: {
-    width: `${ fontSize } * 0.83` as unknown as number,
-    height: `${ fontSize } * 0.83` as unknown as number,
+    width: fontSize as unknown as number,
+    height: fontSize as unknown as number,
     marginLeft: margin as unknown as number,
   },
   pressableContainer: {
@@ -46,8 +45,8 @@ const styles = StyleSheet.create( {
     height: '100%',
   },
   buttonImage: {
-    width: '100%',
-    height: '100%',
+    width: '83%',
+    height: '83%',
   },
 } )
 
