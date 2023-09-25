@@ -85,7 +85,7 @@ function NavButton( props:NavButtonProps ): ReactElement {
   }, [ active ] )
   return (
     <Pressable
-      style={ useViewport( styles.navButton ) }
+      style={ styles.navButton }
       onPress={
         () => {
           // Avoiding redirecting to the active view
@@ -98,10 +98,10 @@ function NavButton( props:NavButtonProps ): ReactElement {
           }, 100 )
         }
       }>
-      <View style={ [ styles.animatedButtonContainer/* , { opacity: opacity } */ ] }>
+      <View style={ useViewport( styles.imageContainer ) }>
         { /* Booth state instances (active and inactive) */ }
-        <Animated.Image source={ image } style={ [ styles.navButtonImage, { opacity: inactiveOpacity } ] } />
-        <Animated.Image source={ activeImage } style={ [ styles.navButtonImage, { opacity: activeOpacity } ] } />
+        <Animated.Image source={ image } style={ [ styles.buttonImage, { opacity: inactiveOpacity } ] } />
+        <Animated.Image source={ activeImage } style={ [ styles.buttonImage, { opacity: activeOpacity } ] } />
       </View>
     </Pressable>
   )
@@ -158,18 +158,19 @@ const styles = StyleSheet.create( {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
+    flex: 1
   },
   navButton: {
-    width: '8.33vw' as unknown as number,
-    height: '8.33vw' as unknown as number,
+    width: '33.33%',
+    height: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center',    
   },
-  animatedButtonContainer: {
-    width: '75%',
-    height: '75%',
+  imageContainer: {
+    width: '6.65vw' as unknown as number,
+    height: '6.65vw' as unknown as number,
   },
-  navButtonImage: {
+  buttonImage: {
     width: '100%',
     height: '100%',
     position: 'absolute',
