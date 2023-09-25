@@ -5,10 +5,12 @@ import dockArticlesIcon from '../../assets/images/dock_articles_icon.png'
 import dockArticlesIconActive from '../../assets/images/dock_articles_icon_active.png'
 import dockHomeIcon from '../../assets/images/dock_home_icon.png'
 import dockHomeIconActive from '../../assets/images/dock_home_icon_active.png'
+import dockRegistryIcon from '../../assets/images/dock_registry_icon.png'
+import dockRegistryIconActive from '../../assets/images/dock_registry_icon_active.png'
 import Opacity from '../interfaces/Opacity'
 import React, { ReactElement, useEffect, useRef, useState } from 'react'
 import { router, Slot, usePathname } from 'expo-router'
-import useSwitch, { CallFunction, HideFunction, useHiding } from 'react-component-switcher'
+import useSwitch, { HideFunction, useHiding } from 'react-component-switcher'
 import { useViewport } from 'react-native-viewport-provider'
 
 interface AnimatedWallProps { quit:HideFunction }
@@ -119,6 +121,11 @@ function Dock( props:DockProps ): ReactElement {
         url="/articles"
         image={ dockArticlesIcon }
         activeImage={ dockArticlesIconActive }
+        callAnimatedWall={ callAnimatedWall }/>
+      <NavButton
+        url="/registry"
+        image={ dockRegistryIcon }
+        activeImage={ dockRegistryIconActive }
         callAnimatedWall={ callAnimatedWall }/>
     </View>
   )
