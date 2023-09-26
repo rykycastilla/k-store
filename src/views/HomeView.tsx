@@ -10,7 +10,7 @@ function HomeView(): ReactElement {
   return (
     <AppView title="Inventario" color>
       <Inventory />
-      <ModifyButton image={ homeEdit } callSwitchable={ SwitchableInventoryCard.call } />
+      <ModifyButton image={ homeEdit } callSwitchable={ () => SwitchableInventoryCard.call() } />
     </AppView>
   )
 }

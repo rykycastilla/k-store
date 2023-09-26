@@ -1,8 +1,9 @@
 import { accentTextColor, dockSize, fontSize, margin, textContainer } from '../styles.json'
 import AppContext from '../../app_context'
+import { InventoryCardCallerProps } from './InventoryCard'
 import { InventoryIndex } from '../interfaces/inventory'
 import React, { ReactElement, useContext } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useViewport } from 'react-native-viewport-provider'
 
 interface ItemCardProps {
@@ -10,19 +11,29 @@ interface ItemCardProps {
   price: number,
   weight: number,
   amount: number,
+  id: string,
 }
 
 function ItemCard( props:ItemCardProps ): ReactElement {
-  const { article, price, weight, amount } = props
+  const { article, price, weight, amount, id } = props
+  const { SwitchableInventoryCard } = useContext( AppContext ) 
   return (
-    <View style={ useViewport( styles.itemCard ) }>
+    <TouchableOpacity
+      style={ useViewport( styles.itemCard ) }
+      onPress={
+        () => {
+          // Calling the inventory card with the current item selected
+          const callerProps: InventoryCardCallerProps = { defaultArticle: id }
+          SwitchableInventoryCard.call( callerProps ) 
+        }
+      }>
       <Text style={ useViewport( styles.articleName ) }>{ article }</Text>
       <View style={ useViewport( styles.propertiesContainer ) }>
         <Text style={ useViewport( styles.properties ) }>{ price }$</Text>
         <Text style={ useViewport( styles.properties ) }>{ weight }Kg</Text>
         <Text style={ useViewport( styles.amount ) }>{ amount }</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -35,7 +46,14 @@ function ItemCards( props:ItemCardsProps ): ReactElement {
   for( const article of articles ) {
     // Building each inventory item
     const { name, price, weight, amount, id } = article
-    const item = <ItemCard key={ id } article={ name } price={ price } weight={ weight } amount={ amount } />
+    const item =
+      <ItemCard
+        key={ id }
+        article={ name }
+        price={ price }
+        weight={ weight }
+        amount={ amount }
+        id={ id } />
     itemlist.push( item )
   }
   return <>{ itemlist }</>

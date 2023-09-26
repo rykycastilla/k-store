@@ -74,10 +74,18 @@ function ArticlePicker( props:ArticlePickerProps ): ReactElement {
 
 interface InventoryCardProps { quit:HideFunction }
 
-function InventoryCard( props:InventoryCardProps, callerProps:unknown, id:number ): ReactElement {
+interface InventoryCardCallerPropsInterface { defaultArticle:string }
+
+type InventoryCardCallerProps = InventoryCardCallerPropsInterface | undefined
+
+function InventoryCard( props:InventoryCardProps, callerProps:InventoryCardCallerProps, id:number ): ReactElement {
   const { quit } = props
+  if( !callerProps ) {
+    callerProps = { defaultArticle: 'null' }
+  }
+  const { defaultArticle } = callerProps
   const [ actionValue, setActionValue ] = useState( 'add' )
-  const [ articleValue, setArticleValue ] = useState( 'null' )
+  const [ articleValue, setArticleValue ] = useState( defaultArticle )
   const [ amountValue, setAmountValue ] = useState( '' )
   const hiding = useHiding( id )
   const { SwitchableBooleanCard:SBC } = useContext( AppContext )
@@ -101,4 +109,4 @@ function InventoryCard( props:InventoryCardProps, callerProps:unknown, id:number
 }
 
 export default InventoryCard
-export { InventoryCardProps }
+export { InventoryCardCallerProps, InventoryCardProps }
