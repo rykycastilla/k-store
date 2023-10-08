@@ -10,6 +10,7 @@ import quitRegistry from '../../assets/images/quit_registry.png'
 import React, { ReactElement, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { setStatusBarBackgroundColor, setStatusBarStyle } from 'expo-status-bar'
 import TableData from '../classes/TableData'
+import useBackButton from '../hooks/back_button'
 import { useViewport } from 'react-native-viewport-provider'
 import ZoomView from './ZoomView'
 
@@ -215,7 +216,10 @@ function RegistryTable( props:RegistryTableProps, callerProps:RegistryTableCalle
   const topIndex = Math.ceil( articleRows / articlesAmount ),
     firstArticle: number = ( currentIndex - 1 ) * articlesAmount + 1,
     lastArticle: number = firstArticle + ( articlesAmount - 1 )
-  return (
+    useBackButton( () => {
+      quit()
+    } )
+    return (
     <Animated.View style={ [ styles.container, { opacity: opacity } ] }>
       <QuitButton quit={ quit } />
       <ZoomView style={ useViewport( tableContainerStyle ) }>

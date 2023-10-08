@@ -10,6 +10,7 @@ import RegistryTable from '../src/components/RegistryTable'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { setStatusBarBackgroundColor, setStatusBarStyle } from 'expo-status-bar'
 import { StyleSheet } from 'react-native'
+import useBackButton from '../src/hooks/back_button'
 import useSwitch from 'react-component-switcher'
 import ViewportProvider from 'react-native-viewport-provider'
 import ViewSelector from '../src/components/ViewSelector'
@@ -29,6 +30,9 @@ function AppContent(): ReactElement {
       setStatusBarBackgroundColor( backgroundColor, true )
     }, 100 )
   }, [] )
+  useBackButton( exit => {
+    exit()
+  } )
   return (
     <>
       <SwitchableArticlesCard.Component quit={ SwitchableArticlesCard.hide } />

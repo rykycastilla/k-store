@@ -5,6 +5,7 @@ import { FunctionVoid } from '../types'
 import { HideFunction } from 'react-component-switcher'
 import Opacity from '../interfaces/Opacity'
 import React, { ReactElement, useEffect, useRef } from 'react'
+import useBackButton from '../hooks/back_button'
 import { useViewport } from 'react-native-viewport-provider'
 
 class AnimationDispatcher {
@@ -82,6 +83,9 @@ function Card( props:CardProps ): ReactElement {
       setStatusBarBackgroundColor( '#989494', true )
     }
   }, [ hiding ] )
+  useBackButton( () => {
+    quit()
+  } )
   return (
     <AnimatedContainer>
       <BlurView intensity={ 4 } tint="dark" style={ [ styles.container, styles.darkWall ] }>
