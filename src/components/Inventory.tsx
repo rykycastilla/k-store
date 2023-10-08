@@ -27,12 +27,14 @@ function ItemCard( props:ItemCardProps ): ReactElement {
           SwitchableInventoryCard.call( callerProps ) 
         }
       }>
+      <>
       <Text style={ useViewport( styles.articleName ) }>{ article }</Text>
       <View style={ useViewport( styles.propertiesContainer ) }>
         <Text style={ useViewport( styles.properties ) }>{ price }$</Text>
         <Text style={ useViewport( styles.properties ) }>{ weight }Kg</Text>
         <Text style={ useViewport( styles.amount ) }>{ amount }</Text>
       </View>
+      </>
     </TouchableOpacity>
   )
 }

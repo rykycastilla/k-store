@@ -7,8 +7,6 @@ import Opacity from '../interfaces/Opacity'
 import React, { ReactElement, useEffect, useRef } from 'react'
 import { useViewport } from 'react-native-viewport-provider'
 
-
-
 class AnimationDispatcher {
   public value: Animated.Value | null = null
   public load( value:Animated.Value ) { this.value = value }

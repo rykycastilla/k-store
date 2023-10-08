@@ -5,10 +5,13 @@ import { InventoryCardCallerProps, InventoryCardProps } from './src/components/I
 import { InventoryIndex } from './src/interfaces/inventory'
 import { SwitchableComponent } from 'react-component-switcher'
 
+import { RegistryTableCallerProps, RegistryTableProps } from './src/components/RegistryTable'
+
 interface AppContextData {
   SwitchableBooleanCard: SwitchableComponent<BooleanCardProps,BooleanCardCallerProps>,
   SwitchableInventoryCard: SwitchableComponent<InventoryCardProps,InventoryCardCallerProps>,
   SwitchableArticlesCard: SwitchableComponent<ArticlesCardProps,ArticlesCardCallerProps|undefined>,
+  SwitchableRegistryTable: SwitchableComponent<RegistryTableProps,RegistryTableCallerProps>
   inventoryData: InventoryIndex,
 }
 

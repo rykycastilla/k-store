@@ -1,9 +1,7 @@
-import { Animated, Image, ImageSourcePropType, StyleSheet, TouchableOpacity } from 'react-native'
 import { fontSize, margin } from '../styles.json'
 import { FunctionVoid } from '../types'
-import Opacity from '../interfaces/Opacity'
-import React, { ReactElement, useEffect, useRef } from 'react'
-import { useHiding } from 'react-component-switcher'
+import { Image, ImageSourcePropType, StyleSheet, TouchableOpacity, View } from 'react-native'
+import React, { ReactElement } from 'react'
 import { useViewport } from 'react-native-viewport-provider'
 
 interface ArticleButtonProps {
@@ -11,26 +9,14 @@ interface ArticleButtonProps {
   action: FunctionVoid,
 }
 
-function ArticleButton( props:ArticleButtonProps, callerProps:unknown, id:number ): ReactElement {
+function ArticleButton( props:ArticleButtonProps ): ReactElement {
   const { image, action } = props
-  const hiding = useHiding( id )
-  const opacity = useRef( new Animated.Value( 0 ) ).current
-  useEffect( () => {
-    const toValue: number = hiding
-      ? Opacity.HIDE
-      : Opacity.SHOW
-    Animated.timing( opacity, {
-      toValue: toValue,
-      duration: 100,
-      useNativeDriver: true,
-    } ).start()
-  }, [ hiding ] )
   return (
-    <Animated.View style={ [ useViewport( styles.container ), { opacity: opacity } ] }>
+    <View style={ [ useViewport( styles.container ) ] }>
       <TouchableOpacity style={ styles.pressableContainer } onPress={ action }>
         <Image source={ image } style={ styles.buttonImage } />
       </TouchableOpacity>
-    </Animated.View>
+    </View>
   )
 }
 
@@ -38,7 +24,7 @@ const styles = StyleSheet.create( {
   container: {
     width: fontSize as unknown as number,
     height: fontSize as unknown as number,
-    marginLeft: margin as unknown as number,
+    marginRight: margin as unknown as number,
   },
   pressableContainer: {
     width: '100%',

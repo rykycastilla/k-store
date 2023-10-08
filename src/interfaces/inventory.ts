@@ -1,58 +1,17 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import Article from '../classes/Article'
+import ArticleInfo from '../classes/ArticleInfo'
 import createToken from 'create-token'
-import { FunctionVoid, StateSetter } from '../types'
-
-class Article {
-  public name: string
-  public weight: number
-  public price: number
-  public readonly id: string
-  public amount = 0
-  constructor( name:string, weight:number, price:number, id:string ) {
-    this.name = name
-    this.weight = weight
-    this.price = price
-    this.id = id
-  }
-}
+import { FunctionVoid } from '../types'
+import history, { UpdateCallback } from './history'
+import Storage from '../classes/Storage'
 
 interface InventoryIndex {
   [ articleId: string ]: Article,
 }
 
-type InventorySetter = StateSetter<InventoryIndex>
-type InventoryPromise = Promise<InventoryIndex>
-
-class Inventory {
-  private readonly storageKey = 'inventory'
-  private storage: InventoryIndex | null = null  // This property store the current inventory value
-  private setInventory: InventorySetter = () => {}  // React Setter
-  private readonly loadInventory: InventoryPromise
+class Inventory extends Storage<InventoryIndex> {
   constructor() {
-    this.loadInventory = new Promise( async( resolve ) => {
-      let result = await AsyncStorage.getItem( this.storageKey )
-      if( !result ) { result = '{}' }
-        const resultInventory = JSON.parse( result ) as InventoryIndex
-        this.storage = resultInventory
-        resolve( resultInventory )
-    } )
-  }
-  // Set the ReactSetter and the storage default value
-  public async use( setInventory:InventorySetter ) {
-    const storage: InventoryIndex = await this.loadInventory
-    this.setInventory = setInventory
-    setInventory( storage )
-  }
-  // Change index structure, updating React State and saving persistent data, too
-  private saveStorage() {
-    const { storage } = this
-    if( !storage ) { return }
-    // Changin React State (cloning object to create a different memory value for ReactSetter)
-    const newStorage = Object.assign( {}, storage )
-    this.setInventory( newStorage )
-    // Saving in persistent memory
-    const encodeStorage: string = JSON.stringify( storage )
-    AsyncStorage.setItem( this.storageKey, encodeStorage )
+    super( 'inventory', '{}' )
   }
   // Create a unique id
   private getId( storage:InventoryIndex ): string {
@@ -116,6 +75,21 @@ class Inventory {
     article.price = newPrice
     this.saveStorage()
   }
+  // Create a new instance (based on today) for every article in inventory
+  private updateHistory( storage:InventoryIndex, lastDate:string, date:string ) {
+    const articles = Object.values( storage )
+    for( const article of articles ) {
+      const savedInfo = article.history[ lastDate ]
+      // Taking the amount of the latest date to init the current date
+      if( savedInfo ) {
+        const { amount } = savedInfo
+        article.history[ date ] = new ArticleInfo( amount )
+      }
+      else {
+        article.history[ date ] = new ArticleInfo()
+      }
+    }
+  }
   // Modify "amount" property of "InventoryItem" from "InventoryIndex"
   public setAmount( operation:number, id:string, amount:number, _catch:FunctionVoid ) {
     const { storage } = this
@@ -126,7 +100,25 @@ class Inventory {
     result += amount * operation
     if( result < 0 ) { _catch() }
     else {
+      // Including today in "registries"
+      const updateCallback: UpdateCallback = ( lastDate:string, today:string ) => {
+        this.updateHistory( storage, lastDate, today )
+      }
+      const today = history.update( updateCallback )
+      if( !today ) { return }  // Avoiding unloaded history
+      // Setting input/output amount differences
+      const todayRegistry: ArticleInfo = storage[ id ].history[ today ]
+      // operation is 1 when amount is increasing
+      if( operation > 0 ) {
+        todayRegistry.input += amount
+      }
+      else {
+        todayRegistry.output += amount
+      }
+      // continue here ...
+      // Saving if "amount" is valid
       storage[ id ].amount = result
+      todayRegistry.amount = result
       this.saveStorage()
     }
   }

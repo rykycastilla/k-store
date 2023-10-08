@@ -2,19 +2,20 @@ import AppContext from '../../app_context'
 import ArticleButton from './ArticleButton'
 import { ArticlesCardCallerProps } from './ArticlesCard'
 import { BooleanCardCallerProps } from './BooleanCard'
+import { CallFunction } from 'react-component-switcher'
 import deleteIcon from '../../assets/images/delete_icon.png'
 import { dockSize, fontSize, margin, textColor, textContainer } from '../styles.json'
 import editIcon from '../../assets/images/edit_icon.png'
 import inventory, { InventoryIndex } from '../interfaces/inventory'
+import NoteItem from './NoteItem'
 import React, { ReactElement, useContext } from 'react'
 import { SBC } from '../types'
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import useSwitch, { CallFunction } from 'react-component-switcher'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import { useViewport } from 'react-native-viewport-provider'
 
 function deleteAction( id:string, BooleanCard:SBC ) {
   const callerProps: BooleanCardCallerProps = {
-    text: '¿Desea eliminar este artículo?\nLos datos de los registros serán preservados',
+    text: '¿Desea eliminar este artículo?\nLos datos de los registros no serán preservados',
     action() { inventory.delete( id ) }
   }
   BooleanCard.call( callerProps )
@@ -44,33 +45,14 @@ function ArticleItem( props:ArticleItemProps ): ReactElement {
   const { name, weight, price, id, top } = props
   const title: string = `    - ${ name } (${ weight }Kg, ${ price }$)`
   const { SwitchableBooleanCard, SwitchableArticlesCard } = useContext( AppContext )
-  const SwitchableDeleteButton = useSwitch( ArticleButton, 100 )
-  const SwitchableEditButton = useSwitch( ArticleButton, 100 )
-  const topStyle: object = top
-    ? { borderTopWidth: 2, borderTopColor: '#CACACA' }
-    : {}
   return (
-    <Pressable
-      style={ [ useViewport( styles.articleItem ), topStyle ] }
-      onPress={
-        () => {
-          // Switching between "show" and "hide" buttons to press the container
-          if( SwitchableDeleteButton.showing && SwitchableEditButton.showing ) {
-              SwitchableDeleteButton.hide()
-              SwitchableEditButton.hide()
-            } else {
-              SwitchableDeleteButton.call()
-              SwitchableEditButton.call()
-          }
-        }
-      }>
-      <Text style={ useViewport( styles.articleName ) }>{ title }</Text>
-      <SwitchableDeleteButton.Component
+    <NoteItem title={ title } top={ top }>
+      <ArticleButton
         image={ deleteIcon }
         action={
           () => deleteAction( id, SwitchableBooleanCard )
         } />
-        <SwitchableEditButton.Component
+      <ArticleButton
         image={ editIcon }
         action={
           () => {
@@ -79,7 +61,7 @@ function ArticleItem( props:ArticleItemProps ): ReactElement {
             editAction( id, name, textWeight, textPrice, SwitchableArticlesCard.call )
           }
         } />
-    </Pressable>
+    </NoteItem>
   )
 }
 
