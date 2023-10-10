@@ -1,6 +1,7 @@
 import ArticlesView from '../../src/views/ArticlesView'
 import React, { ReactElement } from 'react'
 import RegistryView from '../../src/views/RegistryView'
+import SettingsView from '../../src/views/SettingsView'
 import { useLocalSearchParams } from 'expo-router'
 
 function Views(): ReactElement {
@@ -12,6 +13,9 @@ function Views(): ReactElement {
       break
     case 'registry':
       currentView = <RegistryView />
+      break
+    case 'settings':
+      currentView = <SettingsView />
       break
   }
   return currentView

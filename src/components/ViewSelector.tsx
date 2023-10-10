@@ -107,6 +107,9 @@ function NavButton( props:NavButtonProps ): ReactElement {
   )
 }
 
+import dockSettingsIcon from '../../assets/images/dock_settings_icon.png'
+import dockSettingsIconActive from '../../assets/images/dock_settings_icon_active.png'
+
 interface DockProps { callAnimatedWall:CallSwitchable }
 
 function Dock( props:DockProps ): ReactElement {
@@ -127,6 +130,11 @@ function Dock( props:DockProps ): ReactElement {
         image={ dockRegistryIcon }
         activeImage={ dockRegistryIconActive }
         callAnimatedWall={ callAnimatedWall }/>
+      <NavButton
+      url="/settings"
+      image={ dockSettingsIcon }
+      activeImage={ dockSettingsIconActive }
+      callAnimatedWall={ callAnimatedWall } />
     </View>
   )
 }
@@ -161,7 +169,7 @@ const styles = StyleSheet.create( {
     flex: 1
   },
   navButton: {
-    width: '33.33%',
+    width: '25%',
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',    
