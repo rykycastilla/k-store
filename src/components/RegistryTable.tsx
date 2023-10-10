@@ -1,13 +1,13 @@
 import { Animated, Image, ImageSourcePropType, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import AppContext from '../../app_context'
 import { backgroundColor, fontSize, margin, textContainer } from '../styles.json'
 import { FunctionVoid, StateSetter } from '../types'
 import { HideFunction, useHiding } from 'react-component-switcher'
+import { InventoryIndex } from '../interfaces/inventory'
 import nextIndex from '../../assets/images/next_index.png'
 import Opacity from '../interfaces/Opacity'
 import previousIndex from '../../assets/images/previous_index.png'
 import quitRegistry from '../../assets/images/quit_registry.png'
-import React, { ReactElement, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
 import { setStatusBarBackgroundColor, setStatusBarStyle } from 'expo-status-bar'
 import TableData from '../classes/TableData'
 import useBackButton from '../hooks/back_button'
@@ -174,13 +174,15 @@ function IndexButtonDock( props:IndexButtonDockProps ): ReactElement {
 
 interface RegistryTableProps { quit:HideFunction }
 
-interface RegistryTableCallerProps { date:Date }
+interface RegistryTableCallerProps {
+  date: Date,
+  inventoryData: InventoryIndex,
+}
 
 function RegistryTable( props:RegistryTableProps, callerProps:RegistryTableCallerProps, id:number ): ReactElement {
   const { quit } = props
-  const { date } = callerProps
+  const { date, inventoryData } = callerProps
   // Building table data structure
-  const { inventoryData } = useContext( AppContext )
   const table: TableData = useMemo( () => {
     return new TableData( date, inventoryData )
   }, [] )
