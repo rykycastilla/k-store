@@ -3,9 +3,8 @@ import { BooleanCardProps, BooleanCardCallerProps } from './src/components/Boole
 import { createContext } from 'react'
 import { InventoryCardCallerProps, InventoryCardProps } from './src/components/InventoryCard'
 import { InventoryIndex } from './src/interfaces/inventory'
-import { SwitchableComponent } from 'react-component-switcher'
-
 import { RegistryTableCallerProps, RegistryTableProps } from './src/components/RegistryTable'
+import { SwitchableComponent } from 'react-component-switcher'
 
 interface AppContextData {
   SwitchableBooleanCard: SwitchableComponent<BooleanCardProps,BooleanCardCallerProps>,
