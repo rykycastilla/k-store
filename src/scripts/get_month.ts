@@ -1,42 +1,44 @@
-function getMonth( date:Date ): string {
+import { Language } from '../hooks/language'
+
+function getMonth( date:Date, language:Language ): string {
   const monthIndex: number = date.getMonth()
   let month = ''
   switch( monthIndex ) {
     case 0:
-      month = 'enero'
+      month = language.january
       break
     case 1:
-      month = 'febrero'
+      month = language.february
       break
     case 2:
-      month = 'marzo'
+      month = language.march
       break
     case 3:
-      month = 'abril'
+      month = language.april
       break
     case 4:
-      month = 'mayo'
+      month = language.may
       break
     case 5:
-      month = 'junio'
+      month = language.june
       break
     case 6:
-      month = 'julio'
+      month = language.july
       break
     case 7:
-      month = 'agosto'
+      month = language.augost
       break
     case 8:
-      month = 'septiembre'
+      month = language.september
       break
     case 9:
-      month = 'octubre'
+      month = language.octover
       break
     case 10:
-      month = 'noviembre'
+      month = language.november
       break
     case 11:
-      month = 'diciembre'
+      month = language.december
       break
   }
   const year: number = date.getFullYear()

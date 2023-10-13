@@ -1,14 +1,15 @@
 import { BooleanCardCallerProps } from '../components/BooleanCard'
 import { FunctionVoid } from '../types'
 import inventory from '../interfaces/inventory'
+import { Language } from '../hooks/language'
 import { SBC } from '../types'
 
-async function editArticle( id:string, defaultName:string, name:string, weight:string, price:string, BooleanCard:SBC, catchName:FunctionVoid ) {
+async function editArticle( id:string, defaultName:string, name:string, weight:string, price:string, BooleanCard:SBC, catchName:FunctionVoid, language:Language ) {
   const parsedWeight = Number( weight ),
     parsedPrice = Number( price )
   // Creating Verification Alert
   const verificationAlert: BooleanCardCallerProps = {
-    text: '¿Desea editar este artículo?\nSus carcaterísticas (peso y precio) también varirán en los registros',
+    text: language.editWarning,
     // Using verification alert before edit
     action() { inventory.edit( defaultName, name, parsedWeight, parsedPrice, id, false ) }
   }

@@ -1,8 +1,10 @@
 import AppView from './AppView'
 import React, { ReactElement } from 'react'
+import useLanguage from '../hooks/language'
 
 function SettingsView(): ReactElement {
-  return <AppView title="Ajustes" color />
+  const [ language ] = useLanguage()
+  return <AppView title={ language.settings } color />
 }
 
 export default SettingsView

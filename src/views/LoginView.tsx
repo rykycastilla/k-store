@@ -7,15 +7,17 @@ import { FunctionVoid } from '../types'
 import { HideFunction, useHiding } from 'react-component-switcher'
 import icon from '../../assets/adaptive-icon.png'
 import React, { ReactElement, useEffect, useContext, useRef } from 'react'
+import useLanguage from '../hooks/language'
 import { useViewport } from 'react-native-viewport-provider'
 
 interface LogInButtonProps { action:FunctionVoid }
 
 function LogInButton( props:LogInButtonProps ): ReactElement {
   const { action } = props
+  const [ language ] = useLanguage()
   return (
     <TouchableOpacity activeOpacity={ 0.5 } onPress={ action } style={ useViewport( styles.logInButton ) }>
-      <Text style={ useViewport( styles.buttonText ) }>Continuar</Text>
+      <Text style={ useViewport( styles.buttonText ) }>{ language.continue }</Text>
     </TouchableOpacity>
   )
 }
@@ -36,22 +38,23 @@ function LoginView( props:LoginViewProps, callerProps:unknown, id:number ): Reac
       } ).start()
   }
   }, [ hiding ] )
+  const [ language ] = useLanguage()
   return (
     <Animated.View style={ [ styles.superContainer, styles.container, { opacity: opacity } ] }>
-      <AppView title="Bienvenido">
+      <AppView title={ language.welcome }>
         <View style={ styles.container }>
           <Text style={ useViewport( styles.welcomeText ) }>
-            Para comenzar a utilizar nuestros servicios debe iniciar sesión con Google
+            { language.signinInstructions }
           </Text>
           <Image source={ icon } style={ useViewport( styles.backgroundLogo ) } />
           <LogInButton action={
             () => {
               const link: Link = {
-                text: 'Leer más',
+                text: language.readMore,
                 action() { console.log( '<a></a>' ) }
               }
               const callerProps: BooleanCardCallerProps = {
-                text: 'Al continuar, confirma estar de acuerdo con nuestra política de privacidad.',
+                text: language.loginDisclaimer,
                 link: link,
                 action() {
                   setTimeout( quit, 400 )

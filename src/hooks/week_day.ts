@@ -1,29 +1,30 @@
 import React, { useMemo } from 'react'
+import useLanguage, { Language } from './language'
 
-function getWeekDay( date:Date ): string {
+function getWeekDay( date:Date, language:Language ): string {
   const weekDay: number = date.getDay()
   let weekDayName = ''
   switch( weekDay ) {
     case 0: 
-      weekDayName = 'domingo'
+      weekDayName = language.sunday
       break
     case 1: 
-      weekDayName = 'lunes'
+      weekDayName = language.monday
       break
     case 2: 
-      weekDayName = 'martes'
+      weekDayName = language.tuesday
       break
     case 3: 
-      weekDayName = 'miércoles'
+      weekDayName = language.wednesday
       break
     case 4: 
-      weekDayName = 'jueves'
+      weekDayName = language.thursday
       break
     case 5: 
-      weekDayName = 'viernes'
+      weekDayName = language.friday
       break
     case 6: 
-      weekDayName = 'sábado'
+      weekDayName = language.saturday
       break
   }
   const monthDay: number = date.getDate()
@@ -31,9 +32,10 @@ function getWeekDay( date:Date ): string {
 }
 
 function useWeekDay( date:Date ): string {
+  const [ language ] = useLanguage()
   const result: string = useMemo( () => {
-    return getWeekDay( date )
-  }, [ date ] )
+    return getWeekDay( date, language )
+  }, [ date, JSON.stringify( language ) ] )
   return result
 }
 

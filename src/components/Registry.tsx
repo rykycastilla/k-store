@@ -13,6 +13,7 @@ import shareIcon from '../../assets/images/share_icon.png'
 import { SwitchableComponent } from 'react-component-switcher'
 import TableData from '../classes/TableData'
 import tableTemplate from '../scripts/table_template'
+import useLanguage from '../hooks/language'
 import { useViewport } from 'react-native-viewport-provider'
 import useWeekDay from '../hooks/week_day'
 
@@ -64,11 +65,12 @@ function RegistryContent(): ReactElement {
   const items: ReactElement[] = [],
     today = new Date().toDateString()
   let currentTitle = ''
+  const [ language ] = useLanguage()
   for( const thisDay of historyData ) {
     const date = new Date( thisDay )
     const title: string = today === thisDay
-      ? 'hoy'
-      : getMonth( date )
+      ? language.today
+      : getMonth( date, language )
     // Printing DateTitle only for the first time (when a new month is detected)
     if( title !== currentTitle ) {
       const dateTitle = <DateTitle key={ Math.random() } title={ title } />

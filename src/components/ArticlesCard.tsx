@@ -8,15 +8,16 @@ import { FunctionVoid, SBC } from '../types'
 import { HideFunction, useHiding } from 'react-component-switcher'
 import { Q_ } from '../exp'
 import React, { ReactElement, useContext, useState } from 'react'
+import useLanguage, { Language } from '../hooks/language'
 
-function articlesCardAction( id:string, defaultName:string, name:string, weight:string, price:string, BooleanCard:SBC ) {
+function articlesCardAction( id:string, defaultName:string, name:string, weight:string, price:string, BooleanCard:SBC, language:Language ) {
   // Building "Alert"
   const invalidAlert: BooleanCardCallerProps = {
-    text: 'Los datos introducidos son inválidos',
+    text: language.invalidData,
     action: 'alert',
   }
   const nameAlert: BooleanCardCallerProps = {
-    text: 'Este nombre ya existe',
+    text: language.nameExistsAlert,
     action: 'alert',
   }
   const catchName: FunctionVoid = () => {
@@ -31,7 +32,7 @@ function articlesCardAction( id:string, defaultName:string, name:string, weight:
   }
   else {  // Valid
     // If id is empty the user is trying to create and article, else, the user is trying to edit
-    if( id ) { editArticle( id, defaultName, name, weight, price, BooleanCard, catchName ) }
+    if( id ) { editArticle( id, defaultName, name, weight, price, BooleanCard, catchName, language ) }
     else{ createArticle( name, weight, price, catchName ) }
   }
 }
@@ -63,6 +64,7 @@ function ArticlesCard( props:ArticlesCardProps, callerProps:ArticlesCardCallerPr
   const [ name, setName ] = useState( defaultName )
   const [ weight, setWeight ] = useState( defaultWeight )
   const [ price, setPrice ] = useState( defaultPrice )
+  const [ language ] = useLanguage()
   return (
     <Card
       quit={ quit }
@@ -71,13 +73,13 @@ function ArticlesCard( props:ArticlesCardProps, callerProps:ArticlesCardCallerPr
         () => {
           setTimeout( () => {
             // Waiting to hide InventoryCard
-            articlesCardAction( articleId, defaultName, name, weight, price, SwitchableBooleanCard )
+            articlesCardAction( articleId, defaultName, name, weight, price, SwitchableBooleanCard, language )
           }, 400 )
         }
       }>
-      <CustomTextInput title="Nombre" defaultValue={ defaultName } setValue={ setName } />
-      <CustomTextInput title="Peso" defaultValue={ defaultWeight } unit="Kg" setValue={ setWeight } />
-      <CustomTextInput title="Precio" defaultValue={ defaultPrice } unit="$" setValue={ setPrice } />
+      <CustomTextInput title={ language.name } defaultValue={ defaultName } setValue={ setName } />
+      <CustomTextInput title={ language.weight } defaultValue={ defaultWeight } unit="Kg" setValue={ setWeight } />
+      <CustomTextInput title={ language.price } defaultValue={ defaultPrice } unit="$" setValue={ setPrice } />
     </Card>
   )
 }

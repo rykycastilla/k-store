@@ -11,6 +11,7 @@ import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react
 import { setStatusBarBackgroundColor, setStatusBarStyle } from 'expo-status-bar'
 import TableData from '../classes/TableData'
 import useBackButton from '../hooks/back_button'
+import useLanguage from '../hooks/language'
 import { useViewport } from 'react-native-viewport-provider'
 import ZoomView from './ZoomView'
 
@@ -93,22 +94,23 @@ function Table( props:TableProps ): ReactElement {
   const { content, firstArticle, lastArticle } = props
   const { date, totalInput, totalOutput } = content
   const earns = `${ content.earns }$`
+  const [ language ] = useLanguage()
   return (
     <View style={ useViewport( styles.table ) }>
-      <Cell size={ 12 }>Resumen de Inventario</Cell>
+      <Cell size={ 12 }>{ language.tableTitle }</Cell>
       <Cell size={ 4 }>{ date }</Cell>
-      <Cell>No.</Cell>
-      <Cell size={ 3 }>Artículo</Cell>
-      <Cell size={ 2 }>Peso</Cell>
-      <Cell size={ 2 }>Precio</Cell>
-      <Cell size={ 2 }>Inicio</Cell>
-      <Cell size={ 2 }>Entrada</Cell>
-      <Cell size={ 2 }>Salida</Cell>
-      <Cell size={ 2 }>Final</Cell>
+      <Cell>{ language.num }</Cell>
+      <Cell size={ 3 }>{ language.article }</Cell>
+      <Cell size={ 2 }>{ language.weight }</Cell>
+      <Cell size={ 2 }>{ language.price }</Cell>
+      <Cell size={ 2 }>{ language.init }</Cell>
+      <Cell size={ 2 }>{ language.input }</Cell>
+      <Cell size={ 2 }>{ language.output }</Cell>
+      <Cell size={ 2 }>{ language.end }</Cell>
       <TableArticles content={ content } initIndex={ firstArticle } topIndex={ lastArticle } />
-      <Cell size={ 6 }>Entrada Total</Cell>
-      <Cell size={ 6 }>Salida Total</Cell>
-      <Cell size={ 4 }>Ingreso Bruto</Cell>
+      <Cell size={ 6 }>{ language.totalInput }</Cell>
+      <Cell size={ 6 }>{ language.totalOutput }</Cell>
+      <Cell size={ 4 }>{ language.earns }</Cell>
       <Cell size={ 6 }>{ totalInput }</Cell>
       <Cell size={ 6 }>{ totalOutput }</Cell>
       <Cell size={ 4 }>{ earns }</Cell>

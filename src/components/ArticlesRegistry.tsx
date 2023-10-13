@@ -11,11 +11,12 @@ import NoteItem from './NoteItem'
 import React, { ReactElement, useContext } from 'react'
 import { SBC } from '../types'
 import { ScrollView, StyleSheet, View } from 'react-native'
+import useLanguage, { Language } from '../hooks/language'
 import { useViewport } from 'react-native-viewport-provider'
 
-function deleteAction( id:string, BooleanCard:SBC ) {
+function deleteAction( id:string, BooleanCard:SBC, language:Language ) {
   const callerProps: BooleanCardCallerProps = {
-    text: '¿Desea eliminar este artículo?\nLos datos de los registros no serán preservados',
+    text: language.deleteWarning,
     action() { inventory.delete( id ) }
   }
   BooleanCard.call( callerProps )
@@ -45,12 +46,13 @@ function ArticleItem( props:ArticleItemProps ): ReactElement {
   const { name, weight, price, id, top } = props
   const title: string = `    - ${ name } (${ weight }Kg, ${ price }$)`
   const { SwitchableBooleanCard, SwitchableArticlesCard } = useContext( AppContext )
+  const [ language ] = useLanguage()
   return (
     <NoteItem title={ title } top={ top }>
       <ArticleButton
         image={ deleteIcon }
         action={
-          () => deleteAction( id, SwitchableBooleanCard )
+          () => deleteAction( id, SwitchableBooleanCard, language )
         } />
       <ArticleButton
         image={ editIcon }

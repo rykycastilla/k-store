@@ -9,15 +9,16 @@ import { N } from '../exp'
 import Picker from './Picker'
 import React, { ReactElement, useContext, useState } from 'react'
 import { SBC, StateSetter } from '../types'
+import useLanguage, { Language } from '../hooks/language'
 
-function inventoryCardAction( action:string, article:string, amount:string, BooleanCard:SBC ) {  
+function inventoryCardAction( action:string, article:string, amount:string, BooleanCard:SBC, language:Language ) {  
   // Building "Alerts"
   const invalidAlert: BooleanCardCallerProps = {
-    text: 'Los datos introducidos son inválidos',
+    text: language.invalidData,
     action: 'alert',
   }
   const invalidOperation: BooleanCardCallerProps = {
-    text: 'La cantidad en inventario no puede ser inferior a cero',
+    text: language.inventoryAmountAlert,
     action: 'alert',
   }
   // Verify if input data is valid
@@ -40,7 +41,8 @@ interface ActionPickerProps {
 
 function ActionPicker( props:ActionPickerProps ): ReactElement {
   const { actionValue:action, setActionValue:setAction } = props
-  const names = [ 'Agregar', 'Quitar' ],
+  const [ language ] = useLanguage()
+  const names = [ language.add, language.quit ],
     values = [ 'add', 'quit' ]
   return (
     <Picker
@@ -60,8 +62,9 @@ function ArticlePicker( props:ArticlePickerProps ): ReactElement {
   const { value, setValue } = props
   const { inventoryData } = useContext( AppContext )
   const { names, ids } = getIndexNames( inventoryData )
+  const [ language ] = useLanguage()
   // Using this by default
-  names.push( '--- Artículo ---' )
+  names.push( language.nullArticle )
   ids.push( 'null' )
   return (
     <Picker
@@ -89,6 +92,7 @@ function InventoryCard( props:InventoryCardProps, callerProps:InventoryCardCalle
   const [ amountValue, setAmountValue ] = useState( '' )
   const hiding = useHiding( id )
   const { SwitchableBooleanCard:SBC } = useContext( AppContext )
+  const [ language ] = useLanguage()
   return (
     <Card
       hiding={ hiding }
@@ -97,13 +101,13 @@ function InventoryCard( props:InventoryCardProps, callerProps:InventoryCardCalle
         () => {
           setTimeout( () => {
             // Waiting to hide InventoryCard
-            inventoryCardAction( actionValue, articleValue, amountValue, SBC )
+            inventoryCardAction( actionValue, articleValue, amountValue, SBC, language )
           }, 400 )
         } 
       }>
       <ActionPicker actionValue={ actionValue } setActionValue={ setActionValue } />
       <ArticlePicker value={ articleValue } setValue={ setArticleValue } />
-      <CustomTextInput title="Cantidad" setValue={ setAmountValue }  />
+      <CustomTextInput title={ language.amount } setValue={ setAmountValue }  />
     </Card>
   )
 }

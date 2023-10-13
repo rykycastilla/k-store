@@ -6,6 +6,7 @@ import { HideFunction } from 'react-component-switcher'
 import Opacity from '../interfaces/Opacity'
 import React, { ReactElement, useEffect, useRef } from 'react'
 import useBackButton from '../hooks/back_button'
+import useLanguage from '../hooks/language'
 import { useViewport } from 'react-native-viewport-provider'
 
 class AnimationDispatcher {
@@ -86,13 +87,14 @@ function Card( props:CardProps ): ReactElement {
   useBackButton( () => {
     quit()
   } )
+  const [ language ] = useLanguage()
   return (
     <AnimatedContainer>
       <BlurView intensity={ 4 } tint="dark" style={ [ styles.container, styles.darkWall ] }>
         <View style={ useViewport( styles.card ) }>
           { children }
-          { alert ? <></> : <Button text="Cancelar" action={ quit } /> }
-          <Button text="Aceptar" color action={ () => accept( action, quit ) } />
+          { alert ? <></> : <Button text={ language.cancel } action={ quit } /> }
+          <Button text={ language.accept } color action={ () => accept( action, quit ) } />
         </View>
       </BlurView>
     </AnimatedContainer>

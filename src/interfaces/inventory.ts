@@ -10,6 +10,7 @@ interface InventoryIndex {
 }
 
 class Inventory extends Storage<InventoryIndex> {
+  public storage = super.storage
   constructor() {
     super( 'inventory', '{}' )
   }
