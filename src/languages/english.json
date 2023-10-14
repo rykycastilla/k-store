@@ -1,6 +1,6 @@
  {
   "welcome": "Welcome",
-  "signinInstructions": "To use our services you mustn't login with Google",
+  "signinInstructions": "To use our services you must login with Google",
   "continue": "Continue",
   "loginDisclaimer": "If you continue, you are agree with our privacy policy.",
   "readMore": "Read more",
@@ -11,7 +11,7 @@
   "quit": "Quit",
   "amount": "Amount",
   "invalidData": "This data is invalid",
-  "inventoryAmountAlert": "Inventory's data musn't be less than zero",
+  "inventoryAmountAlert": "Inventory's data mustn't be less than zero",
   "nullArticle": "--- Article ---",
   "articles": "Articles",
   "name": "Name",
@@ -51,5 +51,8 @@
   "totalInput": "Total Input",
   "totalOutput": "Total Output",
   "earns": "Earns",
-  "settings": "Settings"
+  "settings": "Settings",
+  "language": "Language",
+  "default": "Default",
+  "select": "Select"
 }

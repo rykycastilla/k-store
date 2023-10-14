@@ -52,6 +52,9 @@ interface Language {
   totalOutput: string,
   earns: string,
   settings: string,
+  language: string,
+  default: string,
+  select: string,
 }
 
 export default Language

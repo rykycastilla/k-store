@@ -39,20 +39,20 @@ function selectAction( checkBoxCardCaller:CheckBoxCardCaller, option:Option, set
 function LanguageSection(): ReactElement {
   const { defaultLanguage, setDefaultLanguage, SwitchableCheckBoxCard } = useContext( AppContext )
   const [ languageOption, setLanguageOption ] = useState<Languages|undefined>( defaultLanguage )
-  const [ , setLanguage ] = useLanguage()
+  const [ language, setLanguage ] = useLanguage()
   const items = [
     {
-      title: 'Predeterminado',
+      title: language.default,
       partner: <CheckBox state={ !languageOption } />,
       action() { defaultAction( setLanguageOption, setDefaultLanguage ) },
     },
     {
-      title: 'Seleccionar',
+      title: language.select,
       action() { selectAction( SwitchableCheckBoxCard.call, languageOption, setLanguageOption, setLanguage ) },
     },
   ]
   return (
-    <Section name="Idioma" items={ items } />
+    <Section name={ language.language } items={ items } />
   )
 }
 

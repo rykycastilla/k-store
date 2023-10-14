@@ -51,5 +51,8 @@
   "totalInput": "Entrada Total",
   "totalOutput": "Salida Total",
   "earns": "Ingreso Bruto",
-  "settings": "Ajustes"
+  "settings": "Ajustes",
+  "language": "Idioma",
+  "default": "Predeterminado",
+  "select": "Seleccionar"
 }
