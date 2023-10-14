@@ -7,11 +7,12 @@ import { useViewport } from 'react-native-viewport-provider'
 interface SectionItemProps {
   title: string,
   action: FunctionVoid,
+  partner?: ReactElement,
   underline?: boolean,
 }
 
 function SectionItem( props:SectionItemProps ): ReactElement {
-  const { title, action, underline } = props
+  const { title, action, partner, underline } = props
   const underlineStyle: object = underline
     ? {
       borderBottomWidth: 1,
@@ -21,6 +22,7 @@ function SectionItem( props:SectionItemProps ): ReactElement {
   return (
     <TouchableOpacity style={ [ useViewport( styles.item ), underlineStyle ] } onPress={ action }>
       <Text style={ useViewport( styles.itemText ) }>{ title }</Text>
+      { partner }
     </TouchableOpacity>
   )
 }
@@ -32,9 +34,10 @@ function SectionItemList( props:SectionItemListProps ): ReactElement {
   const sectionItems: ReactElement[] = [],
     itemsLength: number = items.length
   for( let _this = 0; _this < itemsLength; _this++ ) {
-    const { title, action } = items[ _this ]
+    const { title, partner, action } = items[ _this ]
     const underline: boolean = _this !== itemsLength - 1
-    const sectionItem = <SectionItem key={ _this } title={ title } action={ action } underline={ underline } />
+    const sectionItem =
+      <SectionItem key={ _this } title={ title } partner={ partner } action={ action } underline={ underline } />
     sectionItems.push( sectionItem )
   }
   return <>{ sectionItems }</>
@@ -75,10 +78,11 @@ const styles = StyleSheet.create( {
   item: {
     width:  `100vw - ${ margin } * 4` as unknown as number,
     height: `${ fontSize } * 1.95` as unknown as number,
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   itemText: {
-    marginLeft: margin as unknown as number,
     color: textColor,
     fontSize: `${ fontSize } * 0.83` as unknown as number,
   },

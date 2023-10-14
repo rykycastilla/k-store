@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { StateSetter } from '../types'
 
 class Storage<T> {
-  private readonly storageKey: string
+  protected readonly storageKey: string
   protected storage: T | null = null
   private setStorage: StateSetter<T> = () => {}  // React Setter
   private readonly loadStorage: Promise<T>

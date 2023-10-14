@@ -4,7 +4,9 @@ import { CheckBoxCardCallerProps, CheckBoxCardProps } from './src/components/Che
 import { createContext } from 'react'
 import { InventoryCardCallerProps, InventoryCardProps } from './src/components/InventoryCard'
 import { InventoryIndex } from './src/interfaces/inventory'
+import { Languages } from './src/hooks/language'
 import { RegistryTableCallerProps, RegistryTableProps } from './src/components/RegistryTable'
+import { StateSetter } from './src/types'
 import { SwitchableComponent } from 'react-component-switcher'
 
 interface AppContextData {
@@ -14,6 +16,8 @@ interface AppContextData {
   SwitchableRegistryTable: SwitchableComponent<RegistryTableProps,RegistryTableCallerProps>,
   SwitchableCheckBoxCard: SwitchableComponent<CheckBoxCardProps,CheckBoxCardCallerProps>,
   inventoryData: InventoryIndex,
+  defaultLanguage: Languages,
+  setDefaultLanguage: StateSetter<Languages[]>
 }
 
 const AppContext = createContext( {} as AppContextData )

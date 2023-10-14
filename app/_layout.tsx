@@ -1,4 +1,5 @@
 import AppContext, { AppContextData } from '../app_context'
+import appLanguage from '../src/interfaces/app_language'
 import ArticlesCard from '../src/components/ArticlesCard'
 import { backgroundColor } from '../src/styles.json'
 import BooleanCard from '../src/components/BooleanCard'
@@ -6,6 +7,7 @@ import CheckBoxCard from '../src/components/CheckBoxCard'
 import inventory, { InventoryIndex } from '../src/interfaces/inventory'
 import InventoryCard from '../src/components/InventoryCard'
 import { LanguageProvider } from '../src/hooks/language'
+import { Languages } from '../src/hooks/language'
 import LoginView from '../src/views/LoginView'
 import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import RegistryTable from '../src/components/RegistryTable'
@@ -55,8 +57,10 @@ function App(): ReactElement {
   const SwitchableRegistryTable = useSwitch( RegistryTable, 400 )
   const SwitchableCheckBoxCard = useSwitch( CheckBoxCard, 400 )
   const [ inventoryData, setInventoryData ] = useState( {} as InventoryIndex )
+  const [ [ defaultLanguage ], setDefaultLanguage ] = useState( [] as Languages[] )
   useEffect( () => {
     inventory.use( setInventoryData )
+    appLanguage.use( setDefaultLanguage )
   }, [] )
   const data: AppContextData = {
     SwitchableBooleanCard,
@@ -65,13 +69,16 @@ function App(): ReactElement {
     SwitchableRegistryTable,
     SwitchableCheckBoxCard,
     inventoryData,
+    defaultLanguage,
+    setDefaultLanguage,
   }
+  
   return (
     <>
       <AppContext.Provider value={ data }>
         <SafeAreaView>
           <ViewportProvider>
-            <LanguageProvider>
+            <LanguageProvider defaultLanguage={ defaultLanguage }>
               <AppContent />
             </LanguageProvider>
           </ViewportProvider>

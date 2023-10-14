@@ -50,7 +50,7 @@ interface CheckBoxCardProps { quit:HideFunction }
 interface CheckBoxCardCallerProps {
   items: string[],
   selectedIndex: number,
-  action: ( selected:string ) => void
+  action: ( index:number ) => void
 }
 
 function CheckBoxCard( props:CheckBoxCardProps, callerProps:CheckBoxCardCallerProps, id:number ): ReactElement {
@@ -63,7 +63,10 @@ function CheckBoxCard( props:CheckBoxCardProps, callerProps:CheckBoxCardCallerPr
       quit={ quit }
       hiding={ hiding }
       action={
-        () => action( selected )
+        () => {
+          const index: number = items.indexOf( selected )
+          action( index )
+        }
       }>
       <CheckBoxItemList items={ items } selected={ selected } setSelected={ setSelected } />
     </Card>

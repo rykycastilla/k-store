@@ -21,10 +21,13 @@ interface LangCodeState {
 
 const LanguageContext = createContext( {} as LangCodeState )
 
-interface LanguageProviderProps { children:ReactElement }
+interface LanguageProviderProps {
+  children:ReactElement,
+  defaultLanguage?: Languages,
+}
 
 function LanguageProvider( props:LanguageProviderProps ): ReactElement {
-  const { children } = props
+  const { children, defaultLanguage } = props
   const [ langCode, setLangCode ] = useState( Languages.EN )
   const data: LangCodeState = {
     langCode,
@@ -33,17 +36,20 @@ function LanguageProvider( props:LanguageProviderProps ): ReactElement {
   NativeModules.I18nManager.localeIdentifier
   const [ { languageCode:deviceLanguage } ] = useLocales()
   useEffect( () => {
-    switch( deviceLanguage ) {
-      case 'en':
-        setLangCode( Languages.EN )
-        break
-      case 'es':
-        setLangCode( Languages.ES )
-        break
-      default:
-        setLangCode( Languages.EN )
+    if( defaultLanguage ) { setLangCode( defaultLanguage ) }
+    else {
+      switch( deviceLanguage ) {
+        case 'en':
+          setLangCode( Languages.EN )
+          break
+        case 'es':
+          setLangCode( Languages.ES )
+          break
+        default:
+          setLangCode( Languages.EN )
     }
-  }, [ deviceLanguage ] )
+  }
+  }, [ deviceLanguage, defaultLanguage ] )
   return (
     <LanguageContext.Provider value={ data }>
       { children }
