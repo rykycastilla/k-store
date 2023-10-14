@@ -2,6 +2,7 @@ import AppContext, { AppContextData } from '../app_context'
 import ArticlesCard from '../src/components/ArticlesCard'
 import { backgroundColor } from '../src/styles.json'
 import BooleanCard from '../src/components/BooleanCard'
+import CheckBoxCard from '../src/components/CheckBoxCard'
 import inventory, { InventoryIndex } from '../src/interfaces/inventory'
 import InventoryCard from '../src/components/InventoryCard'
 import { LanguageProvider } from '../src/hooks/language'
@@ -21,6 +22,7 @@ function AppContent(): ReactElement {
     SwitchableInventoryCard,
     SwitchableArticlesCard,
     SwitchableRegistryTable,
+    SwitchableCheckBoxCard,
   } = useContext( AppContext )
   const SwitchableLoginView = useSwitch( LoginView, 400 )
   useEffect( () => {
@@ -40,6 +42,7 @@ function AppContent(): ReactElement {
       <SwitchableBooleanCard.Component quit={ SwitchableBooleanCard.hide } />
       <SwitchableLoginView.Component quit={ SwitchableLoginView.hide } />
       <SwitchableRegistryTable.Component quit={ SwitchableRegistryTable.hide } />
+      <SwitchableCheckBoxCard.Component quit={ SwitchableCheckBoxCard.hide } />
       <ViewSelector />
     </>
   )
@@ -50,6 +53,7 @@ function App(): ReactElement {
   const SwitchableInventoryCard = useSwitch( InventoryCard, 400 )
   const SwitchableArticlesCard = useSwitch( ArticlesCard, 400 )
   const SwitchableRegistryTable = useSwitch( RegistryTable, 400 )
+  const SwitchableCheckBoxCard = useSwitch( CheckBoxCard, 400 )
   const [ inventoryData, setInventoryData ] = useState( {} as InventoryIndex )
   useEffect( () => {
     inventory.use( setInventoryData )
@@ -59,6 +63,7 @@ function App(): ReactElement {
     SwitchableInventoryCard,
     SwitchableArticlesCard,
     SwitchableRegistryTable,
+    SwitchableCheckBoxCard,
     inventoryData,
   }
   return (

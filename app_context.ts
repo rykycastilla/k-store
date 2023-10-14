@@ -1,5 +1,6 @@
 import { ArticlesCardCallerProps, ArticlesCardProps } from './src/components/ArticlesCard'
 import { BooleanCardProps, BooleanCardCallerProps } from './src/components/BooleanCard'
+import { CheckBoxCardCallerProps, CheckBoxCardProps } from './src/components/CheckBoxCard'
 import { createContext } from 'react'
 import { InventoryCardCallerProps, InventoryCardProps } from './src/components/InventoryCard'
 import { InventoryIndex } from './src/interfaces/inventory'
@@ -10,7 +11,8 @@ interface AppContextData {
   SwitchableBooleanCard: SwitchableComponent<BooleanCardProps,BooleanCardCallerProps>,
   SwitchableInventoryCard: SwitchableComponent<InventoryCardProps,InventoryCardCallerProps>,
   SwitchableArticlesCard: SwitchableComponent<ArticlesCardProps,ArticlesCardCallerProps|undefined>,
-  SwitchableRegistryTable: SwitchableComponent<RegistryTableProps,RegistryTableCallerProps>
+  SwitchableRegistryTable: SwitchableComponent<RegistryTableProps,RegistryTableCallerProps>,
+  SwitchableCheckBoxCard: SwitchableComponent<CheckBoxCardProps,CheckBoxCardCallerProps>,
   inventoryData: InventoryIndex,
 }
 
