@@ -45,7 +45,7 @@ interface ArticleItemProps {
 function ArticleItem( props:ArticleItemProps ): ReactElement {
   const { name, weight, price, id, top } = props
   const { SwitchableBooleanCard, SwitchableArticlesCard, unitsData } = useContext( AppContext )
-  const title: string = `    - ${ name } (${ weight }${ unitsData.mass }, ${ price }$)`
+  const title: string = `    - ${ name } (${ weight }${ unitsData.mass }, ${ price }${ unitsData.currency })`
   const [ language ] = useLanguage()
   return (
     <NoteItem title={ title } top={ top }>

@@ -6,9 +6,20 @@ enum MassUnits {
   GRAM = 'g',
 }
 
-interface Units { mass:MassUnits }
+enum Currencies {
+  DOLLAR = '$',
+  EURO = '€',
+}
 
-const DEFAULT_DATA: Units = { mass: MassUnits.KILOGRAM }
+interface Units {
+  mass: MassUnits,
+  currency: Currencies,
+}
+
+const DEFAULT_DATA: Units = {
+  mass: MassUnits.KILOGRAM,
+  currency: Currencies.DOLLAR,
+}
 
 class Unit extends Storage<Units> {
   constructor() {
@@ -20,9 +31,15 @@ class Unit extends Storage<Units> {
     storage.mass = mass
     this.saveStorage()
   }
+  public setCurrency( currency:Currencies ) {
+    const { storage } = this
+    if( !storage ) { return }
+    storage.currency = currency
+    this.saveStorage()
+  }
 }
 
 const unit = new Unit()
 
 export default unit
-export { MassUnits, Units }
+export { Currencies, MassUnits, Units }

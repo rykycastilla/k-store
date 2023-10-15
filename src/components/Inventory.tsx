@@ -30,7 +30,7 @@ function ItemCard( props:ItemCardProps ): ReactElement {
       <>
       <Text style={ useViewport( styles.articleName ) }>{ article }</Text>
       <View style={ useViewport( styles.propertiesContainer ) }>
-        <Text style={ useViewport( styles.properties ) }>{ price }$</Text>
+        <Text style={ useViewport( styles.properties ) }>{ price }{ unitsData.currency }</Text>
         <Text style={ useViewport( styles.properties ) }>{ weight }{ unitsData.mass }</Text>
         <Text style={ useViewport( styles.amount ) }>{ amount }</Text>
       </View>
