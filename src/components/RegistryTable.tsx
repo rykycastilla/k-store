@@ -15,6 +15,9 @@ import useLanguage from '../hooks/language'
 import { useViewport } from 'react-native-viewport-provider'
 import ZoomView from './ZoomView'
 
+import AppContext from '../../app_context'
+import { useContext } from 'react'
+
 function animation( ref:Animated.Value, toValue:Opacity ) {
   Animated.timing( ref, {
     toValue: toValue,
@@ -62,6 +65,7 @@ interface TableArticlesProps {
 
 function TableArticles( props:TableArticlesProps ): ReactElement {
   const { content} = props
+  const { unitsData } = useContext( AppContext )
   let { initIndex, topIndex  } = props
   initIndex -= 1 ; topIndex -= 1
   const { articles } = content
@@ -69,7 +73,7 @@ function TableArticles( props:TableArticlesProps ): ReactElement {
   for( let _this = initIndex; _this < articles.length && _this <= topIndex ; _this++ ) {
     const article = articles[ _this ]
     const { name, init, input, output, end } = article
-    const weight = `${ article.weight }Kg`,
+    const weight = `${ article.weight }${ unitsData.mass }`,
       price = `${ article.price }$`
     const articleRow1 = <Cell key={ Math.random() }>{ _this + 1 }</Cell>,        
       articleRow2 = <Cell key={ Math.random() } size={ 3 }>{ name }</Cell>,

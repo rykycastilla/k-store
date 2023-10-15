@@ -60,7 +60,7 @@ function ArticlesCard( props:ArticlesCardProps, callerProps:ArticlesCardCallerPr
   }
   const { articleId, defaultName, defaultWeight, defaultPrice } = callerProps
   const hiding = useHiding( id )
-  const { SwitchableBooleanCard } = useContext( AppContext )
+  const { SwitchableBooleanCard, unitsData } = useContext( AppContext )
   const [ name, setName ] = useState( defaultName )
   const [ weight, setWeight ] = useState( defaultWeight )
   const [ price, setPrice ] = useState( defaultPrice )
@@ -78,7 +78,7 @@ function ArticlesCard( props:ArticlesCardProps, callerProps:ArticlesCardCallerPr
         }
       }>
       <CustomTextInput title={ language.name } defaultValue={ defaultName } setValue={ setName } />
-      <CustomTextInput title={ language.weight } defaultValue={ defaultWeight } unit="Kg" setValue={ setWeight } />
+      <CustomTextInput title={ language.weight } defaultValue={ defaultWeight } unit={ unitsData.mass } setValue={ setWeight } />
       <CustomTextInput title={ language.price } defaultValue={ defaultPrice } unit="$" setValue={ setPrice } />
     </Card>
   )

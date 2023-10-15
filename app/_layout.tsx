@@ -13,6 +13,7 @@ import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import RegistryTable from '../src/components/RegistryTable'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { setStatusBarBackgroundColor, setStatusBarStyle } from 'expo-status-bar'
+import units, { Units } from '../src/interfaces/units'
 import useBackButton from '../src/hooks/back_button'
 import useSwitch from 'react-component-switcher'
 import ViewportProvider from 'react-native-viewport-provider'
@@ -58,9 +59,11 @@ function App(): ReactElement {
   const SwitchableCheckBoxCard = useSwitch( CheckBoxCard, 400 )
   const [ inventoryData, setInventoryData ] = useState( {} as InventoryIndex )
   const [ [ defaultLanguage ], setDefaultLanguage ] = useState( [] as Languages[] )
+  const [ unitsData, setUnitsData ] = useState( {} as Units )
   useEffect( () => {
     inventory.use( setInventoryData )
     appLanguage.use( setDefaultLanguage )
+    units.use( setUnitsData )
   }, [] )
   const data: AppContextData = {
     SwitchableBooleanCard,
@@ -71,6 +74,7 @@ function App(): ReactElement {
     inventoryData,
     defaultLanguage,
     setDefaultLanguage,
+    unitsData,
   }
   
   return (

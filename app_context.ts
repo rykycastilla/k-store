@@ -8,6 +8,7 @@ import { Languages } from './src/hooks/language'
 import { RegistryTableCallerProps, RegistryTableProps } from './src/components/RegistryTable'
 import { StateSetter } from './src/types'
 import { SwitchableComponent } from 'react-component-switcher'
+import { Units } from './src/interfaces/units'
 
 interface AppContextData {
   SwitchableBooleanCard: SwitchableComponent<BooleanCardProps,BooleanCardCallerProps>,
@@ -17,7 +18,8 @@ interface AppContextData {
   SwitchableCheckBoxCard: SwitchableComponent<CheckBoxCardProps,CheckBoxCardCallerProps>,
   inventoryData: InventoryIndex,
   defaultLanguage: Languages,
-  setDefaultLanguage: StateSetter<Languages[]>
+  setDefaultLanguage: StateSetter<Languages[]>,
+  unitsData: Units,
 }
 
 const AppContext = createContext( {} as AppContextData )

@@ -16,7 +16,7 @@ interface ItemCardProps {
 
 function ItemCard( props:ItemCardProps ): ReactElement {
   const { article, price, weight, amount, id } = props
-  const { SwitchableInventoryCard } = useContext( AppContext ) 
+  const { SwitchableInventoryCard, unitsData } = useContext( AppContext ) 
   return (
     <TouchableOpacity
       style={ useViewport( styles.itemCard ) }
@@ -31,7 +31,7 @@ function ItemCard( props:ItemCardProps ): ReactElement {
       <Text style={ useViewport( styles.articleName ) }>{ article }</Text>
       <View style={ useViewport( styles.propertiesContainer ) }>
         <Text style={ useViewport( styles.properties ) }>{ price }$</Text>
-        <Text style={ useViewport( styles.properties ) }>{ weight }Kg</Text>
+        <Text style={ useViewport( styles.properties ) }>{ weight }{ unitsData.mass }</Text>
         <Text style={ useViewport( styles.amount ) }>{ amount }</Text>
       </View>
       </>
