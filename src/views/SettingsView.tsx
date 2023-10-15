@@ -20,7 +20,7 @@ function defaultAction( setOption:OptionSetter, setDefaultLanguage:DefaultLangua
   setDefaultLanguage( [] as Languages[] )
 }
 
-function selectAction( checkBoxCardCaller:CheckBoxCardCaller, option:Option, setOption:OptionSetter, setLanguage:LanguageSetter ) {
+function selectAction( checkBoxCardCaller:CheckBoxCardCaller, option:Option, setOption:OptionSetter, setLanguage:LanguageSetter, setDefaultLanguage:DefaultLanguageSetter ) {
   const languagesList: Languages[] = [ Languages.ES, Languages.EN ]
   const callerProps: CheckBoxCardCallerProps = {
     items: [ 'Español', 'Inglés' ],
@@ -31,6 +31,7 @@ function selectAction( checkBoxCardCaller:CheckBoxCardCaller, option:Option, set
       setOption( newOption )
       setLanguage( newOption )
       appLanguage.change( newOption )
+      setDefaultLanguage( [ 'avoid_default_setting' as Languages ] )
     }
   }
   checkBoxCardCaller( callerProps )
@@ -48,7 +49,7 @@ function LanguageSection(): ReactElement {
     },
     {
       title: language.select,
-      action() { selectAction( SwitchableCheckBoxCard.call, languageOption, setLanguageOption, setLanguage ) },
+      action() { selectAction( SwitchableCheckBoxCard.call, languageOption, setLanguageOption, setLanguage, setDefaultLanguage ) },
     },
   ]
   return (
