@@ -1,3 +1,5 @@
+import nameFixer from './name_fixer'
+import numFixer from './num_fixer'
 import TableData from '../classes/TableData'
 
 const tableStyle = `
@@ -5,7 +7,7 @@ const tableStyle = `
   --margin: 4.86vw;
   --cell-height: calc( ( 100vw - ( var( --margin ) * 2 ) ) / 16 );
   --cell-width: calc( 100% / 16 );
-  --font-size: calc( var( --cell-height ) / 2.5 );
+  --font-size: calc( var( --cell-height ) / 3.4 );
 }
 
 body {
@@ -47,13 +49,13 @@ const titleSection = `
 function articleRow( index:number, name:string, weight:number, price:number, init:number, input:number, output:number, end:number ): string {
   return `
 <div class="cell" style="--size:1">${ index }</div>
-<div class="cell" style="--size:3">${ name }</div>
-<div class="cell" style="--size:2">${ weight }Kg</div>
-<div class="cell" style="--size:2">${ price }$</div>
-<div class="cell" style="--size:2">${ init }</div>
-<div class="cell" style="--size:2">${ input }</div>
-<div class="cell" style="--size:2">${ output }</div>
-<div class="cell" style="--size:2">${ end }</div>
+<div class="cell" style="--size:3">${ nameFixer( name ) }</div>
+<div class="cell" style="--size:2">${ numFixer( weight, true ) }Kg</div>
+<div class="cell" style="--size:2">${ numFixer( price, true ) }$</div>
+<div class="cell" style="--size:2">${ numFixer( init ) }</div>
+<div class="cell" style="--size:2">${ numFixer( input ) }</div>
+<div class="cell" style="--size:2">${ numFixer( output ) }</div>
+<div class="cell" style="--size:2">${ numFixer( end ) }</div>
   `
 }
 
@@ -64,7 +66,7 @@ function tableFooter( totalInput:number, totalOutput:number, earns:number ): str
 <div class="cell" style="--size:4">Ingreso Bruto</div>
 <div class="cell" style="--size:6">${ totalInput }</div>
 <div class="cell" style="--size:6">${ totalOutput }</div>
-<div class="cell" style="--size:4">${ earns }$</div>
+<div class="cell" style="--size:4">${ numFixer( earns, true ) }$</div>
   `
 }
 

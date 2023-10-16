@@ -7,6 +7,7 @@ import deleteIcon from '../../assets/images/delete_icon.png'
 import { dockSize, fontSize, margin, textColor, textContainer } from '../styles.json'
 import editIcon from '../../assets/images/edit_icon.png'
 import inventory, { InventoryIndex } from '../interfaces/inventory'
+import nameFixer from '../scripts/name_fixer'
 import NoteItem from './NoteItem'
 import React, { ReactElement, useContext } from 'react'
 import { SBC } from '../types'
@@ -44,8 +45,8 @@ interface ArticleItemProps {
 
 function ArticleItem( props:ArticleItemProps ): ReactElement {
   const { name, weight, price, id, top } = props
-  const { SwitchableBooleanCard, SwitchableArticlesCard, unitsData } = useContext( AppContext )
-  const title: string = `    - ${ name } (${ weight }${ unitsData.mass }, ${ price }${ unitsData.currency })`
+  const { SwitchableBooleanCard, SwitchableArticlesCard } = useContext( AppContext )
+  const title: string = `    - ${ nameFixer( name ) }`
   const [ language ] = useLanguage()
   return (
     <NoteItem title={ title } top={ top }>

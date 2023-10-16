@@ -2,6 +2,8 @@ import { accentTextColor, dockSize, fontSize, margin, textContainer } from '../s
 import AppContext from '../../app_context'
 import { InventoryCardCallerProps } from './InventoryCard'
 import { InventoryIndex } from '../interfaces/inventory'
+import nameFixer from '../scripts/name_fixer'
+import numFixer from '../scripts/num_fixer'
 import React, { ReactElement, useContext } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useViewport } from 'react-native-viewport-provider'
@@ -28,11 +30,11 @@ function ItemCard( props:ItemCardProps ): ReactElement {
         }
       }>
       <>
-      <Text style={ useViewport( styles.articleName ) }>{ article }</Text>
+      <Text style={ useViewport( styles.articleName ) }>{ nameFixer( article ) }</Text>
       <View style={ useViewport( styles.propertiesContainer ) }>
-        <Text style={ useViewport( styles.properties ) }>{ price }{ unitsData.currency }</Text>
-        <Text style={ useViewport( styles.properties ) }>{ weight }{ unitsData.mass }</Text>
-        <Text style={ useViewport( styles.amount ) }>{ amount }</Text>
+        <Text style={ useViewport( styles.properties ) }>{ numFixer( price, true ) }{ unitsData.currency }</Text>
+        <Text style={ useViewport( styles.properties ) }>{ numFixer( weight, true ) }{ unitsData.mass }</Text>
+        <Text style={ useViewport( styles.amount ) }>{ numFixer( amount ) }</Text>
       </View>
       </>
     </TouchableOpacity>
@@ -74,7 +76,9 @@ function Inventory(): ReactElement {
 
 const VIEW_BODY_HEIGHT = `100vh - ( ${ margin } * 2 + ${ textContainer } + ${ dockSize } )`,
   CARD_COLOR = '#F0F0F0',
-  BORDER = 14
+  BORDER = 14,
+  FONT_SIZE = '0.7',
+  DATA_CONTAINER = '23.06vw'
 
 const styles = StyleSheet.create( {
   container: {
@@ -104,30 +108,31 @@ const styles = StyleSheet.create( {
   },
   propertiesContainer: {
     height: '8.66vw' as unknown as number,
-    width: '46.11vw' as unknown as number,
     fontSize: `${ fontSize } * 0.9` as unknown as number,
     fontWeight: '700',
     flexDirection: 'row',
     alignSelf: 'flex-end',
   },
   properties: {
-    width: '15.37vw' as unknown as number,
+    width: DATA_CONTAINER as unknown as number,
     height: '8.66vw' as unknown as number,
     color: '#416864',
-    fontSize: `${ fontSize } * 0.9` as unknown as number,
+    fontSize: `${ fontSize } * ${ FONT_SIZE }` as unknown as number,
     fontWeight: '700',
     textAlign: 'center',
+    verticalAlign: 'middle',
   },
   amount: {
-    width: '15.37vw' as unknown as number,
+    width: DATA_CONTAINER as unknown as number,
     height: '8.66vw' as unknown as number,
     borderTopLeftRadius: BORDER,
     borderBottomRightRadius: BORDER,
     backgroundColor: '#416864',
     color: CARD_COLOR,
-    fontSize: `${ fontSize } * 0.9` as unknown as number,
+    fontSize: `${ fontSize } * ${ FONT_SIZE }` as unknown as number,
     fontWeight: '700',
     textAlign: 'center',
+    verticalAlign: 'middle',
     alignSelf: 'flex-end',
   },
 } )

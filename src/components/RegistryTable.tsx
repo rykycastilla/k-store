@@ -4,7 +4,9 @@ import { backgroundColor, fontSize, margin, textContainer } from '../styles.json
 import { FunctionVoid, StateSetter } from '../types'
 import { HideFunction, useHiding } from 'react-component-switcher'
 import { InventoryIndex } from '../interfaces/inventory'
+import nameFixer from '../scripts/name_fixer'
 import nextIndex from '../../assets/images/next_index.png'
+import numFixer from '../scripts/num_fixer'
 import Opacity from '../interfaces/Opacity'
 import previousIndex from '../../assets/images/previous_index.png'
 import quitRegistry from '../../assets/images/quit_registry.png'
@@ -71,16 +73,16 @@ function TableArticles( props:TableArticlesProps ): ReactElement {
   for( let _this = initIndex; _this < articles.length && _this <= topIndex ; _this++ ) {
     const article = articles[ _this ]
     const { name, init, input, output, end } = article
-    const weight = `${ article.weight }${ unitsData.mass }`,
-      price = `${ article.price }${ unitsData.currency }`
+    const weight = `${ numFixer( article.weight, true ) }${ unitsData.mass }`,
+      price = `${ numFixer( article.price, true ) }${ unitsData.currency }`
     const articleRow1 = <Cell key={ Math.random() }>{ _this + 1 }</Cell>,        
-      articleRow2 = <Cell key={ Math.random() } size={ 3 }>{ name }</Cell>,
+      articleRow2 = <Cell key={ Math.random() } size={ 3 }>{ nameFixer( name ) }</Cell>,
       articleRow3 = <Cell key={ Math.random() } size={ 2 }>{ weight }</Cell>,
       articleRow4 = <Cell key={ Math.random() } size={ 2 }>{ price }</Cell>,
-      articleRow5 = <Cell key={ Math.random() } size={ 2 }>{ init }</Cell>,
-      articleRow6 = <Cell key={ Math.random() } size={ 2 }>{ input }</Cell>,
-      articleRow7 = <Cell key={ Math.random() } size={ 2 }>{ output }</Cell>,
-      articleRow8 = <Cell key={ Math.random() } size={ 2 }>{ end }</Cell>
+      articleRow5 = <Cell key={ Math.random() } size={ 2 }>{ numFixer( init ) }</Cell>,
+      articleRow6 = <Cell key={ Math.random() } size={ 2 }>{ numFixer( input ) }</Cell>,
+      articleRow7 = <Cell key={ Math.random() } size={ 2 }>{ numFixer( output ) }</Cell>,
+      articleRow8 = <Cell key={ Math.random() } size={ 2 }>{ numFixer( end ) }</Cell>
     cells.push( articleRow1, articleRow2, articleRow3, articleRow4, articleRow5, articleRow6, articleRow7, articleRow8 )
   }
   return <>{ cells }</>
@@ -95,7 +97,8 @@ interface TableProps {
 function Table( props:TableProps ): ReactElement {
   const { content, firstArticle, lastArticle } = props
   const { date, totalInput, totalOutput } = content
-  const earns = `${ content.earns }$`
+  const { unitsData } = useContext( AppContext )
+  const earns = `${ numFixer( content.earns, true ) }${ unitsData.currency }`
   const [ language ] = useLanguage()
   return (
     <View style={ useViewport( styles.table ) }>
@@ -278,10 +281,12 @@ const styles = StyleSheet.create( {
     borderColor: 'black',
   },
   cellText: {
+    height: '100%',
     color: 'black',
-    fontSize: `${ CELL_SIZE } / 2.5` as unknown as number,
+    fontSize: `${ CELL_SIZE } / 3.4` as unknown as number,
     fontWeight: '800',
     textAlign: 'center',
+    verticalAlign: 'middle',
   },
   indexButtonContainer: {
     width: '100%',
