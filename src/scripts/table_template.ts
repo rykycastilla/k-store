@@ -1,6 +1,8 @@
+import { Language } from '../hooks/language'
 import nameFixer from './name_fixer'
 import numFixer from './num_fixer'
 import TableData from '../classes/TableData'
+import { Units } from '../interfaces/units'
 
 const tableStyle = `
 :root {
@@ -28,30 +30,32 @@ body {
 }
 `
 
-function tableHeader( date:string ): string {
+function tableHeader( date:string, language:Language ): string {
   return `
-<div class="cell" style="--size:12">Resumen de Inventario</div>
+<div class="cell" style="--size:12">${ language.tableTitle }</div>
 <div class="cell" style="--size:4">${ date }</div>
   `
 }
 
-const titleSection = `
-<div class="cell" style="--size:1">No.</div>
-<div class="cell" style="--size:3">Artículo</div>
-<div class="cell" style="--size:2">Peso</div>
-<div class="cell" style="--size:2">Precio</div>
-<div class="cell" style="--size:2">Inicio</div>
-<div class="cell" style="--size:2">Entrada</div>
-<div class="cell" style="--size:2">Salida</div>
-<div class="cell" style="--size:2">Final</div>
-`
+function titleSection( language:Language ): string {
+  return `
+  <div class="cell" style="--size:1">${ language.num }</div>
+  <div class="cell" style="--size:3">${ language.article }</div>
+  <div class="cell" style="--size:2">${ language.weight }</div>
+  <div class="cell" style="--size:2">${ language.price }</div>
+  <div class="cell" style="--size:2">${ language.init }</div>
+  <div class="cell" style="--size:2">${ language.input }</div>
+  <div class="cell" style="--size:2">${ language.output }</div>
+  <div class="cell" style="--size:2">${ language.end }</div>
+  `
+}
 
-function articleRow( index:number, name:string, weight:number, price:number, init:number, input:number, output:number, end:number ): string {
+function articleRow( index:number, name:string, weight:number, price:number, init:number, input:number, output:number, end:number, unitsData:Units ): string {
   return `
 <div class="cell" style="--size:1">${ index }</div>
 <div class="cell" style="--size:3">${ nameFixer( name ) }</div>
-<div class="cell" style="--size:2">${ numFixer( weight, true ) }Kg</div>
-<div class="cell" style="--size:2">${ numFixer( price, true ) }$</div>
+<div class="cell" style="--size:2">${ numFixer( weight, true ) }${ unitsData.mass }</div>
+<div class="cell" style="--size:2">${ numFixer( price, true ) }${ unitsData.currency }</div>
 <div class="cell" style="--size:2">${ numFixer( init ) }</div>
 <div class="cell" style="--size:2">${ numFixer( input ) }</div>
 <div class="cell" style="--size:2">${ numFixer( output ) }</div>
@@ -59,23 +63,23 @@ function articleRow( index:number, name:string, weight:number, price:number, ini
   `
 }
 
-function tableFooter( totalInput:number, totalOutput:number, earns:number ): string {
+function tableFooter( totalInput:number, totalOutput:number, earns:number, language:Language, unitsData:Units ): string {
   return `
-<div class="cell" style="--size:6">Entrada Total</div>
-<div class="cell" style="--size:6">Salida Total</div>
-<div class="cell" style="--size:4">Ingreso Bruto</div>
+<div class="cell" style="--size:6">${ language.totalInput }</div>
+<div class="cell" style="--size:6">${ language.totalOutput }</div>
+<div class="cell" style="--size:4">${ language.earns }</div>
 <div class="cell" style="--size:6">${ totalInput }</div>
 <div class="cell" style="--size:6">${ totalOutput }</div>
-<div class="cell" style="--size:4">${ numFixer( earns, true ) }$</div>
+<div class="cell" style="--size:4">${ numFixer( earns, true ) }${ unitsData.currency }</div>
   `
 }
 
-function tableTemplate( table:TableData ): string {
+function tableTemplate( table:TableData, language:Language, unitsData:Units ): string {
   const { date, totalInput, totalOutput, earns, articles } = table
   const articlesContent: string[] = []
   for( let _this = 0; _this < articles.length; _this++ ) {
     const { name, weight, price, init, input, output, end } = articles[ _this ]
-    const newRow: string = articleRow( _this + 1, name, weight, price, init, input, output, end )
+    const newRow: string = articleRow( _this + 1, name, weight, price, init, input, output, end, unitsData )
     articlesContent.push( newRow )
   }
   return `
@@ -86,10 +90,10 @@ function tableTemplate( table:TableData ): string {
     <style>${ tableStyle }</style>
   </head>
   <body>
-    ${ tableHeader( date ) }
-    ${ titleSection }
+    ${ tableHeader( date, language ) }
+    ${ titleSection( language ) }
     ${ articlesContent.join( '\n' ) }
-    ${ tableFooter( totalInput, totalOutput, earns ) }
+    ${ tableFooter( totalInput, totalOutput, earns, language, unitsData ) }
   </body>
 </html>
   `

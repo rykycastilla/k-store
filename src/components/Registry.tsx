@@ -13,7 +13,7 @@ import shareIcon from '../../assets/images/share_icon.png'
 import { SwitchableComponent } from 'react-component-switcher'
 import TableData from '../classes/TableData'
 import tableTemplate from '../scripts/table_template'
-import useLanguage from '../hooks/language'
+import useLanguage, { Language } from '../hooks/language'
 import { useViewport } from 'react-native-viewport-provider'
 import useWeekDay from '../hooks/week_day'
 
@@ -32,6 +32,8 @@ interface RegistryItemProps {
 
 function RegistryItem( props:RegistryItemProps ): ReactElement {
   const { date, inventoryData, SwitchableRegistryTable } = props
+  const { unitsData } = useContext( AppContext )
+  const [ language ] = useLanguage()
   const weekDay: string = useWeekDay( date )
   const title = `   - ${ weekDay }`
   return (
@@ -48,7 +50,7 @@ function RegistryItem( props:RegistryItemProps ): ReactElement {
           action={
             () => {
               const table = new TableData( date, inventoryData )
-              const htmlContent: string = tableTemplate( table )
+              const htmlContent: string = tableTemplate( table, language, unitsData )
               shareDoc( htmlContent )
             }
           } />
