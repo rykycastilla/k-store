@@ -107,7 +107,7 @@ function InventoryCard( props:InventoryCardProps, callerProps:InventoryCardCalle
       }>
       <ActionPicker actionValue={ actionValue } setActionValue={ setActionValue } />
       <ArticlePicker value={ articleValue } setValue={ setArticleValue } />
-      <CustomTextInput title={ language.amount } setValue={ setAmountValue }  />
+      <CustomTextInput title={ language.amount } setValue={ setAmountValue } numeric />
     </Card>
   )
 }

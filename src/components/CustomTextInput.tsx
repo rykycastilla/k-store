@@ -10,10 +10,11 @@ interface TextInputCardProps {
   defaultValue?: string,
   setValue: StateSetter<string>,
   unit?: string,
+  numeric?: boolean,
 }
 
 function CustomTextInput( props:TextInputCardProps ): ReactElement {
-  const { title, defaultValue, setValue, unit } = props
+  const { title, defaultValue, setValue, unit, numeric } = props
   return (
     <View style={ styles.container }>
       <Text style={ useViewport( styles.title ) }>{ title }</Text>
@@ -21,6 +22,7 @@ function CustomTextInput( props:TextInputCardProps ): ReactElement {
         <TextInput
           onChangeText={ ( value:string ) => setValue( value ) }
           defaultValue={ defaultValue }
+          inputMode={ numeric ? 'numeric' : undefined }
           style={ useViewport( styles.input ) } />
           <Text style={ useViewport( styles.unit ) }>{ unit }</Text>
       </InputContainer>

@@ -78,8 +78,8 @@ function ArticlesCard( props:ArticlesCardProps, callerProps:ArticlesCardCallerPr
         }
       }>
       <CustomTextInput title={ language.name } defaultValue={ defaultName } setValue={ setName } />
-      <CustomTextInput title={ language.weight } defaultValue={ defaultWeight } unit={ unitsData.mass } setValue={ setWeight } />
-      <CustomTextInput title={ language.price } defaultValue={ defaultPrice } unit={ unitsData.currency } setValue={ setPrice } />
+      <CustomTextInput title={ language.weight } defaultValue={ defaultWeight } unit={ unitsData.mass } setValue={ setWeight } numeric />
+      <CustomTextInput title={ language.price } defaultValue={ defaultPrice } unit={ unitsData.currency } setValue={ setPrice } numeric />
     </Card>
   )
 }
