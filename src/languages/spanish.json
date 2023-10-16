@@ -54,5 +54,14 @@
   "settings": "Ajustes",
   "language": "Idioma",
   "default": "Predeterminado",
-  "select": "Seleccionar"
+  "select": "Seleccionar",
+  "units": "Unidades",
+  "gram": "Gramo",
+  "kilogram": "Kilogramo",
+  "pound": "Libra",
+  "mass": "Masa",
+  "currency": "Moneda",
+  "dollar": "Dolar",
+  "euro": "Euro",
+  "symbolDisclaimer": "Esta acción solo puede cambiar la simbología (no representa una conversión)"
 }

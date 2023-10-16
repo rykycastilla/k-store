@@ -5,13 +5,14 @@ import { FunctionVoid, SBC } from '../types'
 import React, { ReactElement, useContext } from 'react'
 import Section from './Section'
 import units, { Currencies, MassUnits } from '../interfaces/units'
+import useLanguage, { Language } from '../hooks/language'
 
 type CheckBoxCardCaller = ( callerProps:CheckBoxCardCallerProps ) => void
 
-function symbolDisclaimer( SwitchableBooleanCard:SBC, avoidAction:boolean, callback:FunctionVoid ) {
+function symbolDisclaimer( SwitchableBooleanCard:SBC, language:Language, avoidAction:boolean, callback:FunctionVoid ) {
   if( avoidAction ) { return }  // Avoiding execution in special cases
   const booleanCallerProps: BooleanCardCallerProps = {
-    text: 'This action only will change the symbol (it is not a unit conversion)',
+    text: language.symbolDisclaimer,
     action: callback,
   }
   // Waiting to hide the previous Card
@@ -20,15 +21,15 @@ function symbolDisclaimer( SwitchableBooleanCard:SBC, avoidAction:boolean, callb
   }, 500 )
 }
 
-function massAction( checkBoxCardCaller:CheckBoxCardCaller, mass:MassUnits, SwitchableBooleanCard:SBC ) {
+function massAction( checkBoxCardCaller:CheckBoxCardCaller, mass:MassUnits, SwitchableBooleanCard:SBC, language:Language ) {
   const massUnits: MassUnits[] = [ MassUnits.GRAM, MassUnits.KILOGRAM, MassUnits.POUND ]
   const checkBoxCallerProps: CheckBoxCardCallerProps = {
-    items: [ 'Gram', 'Kilogram', 'Pound' ],
+    items: [ language.gram, language.kilogram, language.pound ],
     selectedIndex: massUnits.indexOf( mass ),
     action( index:number ) {
       const newUnit: MassUnits = massUnits[ index ],
         avoidAction: boolean = mass === newUnit
-      symbolDisclaimer( SwitchableBooleanCard, avoidAction, () => {
+      symbolDisclaimer( SwitchableBooleanCard, language, avoidAction, () => {
         units.setMass( newUnit )
       } )
     }
@@ -36,15 +37,15 @@ function massAction( checkBoxCardCaller:CheckBoxCardCaller, mass:MassUnits, Swit
   checkBoxCardCaller( checkBoxCallerProps )
 }
 
-function currencyAction( checkBoxCardCaller:CheckBoxCardCaller, currency:Currencies, SwitchableBooleanCard:SBC ) {
+function currencyAction( checkBoxCardCaller:CheckBoxCardCaller, currency:Currencies, SwitchableBooleanCard:SBC, language:Language ) {
   const currencies: Currencies[] = [ Currencies.DOLLAR, Currencies.EURO ]
   const checkBoxCallerProps: CheckBoxCardCallerProps = {
-    items: [ 'Dollar', 'Euro' ],
+    items: [ language.dollar, language.euro ],
     selectedIndex: currencies.indexOf( currency ),
     action( index:number ) {
       const newCurrency: Currencies = currencies[ index ],
         avoidAction: boolean = currency === newCurrency
-      symbolDisclaimer( SwitchableBooleanCard, avoidAction, () => {
+      symbolDisclaimer( SwitchableBooleanCard, language, avoidAction, () => {
         units.setCurrency( newCurrency )
       } )
     }
@@ -54,17 +55,18 @@ function currencyAction( checkBoxCardCaller:CheckBoxCardCaller, currency:Currenc
 
 function UnitsSection(): ReactElement {
   const { SwitchableCheckBoxCard, unitsData, SwitchableBooleanCard } = useContext( AppContext )
+  const [ language ] = useLanguage()
   const items = [
     {
-      title: 'Mass',
-      action() { massAction( SwitchableCheckBoxCard.call, unitsData.mass, SwitchableBooleanCard ) }
+      title: language.mass,
+      action() { massAction( SwitchableCheckBoxCard.call, unitsData.mass, SwitchableBooleanCard, language ) }
     },
     {
-      title: 'Currency',
-      action() { currencyAction( SwitchableCheckBoxCard.call, unitsData.currency, SwitchableBooleanCard ) }
+      title: language.currency,
+      action() { currencyAction( SwitchableCheckBoxCard.call, unitsData.currency, SwitchableBooleanCard, language ) }
     },
   ]
-  return <Section name="Units" items={ items } />
+  return <Section name={ language.units } items={ items } />
 }
 
 export default UnitsSection

@@ -54,5 +54,14 @@
   "settings": "Settings",
   "language": "Language",
   "default": "Default",
-  "select": "Select"
+  "select": "Select",
+  "units": "Units",
+  "gram": "Gram",
+  "kilogram": "Kilogram",
+  "pound": "Pound",
+  "mass": "Mass",
+  "currency": "Currency",
+  "dollar": "Dollar",
+  "euro": "Euro",
+  "symbolDisclaimer": "This action only will change the symbol (it is not a unit conversion)"
 }

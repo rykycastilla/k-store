@@ -55,6 +55,15 @@ interface Language {
   language: string,
   default: string,
   select: string,
+  units: string,
+  gram: string,
+  kilogram: string,
+  pound: string,
+  mass: string,
+  currency: string,
+  dollar: string,
+  euro: string,
+  symbolDisclaimer: string, 
 }
 
 export default Language
