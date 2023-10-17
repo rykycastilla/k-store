@@ -16,9 +16,10 @@ class Inventory extends Storage<InventoryIndex> {
   }
   // Create a unique id
   private getId( storage:InventoryIndex ): string {
-    let articleId: string
+    let articleId = ''
     // Trying to get an id if it already exist
-    while( true ) {
+    const execute = true
+    while( execute ) {
       articleId = createToken( 7 )
       const exist = Boolean( storage[ articleId ] )
       if( !exist ) { break }

@@ -6,7 +6,7 @@ function nameFixer( name:string ): string {
   if( nameLength > MAX_LENGTH ) {
     const visiblePart: string = name.slice( 0, VISIBLE_CHARS ),
       fixedName = `${ visiblePart }...`
-      return fixedName
+    return fixedName
   }
   return name
 }

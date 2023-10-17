@@ -8,15 +8,15 @@ function Views(): ReactElement {
   const { view } = useLocalSearchParams()
   let currentView = <></>
   switch( view ) {
-    case 'articles':
-      currentView = <ArticlesView />
-      break
-    case 'registry':
-      currentView = <RegistryView />
-      break
-    case 'settings':
-      currentView = <SettingsView />
-      break
+  case 'articles':
+    currentView = <ArticlesView />
+    break
+  case 'registry':
+    currentView = <RegistryView />
+    break
+  case 'settings':
+    currentView = <SettingsView />
+    break
   }
   return currentView
 }

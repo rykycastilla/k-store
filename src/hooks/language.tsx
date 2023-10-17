@@ -39,16 +39,16 @@ function LanguageProvider( props:LanguageProviderProps ): ReactElement {
     if( defaultLanguage ) { setLangCode( defaultLanguage ) }
     else {
       switch( deviceLanguage ) {
-        case 'en':
-          setLangCode( Languages.EN )
-          break
-        case 'es':
-          setLangCode( Languages.ES )
-          break
-        default:
-          setLangCode( Languages.EN )
+      case 'en':
+        setLangCode( Languages.EN )
+        break
+      case 'es':
+        setLangCode( Languages.ES )
+        break
+      default:
+        setLangCode( Languages.EN )
+      }
     }
-  }
   }, [ deviceLanguage, defaultLanguage ] )
   return (
     <LanguageContext.Provider value={ data }>
@@ -61,12 +61,12 @@ function useLanguage(): [ Language, LanguageSetter ] {
   const { langCode, setLangCode } = useContext( LanguageContext )
   const language: Language = useMemo( () => {
     switch( langCode ) {
-      case Languages.EN:
-        return english
-      case Languages.ES:
-        return spanish
-      default:
-        return english
+    case Languages.EN:
+      return english
+    case Languages.ES:
+      return spanish
+    default:
+      return english
     }
   }, [ langCode ] )
   return [ language, setLangCode ]

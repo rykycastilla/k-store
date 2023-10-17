@@ -44,8 +44,8 @@ function BooleanCard( props:BooleanCardProps, callerProps:BooleanCardCallerProps
       quit={ quit }
       action={ alert ? () => {} : action as FunctionVoid }
       alert={ alert }>
-        <Text style={ useViewport( styles.text ) }>{ text }{ link ? '\n' : '' }</Text>
-        { link ? <Link text={ link.text } action={ link.action } /> : <></> }
+      <Text style={ useViewport( styles.text ) }>{ text }{ link ? '\n' : '' }</Text>
+      { link ? <Link text={ link.text } action={ link.action } /> : <></> }
     </Card>
   )
 }

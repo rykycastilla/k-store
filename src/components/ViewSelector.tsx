@@ -64,7 +64,7 @@ function NavButton( props:NavButtonProps ): ReactElement {
       ? Opacity.SHOW
       : Opacity.HIDE
     // Setting if "this button" must wait to exe its animation
-      const wait: number = active
+    const wait: number = active
       ? 100
       : 0
     setTimeout( () => {
@@ -131,10 +131,10 @@ function Dock( props:DockProps ): ReactElement {
         activeImage={ dockRegistryIconActive }
         callAnimatedWall={ callAnimatedWall }/>
       <NavButton
-      url="/settings"
-      image={ dockSettingsIcon }
-      activeImage={ dockSettingsIconActive }
-      callAnimatedWall={ callAnimatedWall } />
+        url="/settings"
+        image={ dockSettingsIcon }
+        activeImage={ dockSettingsIconActive }
+        callAnimatedWall={ callAnimatedWall } />
     </View>
   )
 }

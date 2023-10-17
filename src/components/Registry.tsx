@@ -13,7 +13,7 @@ import shareIcon from '../../assets/images/share_icon.png'
 import { SwitchableComponent } from 'react-component-switcher'
 import TableData from '../classes/TableData'
 import tableTemplate from '../scripts/table_template'
-import useLanguage, { Language } from '../hooks/language'
+import useLanguage from '../hooks/language'
 import { useViewport } from 'react-native-viewport-provider'
 import useWeekDay from '../hooks/week_day'
 
@@ -45,16 +45,16 @@ function RegistryItem( props:RegistryItemProps ): ReactElement {
           SwitchableRegistryTable.call( callerProps )
         }
       }>
-        <ArticleButton
-          image={ shareIcon }
-          action={
-            () => {
-              const table = new TableData( date, inventoryData )
-              const htmlContent: string = tableTemplate( table, language, unitsData )
-              shareDoc( htmlContent )
-            }
-          } />
-      </NoteItem>
+      <ArticleButton
+        image={ shareIcon }
+        action={
+          () => {
+            const table = new TableData( date, inventoryData )
+            const htmlContent: string = tableTemplate( table, language, unitsData )
+            shareDoc( htmlContent )
+          }
+        } />
+    </NoteItem>
   )
 }
 

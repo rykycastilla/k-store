@@ -36,7 +36,7 @@ function LoginView( props:LoginViewProps, callerProps:unknown, id:number ): Reac
         duration: 400,
         useNativeDriver: true,
       } ).start()
-  }
+    }
   }, [ hiding ] )
   const [ language ] = useLanguage()
   return (

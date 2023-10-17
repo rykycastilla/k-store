@@ -58,9 +58,9 @@ function NoteItem( props:NoteItemProps ): ReactElement {
         }
       }>
       <Text style={ useViewport( styles.title ) }>{ title }</Text>
-        <SwitchableButtonContainer.Component>
-          { children }
-        </SwitchableButtonContainer.Component>
+      <SwitchableButtonContainer.Component>
+        { children }
+      </SwitchableButtonContainer.Component>
     </Pressable>
   )
 }

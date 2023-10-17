@@ -27,7 +27,7 @@ function inventoryCardAction( action:string, article:string, amount:string, Bool
   if( invalidAmount || invalidArticle ) { BooleanCard.call( invalidAlert ) }  // Invalid
   else {  // Valid
     const operation: number = ( action === 'add' ) ? 1 : -1
-    let amountDiference = Number( amount )
+    const amountDiference = Number( amount )
     inventory.setAmount( operation, article, amountDiference, () => {
       BooleanCard.call( invalidOperation )
     } )

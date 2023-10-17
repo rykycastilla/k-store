@@ -24,7 +24,7 @@ function CustomTextInput( props:TextInputCardProps ): ReactElement {
           defaultValue={ defaultValue }
           inputMode={ numeric ? 'numeric' : undefined }
           style={ useViewport( styles.input ) } />
-          <Text style={ useViewport( styles.unit ) }>{ unit }</Text>
+        <Text style={ useViewport( styles.unit ) }>{ unit }</Text>
       </InputContainer>
     </View>
   )

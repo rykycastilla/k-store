@@ -225,10 +225,10 @@ function RegistryTable( props:RegistryTableProps, callerProps:RegistryTableCalle
   const topIndex = Math.ceil( articleRows / articlesAmount ),
     firstArticle: number = ( currentIndex - 1 ) * articlesAmount + 1,
     lastArticle: number = firstArticle + ( articlesAmount - 1 )
-    useBackButton( () => {
-      quit()
-    } )
-    return (
+  useBackButton( () => {
+    quit()
+  } )
+  return (
     <Animated.View style={ [ styles.container, { opacity: opacity } ] }>
       <QuitButton quit={ quit } />
       <ZoomView style={ useViewport( tableContainerStyle ) }>

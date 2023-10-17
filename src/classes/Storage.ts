@@ -10,12 +10,14 @@ class Storage<T> {
   constructor( key:string, defaultStructure:string ) {
     this.defaultStructure = defaultStructure
     this.storageKey = key
-    this.loadStorage = new Promise( async( resolve ) => {
-      let result = await AsyncStorage.getItem( this.storageKey )
-      if( !result ) { result = this.defaultStructure }
-        const resultInventory = JSON.parse( result ) as T
-        this.storage = resultInventory
-        resolve( resultInventory )
+    this.loadStorage = new Promise( ( resolve ) => {
+      AsyncStorage.getItem( this.storageKey )
+        .then( result => {
+          if( !result ) { result = this.defaultStructure }
+          const resultInventory = JSON.parse( result ) as T
+          this.storage = resultInventory
+          resolve( resultInventory )
+        } )
     } )
   }
   // Set the ReactSetter and the storage default value
