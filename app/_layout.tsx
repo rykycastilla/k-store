@@ -29,7 +29,7 @@ function AppContent(): ReactElement {
   } = useContext( AppContext )
   const SwitchableLoginView = useSwitch( LoginView, 400 )
   useEffect( () => {
-    SwitchableLoginView.call()
+    /* SwitchableLoginView.call() Unabled until online features */
     setTimeout( () => {
       setStatusBarStyle( 'dark' )
       setStatusBarBackgroundColor( backgroundColor, true )
