@@ -175,8 +175,8 @@ const styles = StyleSheet.create( {
     justifyContent: 'center',    
   },
   imageContainer: {
-    width: '6.65vw' as unknown as number,
-    height: '6.65vw' as unknown as number,
+    width: '7.65vw' as unknown as number,
+    height: '7.65vw' as unknown as number,
   },
   buttonImage: {
     width: '100%',
