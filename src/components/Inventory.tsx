@@ -65,12 +65,18 @@ function ItemCards( props:ItemCardsProps ): ReactElement {
   return <>{ itemlist }</>
 }
 
+// This Component have the purpose of show the bottom shadow of the last "ItemCard"
+function BottomMargin(): ReactElement {
+  return <View style={ useViewport( styles.bottomMargin ) } />
+}
+
 function Inventory(): ReactElement {
   const { inventoryData } = useContext( AppContext )
   return (
     <View style={ useViewport( styles.container ) }>
       <ScrollView>
         <ItemCards structure={ inventoryData } />
+        <BottomMargin />
       </ScrollView>
     </View>
   )
@@ -136,6 +142,10 @@ const styles = StyleSheet.create( {
     textAlign: 'center',
     verticalAlign: 'middle',
     alignSelf: 'flex-end',
+  },
+  bottomMargin: {
+    width: '100%',
+    height: margin as unknown as number,
   },
 } )
 
