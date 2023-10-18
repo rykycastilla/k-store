@@ -1,3 +1,4 @@
+import abcOrder from '../scripts/abc_order'
 import AppContext from '../../app_context'
 import ArticleButton from './ArticleButton'
 import { ArticlesCardCallerProps } from './ArticlesCard'
@@ -72,10 +73,11 @@ interface ArticleItemListProps { structure:InventoryIndex }
 
 function ArticleItemList( props:ArticleItemListProps ): ReactElement {
   const { structure } = props
-  const articles = Object.values( structure )
+  const articles = Object.values( structure ),
+    orderArticles = abcOrder( articles, 'name' )
   const itemList: ReactElement[] = []
   let first = true
-  for( const article of articles ) {
+  for( const article of orderArticles ) {
     // Building each article item
     const { name, weight, price, id } = article
     // "top" prop (top styling) is only true for the "first" time

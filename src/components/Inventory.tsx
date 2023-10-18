@@ -1,3 +1,4 @@
+import abcOrder from '../scripts/abc_order'
 import { accentTextColor, dockSize, fontSize, margin, textContainer } from '../styles.json'
 import AppContext from '../../app_context'
 import { InventoryCardCallerProps } from './InventoryCard'
@@ -47,9 +48,10 @@ interface ItemCardsProps { structure:InventoryIndex }
 
 function ItemCards( props:ItemCardsProps ): ReactElement {
   const { structure } = props
-  const articles = Object.values( structure )
+  const articles = Object.values( structure ),
+    orderArticles = abcOrder( articles, 'name' )
   const itemlist: ReactElement[] = []
-  for( const article of articles ) {
+  for( const article of orderArticles ) {
     // Building each inventory item
     const { name, price, weight, amount, id } = article
     const item =
