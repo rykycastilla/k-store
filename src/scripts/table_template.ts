@@ -4,6 +4,8 @@ import numFixer from './num_fixer'
 import TableData from '../classes/TableData'
 import { Units } from '../interfaces/units'
 
+const TOP_PAGE = 22
+
 const tableStyle = `
 :root {
   --margin: 4.86vw;
@@ -27,6 +29,11 @@ body {
   font-weight: 800;
   text-align: center;
   line-height: var( --cell-height );
+}
+
+.space {
+  width: calc( var( --cell-width ) * 16 );
+  height: var( --cell-height );
 }
 `
 
@@ -74,13 +81,18 @@ function tableFooter( totalInput:number, totalOutput:number, earns:number, langu
   `
 }
 
-function tableTemplate( table:TableData, language:Language, unitsData:Units ): string {
+function tableTemplate( table:TableData, language:Language, unitsData:Units, sheetContainer?:boolean ): string {
   const { date, totalInput, totalOutput, earns, articles } = table
   const articlesContent: string[] = []
   for( let _this = 0; _this < articles.length; _this++ ) {
     const { name, weight, price, init, input, output, end } = articles[ _this ]
     const newRow: string = articleRow( _this + 1, name, weight, price, init, input, output, end, unitsData )
     articlesContent.push( newRow )
+    // Using Sheet Divider
+    if( sheetContainer ) {
+      const lastPageItem: boolean = ( _this + 2 ) % ( TOP_PAGE - 1 ) === 0
+      if( lastPageItem ) { articlesContent.push( '<div class="space"></div>' ) }
+    }
   }
   return `
 <!DOCTYPE HTML>

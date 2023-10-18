@@ -50,7 +50,7 @@ function RegistryItem( props:RegistryItemProps ): ReactElement {
         action={
           () => {
             const table = new TableData( date, inventoryData )
-            const htmlContent: string = tableTemplate( table, language, unitsData )
+            const htmlContent: string = tableTemplate( table, language, unitsData, true )
             shareDoc( htmlContent )
           }
         } />
