@@ -1,7 +1,8 @@
 import { accentColor, margin } from '../styles.json'
+import AppContext from '../../app_context'
 import { CallSwitchable } from '../types'
 import { Image, ImageSourcePropType, StyleSheet, TouchableOpacity } from 'react-native'
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useContext } from 'react'
 import { useViewport } from 'react-native-viewport-provider'
 
 interface ModifyButtonProps {
@@ -11,11 +12,18 @@ interface ModifyButtonProps {
 
 function ModifyButton( props:ModifyButtonProps ): ReactElement {
   const { image, callSwitchable } = props
+  const { pressing, press } = useContext( AppContext )
   return (
     <TouchableOpacity
       activeOpacity={ 0.5 }
       style={ useViewport( styles.button ) }
-      onPress={ callSwitchable }>
+      onPress={
+        () => {
+          if( pressing ) { return }
+          press()
+          callSwitchable()
+        }
+      }>
       <Image source={ image } style={ useViewport( styles.buttonImage ) } />
     </TouchableOpacity>
   )

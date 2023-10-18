@@ -1,6 +1,7 @@
+import AppContext from '../../app_context'
 import { fontSize, margin, textColor } from '../styles.json'
 import { FunctionVoid } from '../types'
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useContext } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useViewport } from 'react-native-viewport-provider'
 
@@ -19,8 +20,17 @@ function SectionItem( props:SectionItemProps ): ReactElement {
       borderBottomColor: '#CACACA',
     }
     : {}
+  const { pressing, press } = useContext( AppContext )
   return (
-    <TouchableOpacity style={ [ useViewport( styles.item ), underlineStyle ] } onPress={ action }>
+    <TouchableOpacity
+      style={ [ useViewport( styles.item ), underlineStyle ] }
+      onPress={
+        () => {
+          if( pressing ) { return }
+          press()
+          action()
+        }
+      }>
       <Text style={ useViewport( styles.itemText ) }>{ title }</Text>
       { partner }
     </TouchableOpacity>

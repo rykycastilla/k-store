@@ -15,8 +15,18 @@ interface LogInButtonProps { action:FunctionVoid }
 function LogInButton( props:LogInButtonProps ): ReactElement {
   const { action } = props
   const [ language ] = useLanguage()
+  const { pressing, press } = useContext( AppContext )
   return (
-    <TouchableOpacity activeOpacity={ 0.5 } onPress={ action } style={ useViewport( styles.logInButton ) }>
+    <TouchableOpacity
+      activeOpacity={ 0.5 }
+      style={ useViewport( styles.logInButton ) }
+      onPress={
+        () => {
+          if( pressing ) { return }
+          press()
+          action()
+        }
+      }>
       <Text style={ useViewport( styles.buttonText ) }>{ language.continue }</Text>
     </TouchableOpacity>
   )

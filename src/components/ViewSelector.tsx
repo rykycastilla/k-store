@@ -1,4 +1,5 @@
 import { Animated, ImageSourcePropType, Pressable, StyleSheet, View } from 'react-native'
+import AppContext from '../../app_context'
 import { backgroundColor, dockSize } from '../styles.json'
 import { CallSwitchable } from '../types'
 import dockArticlesIcon from '../../assets/images/dock_articles_icon.png'
@@ -8,7 +9,7 @@ import dockHomeIconActive from '../../assets/images/dock_home_icon_active.png'
 import dockRegistryIcon from '../../assets/images/dock_registry_icon.png'
 import dockRegistryIconActive from '../../assets/images/dock_registry_icon_active.png'
 import Opacity from '../interfaces/Opacity'
-import React, { ReactElement, useEffect, useRef, useState } from 'react'
+import React, { ReactElement, useContext, useEffect, useRef, useState } from 'react'
 import { router, Slot, usePathname } from 'expo-router'
 import useSwitch, { HideFunction, useHiding } from 'react-component-switcher'
 import { useViewport } from 'react-native-viewport-provider'
@@ -45,6 +46,7 @@ interface NavButtonProps {
 
 function NavButton( props:NavButtonProps ): ReactElement {
   const { url, image, activeImage, callAnimatedWall } = props
+  const { pressing, press } = useContext( AppContext )
   const path = usePathname()
   // Identify the state of the button
   const [ active, setActive ] = useState( path === url )
@@ -88,6 +90,8 @@ function NavButton( props:NavButtonProps ): ReactElement {
       style={ styles.navButton }
       onPress={
         () => {
+          if( pressing ) { return }
+          press()
           // Avoiding redirecting to the active view
           if( active ) { return }
           // Starting Animated Wall (for 160 mls)

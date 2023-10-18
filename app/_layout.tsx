@@ -57,6 +57,13 @@ function App(): ReactElement {
   const SwitchableArticlesCard = useSwitch( ArticlesCard, 400 )
   const SwitchableRegistryTable = useSwitch( RegistryTable, 400 )
   const SwitchableCheckBoxCard = useSwitch( CheckBoxCard, 400 )
+  const [ pressing, setPressing ] = useState( false )
+  const press = () => {
+    setPressing( true )
+    setTimeout( () => {
+      setPressing( false )
+    }, 500 )
+  }
   const [ inventoryData, setInventoryData ] = useState( {} as InventoryIndex )
   const [ [ defaultLanguage ], setDefaultLanguage ] = useState( [] as Languages[] )
   const [ unitsData, setUnitsData ] = useState( {} as Units )
@@ -75,6 +82,8 @@ function App(): ReactElement {
     defaultLanguage,
     setDefaultLanguage,
     unitsData,
+    pressing,
+    press,
   }
   
   return (

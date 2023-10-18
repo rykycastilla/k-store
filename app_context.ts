@@ -6,7 +6,7 @@ import { InventoryCardCallerProps, InventoryCardProps } from './src/components/I
 import { InventoryIndex } from './src/interfaces/inventory'
 import { Languages } from './src/hooks/language'
 import { RegistryTableCallerProps, RegistryTableProps } from './src/components/RegistryTable'
-import { StateSetter } from './src/types'
+import { FunctionVoid, StateSetter } from './src/types'
 import { SwitchableComponent } from 'react-component-switcher'
 import { Units } from './src/interfaces/units'
 
@@ -20,6 +20,8 @@ interface AppContextData {
   defaultLanguage: Languages,
   setDefaultLanguage: StateSetter<Languages[]>,
   unitsData: Units,
+  pressing: boolean,
+  press: FunctionVoid,
 }
 
 const AppContext = createContext( {} as AppContextData )

@@ -18,12 +18,14 @@ interface ItemCardProps {
 
 function ItemCard( props:ItemCardProps ): ReactElement {
   const { article, price, weight, amount, id } = props
-  const { SwitchableInventoryCard, unitsData } = useContext( AppContext ) 
+  const { SwitchableInventoryCard, unitsData, pressing, press } = useContext( AppContext ) 
   return (
     <TouchableOpacity
       style={ useViewport( styles.itemCard ) }
       onPress={
         () => {
+          if( pressing ) { return }
+          press()
           // Calling the inventory card with the current item selected
           const callerProps: InventoryCardCallerProps = { defaultArticle: id }
           SwitchableInventoryCard.call( callerProps ) 
