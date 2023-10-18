@@ -1,3 +1,4 @@
+import abcOrder from '../scripts/abc_order'
 import { InventoryIndex } from '../interfaces/inventory'
 
 interface ArticleInfo {
@@ -37,6 +38,7 @@ class TableData {
       this.totalOutput += output
       this.earns += output * price
     }
+    this.articles = abcOrder( this.articles, 'name' )
   }
 }
 

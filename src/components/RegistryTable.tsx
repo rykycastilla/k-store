@@ -1,22 +1,18 @@
-import { Animated, Image, ImageSourcePropType, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Animated, Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import AppContext from '../../app_context'
-import { backgroundColor, fontSize, margin, textContainer } from '../styles.json'
-import { FunctionVoid, StateSetter } from '../types'
+import { backgroundColor, margin } from '../styles.json'
 import { HideFunction, useHiding } from 'react-component-switcher'
 import { InventoryIndex } from '../interfaces/inventory'
-import nameFixer from '../scripts/name_fixer'
-import nextIndex from '../../assets/images/next_index.png'
-import numFixer from '../scripts/num_fixer'
 import Opacity from '../interfaces/Opacity'
-import previousIndex from '../../assets/images/previous_index.png'
 import quitRegistry from '../../assets/images/quit_registry.png'
-import React, { ReactElement, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import React, { ReactElement, useContext, useEffect, useMemo, useRef } from 'react'
 import { setStatusBarBackgroundColor, setStatusBarStyle } from 'expo-status-bar'
 import TableData from '../classes/TableData'
+import tableTemplate from '../scripts/table_template'
 import useBackButton from '../hooks/back_button'
 import useLanguage from '../hooks/language'
 import { useViewport } from 'react-native-viewport-provider'
-import ZoomView from './ZoomView'
+import { WebView } from 'react-native-webview'
 
 function animation( ref:Animated.Value, toValue:Opacity ) {
   Animated.timing( ref, {
@@ -37,144 +33,13 @@ function QuitButton( props:QuitButtonProps ): ReactElement {
   )
 }
 
-interface CellStyle { height:number }
-
-interface CellProps {
-  children?: string | number,
-  size?: number,
-}
-
-function Cell( props:CellProps ): ReactElement {
-  const { children } = props
-  let { size } = props
-  if( !size ) { size = 1 }
-  const cellStyle = useViewport( styles.cell ) as CellStyle
-  const width: number = cellStyle.height * size
-  return (
-    <View style={ [ cellStyle, { width: width } ] }>
-      <Text style={ useViewport( styles.cellText ) }>{ children }</Text>
-    </View>
-  )
-}
-
-interface TableArticlesProps {
-  content: TableData,
-  initIndex: number,
-  topIndex: number,
-}
-
-function TableArticles( props:TableArticlesProps ): ReactElement {
-  const { content} = props
-  const { unitsData } = useContext( AppContext )
-  let { initIndex, topIndex  } = props
-  initIndex -= 1 ; topIndex -= 1
-  const { articles } = content
-  const cells: ReactElement[] = []
-  for( let _this = initIndex; _this < articles.length && _this <= topIndex ; _this++ ) {
-    const article = articles[ _this ]
-    const { name, init, input, output, end } = article
-    const weight = `${ numFixer( article.weight, true ) }${ unitsData.mass }`,
-      price = `${ numFixer( article.price, true ) }${ unitsData.currency }`
-    const articleRow1 = <Cell key={ Math.random() }>{ _this + 1 }</Cell>,        
-      articleRow2 = <Cell key={ Math.random() } size={ 3 }>{ nameFixer( name ) }</Cell>,
-      articleRow3 = <Cell key={ Math.random() } size={ 2 }>{ weight }</Cell>,
-      articleRow4 = <Cell key={ Math.random() } size={ 2 }>{ price }</Cell>,
-      articleRow5 = <Cell key={ Math.random() } size={ 2 }>{ numFixer( init ) }</Cell>,
-      articleRow6 = <Cell key={ Math.random() } size={ 2 }>{ numFixer( input ) }</Cell>,
-      articleRow7 = <Cell key={ Math.random() } size={ 2 }>{ numFixer( output ) }</Cell>,
-      articleRow8 = <Cell key={ Math.random() } size={ 2 }>{ numFixer( end ) }</Cell>
-    cells.push( articleRow1, articleRow2, articleRow3, articleRow4, articleRow5, articleRow6, articleRow7, articleRow8 )
-  }
-  return <>{ cells }</>
-}
-
-interface TableProps {
-  content: TableData,
-  firstArticle: number,
-  lastArticle: number,
-}
+interface TableProps { content:string }
 
 function Table( props:TableProps ): ReactElement {
-  const { content, firstArticle, lastArticle } = props
-  const { date, totalInput, totalOutput } = content
-  const { unitsData } = useContext( AppContext )
-  const earns = `${ numFixer( content.earns, true ) }${ unitsData.currency }`
-  const [ language ] = useLanguage()
+  const { content } = props
   return (
     <View style={ useViewport( styles.table ) }>
-      <Cell size={ 12 }>{ language.tableTitle }</Cell>
-      <Cell size={ 4 }>{ date }</Cell>
-      <Cell>{ language.num }</Cell>
-      <Cell size={ 3 }>{ language.article }</Cell>
-      <Cell size={ 2 }>{ language.weight }</Cell>
-      <Cell size={ 2 }>{ language.price }</Cell>
-      <Cell size={ 2 }>{ language.init }</Cell>
-      <Cell size={ 2 }>{ language.input }</Cell>
-      <Cell size={ 2 }>{ language.output }</Cell>
-      <Cell size={ 2 }>{ language.end }</Cell>
-      <TableArticles content={ content } initIndex={ firstArticle } topIndex={ lastArticle } />
-      <Cell size={ 6 }>{ language.totalInput }</Cell>
-      <Cell size={ 6 }>{ language.totalOutput }</Cell>
-      <Cell size={ 4 }>{ language.earns }</Cell>
-      <Cell size={ 6 }>{ totalInput }</Cell>
-      <Cell size={ 6 }>{ totalOutput }</Cell>
-      <Cell size={ 4 }>{ earns }</Cell>
-    </View>
-  )
-}
-
-interface IndexButtonProps {
-  image:ImageSourcePropType,
-  index: number,
-  setIndex: StateSetter<number>
-  indexChange: number,
-  topIndex?: number,
-}
-
-function IndexButton( props:IndexButtonProps ): ReactElement {
-  const { image, index, setIndex, indexChange, topIndex } = props
-  const top: number = !topIndex ? Infinity : topIndex
-  const newIndex: number = index + indexChange
-  // Verifying if is possible an index change
-  let allowAction: boolean
-  if( indexChange < 0 ) { allowAction = newIndex > 0 }
-  else { allowAction = newIndex <= top }
-  // Only executing index change if it is possible (and setting styles)
-  const action: FunctionVoid = allowAction
-    ? () => setIndex( newIndex )
-    : () => {}
-  const opacity: object = allowAction
-    ? {}
-    : { opacity: 0.5 }
-  return (
-    <Pressable style={ [ useViewport( styles.indexButton ), opacity ] } onPress={ action }>
-      <Image source={ image } style={ styles.indexButtonImage } />
-    </Pressable>
-  )
-}
-
-interface IndexButtonDockProps {
-  currentIndex: number,
-  setCurrentIndex: StateSetter<number>,
-  topIndex: number
-}
-
-function IndexButtonDock( props:IndexButtonDockProps ): ReactElement {
-  const { currentIndex, setCurrentIndex, topIndex } = props
-  return (
-    <View style={ useViewport( styles.indexButtonContainer ) }>
-      <IndexButton
-        image={ previousIndex }
-        index={ currentIndex }
-        setIndex={ setCurrentIndex }
-        indexChange={ -1 } />
-      <Text style={ useViewport( styles.indexPage ) }>{ currentIndex }</Text>
-      <IndexButton
-        image={ nextIndex }
-        index={ currentIndex }
-        setIndex={ setCurrentIndex }
-        indexChange={ 1 }
-        topIndex={ topIndex } />
+      <WebView source={ { html: content } } />
     </View>
   )
 }
@@ -189,10 +54,8 @@ interface RegistryTableCallerProps {
 function RegistryTable( props:RegistryTableProps, callerProps:RegistryTableCallerProps, id:number ): ReactElement {
   const { quit } = props
   const { date, inventoryData } = callerProps
-  // Building table data structure
-  const table: TableData = useMemo( () => {
-    return new TableData( date, inventoryData )
-  }, [] )
+  const [ language ] = useLanguage()
+  const { unitsData } = useContext( AppContext )
   const hiding = useHiding( id )
   const opacity = useRef( new Animated.Value( 0 ) ).current
   // Setting status bar color and animation
@@ -209,41 +72,23 @@ function RegistryTable( props:RegistryTableProps, callerProps:RegistryTableCalle
       setStatusBarStyle( 'light' )
     }
   }, [ hiding ] )
-  const articleRows: number = table.articles.length,
-    rowsAmount: number = articleRows + 4
-  // Rendering rows
-  const { width, height } = useViewport( { width: '100vw', height: '100vh' } ) as { width:number, height:number }  // Would be use useDimensions instead
-  const articlesAmount: number = Math.floor( height / width * 7.4 )
-  const rowsToRender: number = Math.min( rowsAmount, articlesAmount + 4 )
-  const tableContainerStyle = {
-    width: '100%',
-    height: `${ CELL_SIZE } * ${ rowsToRender } + ${ margin } * 2`,
-    backgroundColor: 'white',
-  }
-  // Building index structure
-  const [ currentIndex, setCurrentIndex ] = useState( 1 )
-  const topIndex = Math.ceil( articleRows / articlesAmount ),
-    firstArticle: number = ( currentIndex - 1 ) * articlesAmount + 1,
-    lastArticle: number = firstArticle + ( articlesAmount - 1 )
+  // Building table data structure
+  const content: string = useMemo( () => {
+    const table = new TableData( date, inventoryData )
+    return tableTemplate( table, language, unitsData )
+  }, [] )
   useBackButton( () => {
     quit()
   } )
   return (
     <Animated.View style={ [ styles.container, { opacity: opacity } ] }>
       <QuitButton quit={ quit } />
-      <ZoomView style={ useViewport( tableContainerStyle ) }>
-        <Table content={ table } firstArticle={ firstArticle } lastArticle={ lastArticle } />
-      </ZoomView>
-      <IndexButtonDock
-        currentIndex={ currentIndex }
-        setCurrentIndex={ setCurrentIndex }
-        topIndex={ topIndex } />
+      <Table content={ content } />
     </Animated.View>
   )
 }
 
-const TABLE_SIZE = `( 100vw - ${ margin } * 2 )`,
-  CELL_SIZE = `${ TABLE_SIZE } / 16`
+const QUIT_BUTTON_SIZE = '7vw'
 
 const styles = StyleSheet.create( {
   container: {
@@ -258,8 +103,8 @@ const styles = StyleSheet.create( {
     zIndex: 2,
   },
   quitButton: {
-    width: '7vw' as unknown as number,
-    height: '7vw' as unknown as number,
+    width: QUIT_BUTTON_SIZE as unknown as number,
+    height: QUIT_BUTTON_SIZE as unknown as number,
     position: 'absolute',
     top: margin as unknown as number,
     left: margin as unknown as number,
@@ -269,49 +114,8 @@ const styles = StyleSheet.create( {
     height: '100%',
   },
   table: {
-    width: TABLE_SIZE as unknown as number,
-    height: 150,
-    margin: margin as unknown as number,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  cell: {
-    height: CELL_SIZE as unknown as number,
-    borderWidth: 1,
-    borderColor: 'black',
-  },
-  cellText: {
-    height: '100%',
-    color: 'black',
-    fontSize: `${ CELL_SIZE } / 3.4` as unknown as number,
-    fontWeight: '800',
-    textAlign: 'center',
-    verticalAlign: 'middle',
-  },
-  indexButtonContainer: {
     width: '100%',
-    height: '16.5vw' as unknown as number,
-    position: 'absolute',
-    left: 0,
-    bottom: 0,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  indexPage: {
-    marginLeft: `${ margin } * 2` as unknown as number,
-    marginRight: `${ margin } * 2` as unknown as number,
-    color: '#CACACA',
-    fontSize: fontSize as unknown as number,
-    textAlign: 'center',
-  },
-  indexButton: {
-    width: textContainer as unknown as number,
-    height: textContainer as unknown as number,
-  },
-  indexButtonImage: {
-    width: '100%',
-    height: '100%',
+    height: `100vh - ( ${ QUIT_BUTTON_SIZE } + ${ margin } * 2 ) * 2` as unknown as number,
   },
 } )
 
