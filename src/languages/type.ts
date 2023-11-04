@@ -1,4 +1,7 @@
+import { Languages } from '../hooks/language'
+
 interface Language {
+  CODE: Languages,
   welcome: string,
   signinInstructions: string,
   continue: string,
@@ -64,6 +67,8 @@ interface Language {
   dollar: string,
   euro: string,
   symbolDisclaimer: string, 
+  english: string,
+  spanish: string,
 }
 
 export default Language

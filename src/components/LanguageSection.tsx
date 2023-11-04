@@ -5,7 +5,7 @@ import { CheckBoxCardCallerProps } from './CheckBoxCard'
 import React, { ReactElement, useContext, useState } from 'react'
 import Section from './Section'
 import { StateSetter } from '../types'
-import useLanguage, { Languages } from '../hooks/language'
+import useLanguage, { Language, Languages } from '../hooks/language'
 
 type CheckBoxCardCaller = ( callerProps:CheckBoxCardCallerProps ) => void
 type Option = Languages | undefined
@@ -19,10 +19,10 @@ function defaultAction( setOption:OptionSetter, setDefaultLanguage:DefaultLangua
   setDefaultLanguage( [] as Languages[] )
 }
 
-function selectAction( checkBoxCardCaller:CheckBoxCardCaller, option:Option, setOption:OptionSetter, setLanguage:LanguageSetter, setDefaultLanguage:DefaultLanguageSetter ) {
+function selectAction( checkBoxCardCaller:CheckBoxCardCaller, option:Option, setOption:OptionSetter, setLanguage:LanguageSetter, setDefaultLanguage:DefaultLanguageSetter, language:Language ) {
   const languagesList: Languages[] = [ Languages.ES, Languages.EN ]
   const callerProps: CheckBoxCardCallerProps = {
-    items: [ 'Español', 'Inglés' ],
+    items: [ language.spanish, language.english ],
     selectedIndex: languagesList.indexOf( option as Languages ),
     action( index:number ) {
       if( index === -1 ) { return }
@@ -30,7 +30,7 @@ function selectAction( checkBoxCardCaller:CheckBoxCardCaller, option:Option, set
       setOption( newOption )
       setLanguage( newOption )
       appLanguage.change( newOption )
-      setDefaultLanguage( [ 'avoid_default_setting' as Languages ] )
+      setDefaultLanguage( [ 'avoid_default_setting' as Languages ] )  // probablemente el bug de idioma se encuentre aqui
     }
   }
   checkBoxCardCaller( callerProps )
@@ -48,7 +48,7 @@ function LanguageSection(): ReactElement {
     },
     {
       title: language.select,
-      action() { selectAction( SwitchableCheckBoxCard.call, languageOption, setLanguageOption, setLanguage, setDefaultLanguage ) },
+      action() { selectAction( SwitchableCheckBoxCard.call, languageOption, setLanguageOption, setLanguage, setDefaultLanguage, language ) },
     },
   ]
   return (

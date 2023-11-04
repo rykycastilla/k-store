@@ -1,4 +1,5 @@
  {
+  "CODE": "es",
   "welcome": "Bienvenido",
   "signinInstructions": "Para comenzar a utilizar nuestros servicios debe iniciar sesión con Google",
   "continue": "Continuar",
@@ -63,5 +64,7 @@
   "currency": "Moneda",
   "dollar": "Dolar",
   "euro": "Euro",
-  "symbolDisclaimer": "Esta acción solo puede cambiar la simbología (no representa una conversión)"
+  "symbolDisclaimer": "Esta acción solo puede cambiar la simbología (no representa una conversión)",
+  "english": "Inglés",
+  "spanish": "Español"
 }

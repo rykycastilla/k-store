@@ -1,11 +1,14 @@
 import { Animated, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import AppContext from '../../app_context'
 import AppView from './AppView'
+import { BACKEND_URL } from '../env'
 import { BooleanCardCallerProps, Link } from '../components/BooleanCard'
 import { fontSize, googleColor, margin, textColor, textContainer } from '../styles.json'
 import { FunctionVoid } from '../types'
 import { HideFunction, useHiding } from 'react-component-switcher'
 import icon from '../../assets/adaptive-icon.png'
+import launchPrivacyPolicy from '../scripts/launch_privacy_policy'
+import { openAuthSessionAsync } from 'expo-web-browser'
 import React, { ReactElement, useEffect, useContext, useRef } from 'react'
 import useLanguage from '../hooks/language'
 import { useViewport } from 'react-native-viewport-provider'
@@ -36,6 +39,7 @@ interface LoginViewProps { quit:HideFunction }
 
 function LoginView( props:LoginViewProps, callerProps:unknown, id:number ): ReactElement {
   const { quit } = props
+  quit // verificar si hace falta quitar mas adelante
   const { SwitchableBooleanCard } = useContext( AppContext )
   const opacity = useRef( new Animated.Value( 1 ) ).current
   const hiding = useHiding( id )
@@ -61,13 +65,13 @@ function LoginView( props:LoginViewProps, callerProps:unknown, id:number ): Reac
             () => {
               const link: Link = {
                 text: language.readMore,
-                action() { console.log( '<a></a>' ) }
+                action() { launchPrivacyPolicy( language.CODE ) }
               }
               const callerProps: BooleanCardCallerProps = {
                 text: language.loginDisclaimer,
                 link: link,
                 action() {
-                  setTimeout( quit, 400 )
+                  setTimeout( () => openAuthSessionAsync( `${ BACKEND_URL }login` ), 400 )
                 },
               }
               SwitchableBooleanCard.call( callerProps )
@@ -128,3 +132,4 @@ const styles = StyleSheet.create( {
 } )
 
 export default LoginView
+export { LoginViewProps }

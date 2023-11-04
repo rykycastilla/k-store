@@ -2,10 +2,9 @@ import AppContext from '../../app_context'
 import ArticleButton from './ArticleButton'
 import { dockSize, fontSize, margin, textColor, textContainer } from '../styles.json'
 import getMonth from '../scripts/get_month'
-import history, { DateList } from '../interfaces/history'
 import { InventoryIndex } from '../interfaces/inventory'
 import NoteItem from '../components/NoteItem'
-import React, { ReactElement, useContext, useEffect, useState } from 'react'
+import React, { ReactElement, useContext } from 'react'
 import { RegistryTableCallerProps, RegistryTableProps } from './RegistryTable'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import shareDoc from '../scripts/share_doc'
@@ -59,11 +58,7 @@ function RegistryItem( props:RegistryItemProps ): ReactElement {
 }
 
 function RegistryContent(): ReactElement {
-  const [ historyData, setHistoryData ] = useState( [] as DateList )
-  const { inventoryData, SwitchableRegistryTable } = useContext( AppContext )
-  useEffect( () => {
-    history.use( setHistoryData )
-  }, [] )
+  const { inventoryData, historyData, SwitchableRegistryTable } = useContext( AppContext )
   const items: ReactElement[] = [],
     today = new Date().toDateString()
   let currentTitle = ''
