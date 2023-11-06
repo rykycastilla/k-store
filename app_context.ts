@@ -7,20 +7,21 @@ import { InventoryCardCallerProps, InventoryCardProps } from './src/components/I
 import { InventoryIndex } from './src/interfaces/inventory'
 import { Languages } from './src/hooks/language'
 import { LoadingWallCallerProps, LoadingWallProps } from './src/components/LoadingWall'
-import { LoginViewProps } from './src/views/LoginView'
+import { ProfileViewCallerProps, ProfileViewProps } from './src/views/ProfileView'
 import { RegistryTableCallerProps, RegistryTableProps } from './src/components/RegistryTable'
 import { FunctionVoid, StateSetter } from './src/types'
 import { SwitchableComponent } from 'react-component-switcher'
 import { Units } from './src/interfaces/units'
 
 interface AppContextData {
-  SwitchableLoginView: SwitchableComponent<LoginViewProps,unknown>
+  SwitchableLoginView: SwitchableComponent<unknown,unknown>
   SwitchableBooleanCard: SwitchableComponent<BooleanCardProps,BooleanCardCallerProps>,
   SwitchableInventoryCard: SwitchableComponent<InventoryCardProps,InventoryCardCallerProps>,
   SwitchableArticlesCard: SwitchableComponent<ArticlesCardProps,ArticlesCardCallerProps|undefined>,
   SwitchableRegistryTable: SwitchableComponent<RegistryTableProps,RegistryTableCallerProps>,
   SwitchableCheckBoxCard: SwitchableComponent<CheckBoxCardProps,CheckBoxCardCallerProps>,
   SwitchableLoadingWall: SwitchableComponent<LoadingWallProps,LoadingWallCallerProps>
+  SwitchableProfileView: SwitchableComponent<ProfileViewProps,ProfileViewCallerProps>,
   inventoryData: InventoryIndex,
   historyData: DateList,
   defaultLanguage: Languages,

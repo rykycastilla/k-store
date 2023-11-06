@@ -4,19 +4,23 @@ import { StyleSheet, Text, View } from 'react-native'
 import { useViewport } from 'react-native-viewport-provider'
 
 interface ViewProps {
+  Back?: ReactElement | ReactElement[],
   title: string
   children?: ReactElement | ReactElement[]
   color?: boolean,
 }
 
 function AppView( props:ViewProps ): ReactElement {
-  const { title, children, color } = props
+  const { Back, title, children, color } = props
   const viewNameColor: object = {
     color: color ? accentColor : textColor,
   }
   return (
     <View style={ styles.viewContainer }>
-      <Text style={ [ useViewport( styles.viewName ), viewNameColor ] }>{ title }</Text>
+      <View style={ styles.viewHeader }>
+        { Back }
+        <Text style={ [ useViewport( styles.viewName ), viewNameColor ] }>{ title }</Text>
+      </View>
       <View style={ useViewport( styles.viewBody ) }>
         { children }
       </View>
@@ -24,12 +28,15 @@ function AppView( props:ViewProps ): ReactElement {
   )
 }
 
+const VIEW_BODY = `( 100vh - ( ${ margin } * 2 + ${ textContainer } ) )`
+
 const styles = StyleSheet.create( {
   viewContainer: {
     width: '100%',
     height: '100%',
     backgroundColor: backgroundColor,
   },
+  viewHeader: { flexDirection: 'row' },
   viewName: {
     marginTop: margin as unknown as number,
     marginLeft: margin as unknown as number,
@@ -39,9 +46,10 @@ const styles = StyleSheet.create( {
   },
   viewBody: {
     width: '100%',
-    height: `100vh - ( ${ margin } * 2 + ${ textContainer } )` as unknown as number,
+    height: VIEW_BODY as unknown as number,
     marginTop: margin as unknown as number,
   },
 } )
 
 export default AppView
+export { VIEW_BODY }

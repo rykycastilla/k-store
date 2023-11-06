@@ -16,10 +16,10 @@ class Session {
     } )
   }
 
-  private save() {
+  private async save() {
     const { key, current } = this
     const encodeData: string = JSON.stringify( current )
-    AsyncStorage.setItem( key, encodeData )
+    await AsyncStorage.setItem( key, encodeData )
   }
 
   public async use( newSession:string ) {
@@ -33,9 +33,9 @@ class Session {
     return this.current
   }
 
-  public forget() {
+  public async forget() {
     this.current = null
-    this.save()
+    await this.save()
   }
 
 }

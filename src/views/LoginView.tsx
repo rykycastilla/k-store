@@ -5,11 +5,11 @@ import { BACKEND_URL } from '../env'
 import { BooleanCardCallerProps, Link } from '../components/BooleanCard'
 import { fontSize, googleColor, margin, textColor, textContainer } from '../styles.json'
 import { FunctionVoid } from '../types'
-import { HideFunction, useHiding } from 'react-component-switcher'
 import icon from '../../assets/adaptive-icon.png'
 import launchPrivacyPolicy from '../scripts/launch_privacy_policy'
 import { openAuthSessionAsync } from 'expo-web-browser'
 import React, { ReactElement, useEffect, useContext, useRef } from 'react'
+import { useHiding } from 'react-component-switcher'
 import useLanguage from '../hooks/language'
 import { useViewport } from 'react-native-viewport-provider'
 
@@ -35,11 +35,7 @@ function LogInButton( props:LogInButtonProps ): ReactElement {
   )
 }
 
-interface LoginViewProps { quit:HideFunction }
-
-function LoginView( props:LoginViewProps, callerProps:unknown, id:number ): ReactElement {
-  const { quit } = props
-  quit // verificar si hace falta quitar mas adelante
+function LoginView( props:unknown, callerProps:unknown, id:number ): ReactElement {
   const { SwitchableBooleanCard } = useContext( AppContext )
   const opacity = useRef( new Animated.Value( 1 ) ).current
   const hiding = useHiding( id )
@@ -132,4 +128,3 @@ const styles = StyleSheet.create( {
 } )
 
 export default LoginView
-export { LoginViewProps }

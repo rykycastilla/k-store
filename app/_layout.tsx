@@ -12,6 +12,7 @@ import { LanguageProvider } from '../src/hooks/language'
 import { Languages } from '../src/hooks/language'
 import LoadingWall from '../src/components/LoadingWall'
 import LoginView from '../src/views/LoginView'
+import ProfileView from '../src/views/ProfileView'
 import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import RegistryTable from '../src/components/RegistryTable'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -34,7 +35,8 @@ function AppContent(): ReactElement {
     SwitchableRegistryTable,
     SwitchableCheckBoxCard,
     SwitchableLoginView,
-    SwitchableLoadingWall
+    SwitchableLoadingWall,
+    SwitchableProfileView,
   } = useContext( AppContext )
   useEffect( () => {
     // Using login if the session does not exists
@@ -58,10 +60,11 @@ function AppContent(): ReactElement {
       <SwitchableArticlesCard.Component quit={ SwitchableArticlesCard.hide } />
       <SwitchableInventoryCard.Component quit={ SwitchableInventoryCard.hide } />
       <SwitchableBooleanCard.Component quit={ SwitchableBooleanCard.hide } />
-      <SwitchableLoginView.Component quit={ SwitchableLoginView.hide } />
+      <SwitchableLoginView.Component />
       <SwitchableRegistryTable.Component quit={ SwitchableRegistryTable.hide } />
       <SwitchableCheckBoxCard.Component quit={ SwitchableCheckBoxCard.hide } />
       <SwitchableLoadingWall.Component quit={ SwitchableLoadingWall.hide } />
+      <SwitchableProfileView.Component quit={ SwitchableProfileView.hide } />
       <ViewSelector />
     </>
   )
@@ -75,6 +78,7 @@ function App(): ReactElement {
   const SwitchableRegistryTable = useSwitch( RegistryTable, 400 )
   const SwitchableCheckBoxCard = useSwitch( CheckBoxCard, 400 )
   const SwitchableLoadingWall = useSwitch( LoadingWall, 250 )
+  const SwitchableProfileView = useSwitch( ProfileView, 400 )
   const [ pressing, setPressing ] = useState( false )
   const press = () => {
     setPressing( true )
@@ -100,6 +104,7 @@ function App(): ReactElement {
     SwitchableRegistryTable,
     SwitchableCheckBoxCard,
     SwitchableLoadingWall,
+    SwitchableProfileView,
     inventoryData,
     historyData,
     defaultLanguage,

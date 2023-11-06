@@ -50,6 +50,30 @@ class FetchConfig {
     }
   }
 
+  public static async requestImage( url:string, config:FetchConfig ): Promise<Blob> {
+    try {
+      // Making request
+      const res: Response = await fetch( url, config )
+      if( !res.ok ) {  // Checking request status
+        const result = await res.json(),
+          error = result as Error
+        throw( error.error )
+      }
+      const file: Blob = await res.blob()
+      // Setting file type
+      const type = 'image/png',
+        image = new Blob( [ file ], { type } )
+      return image // Sending successfully request
+    }
+    catch( err ) {
+      // Handling request failure
+      const message: string = ( typeof err === 'string' )
+        ? err
+        : Errors.NETWORK_FAILURE
+      return Promise.reject( message )
+    }
+  }
+
 }
 
 export default FetchConfig

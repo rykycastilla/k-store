@@ -9,11 +9,12 @@ interface SectionItemProps {
   title: string,
   action: FunctionVoid,
   partner?: ReactElement,
+  color?: string,
   underline?: boolean,
 }
 
 function SectionItem( props:SectionItemProps ): ReactElement {
-  const { title, action, partner, underline } = props
+  const { title, action, partner, color, underline } = props
   const underlineStyle: object = underline
     ? {
       borderBottomWidth: 1,
@@ -21,6 +22,7 @@ function SectionItem( props:SectionItemProps ): ReactElement {
     }
     : {}
   const { pressing, press } = useContext( AppContext )
+  const itemTextColor = color ? color : textColor
   return (
     <TouchableOpacity
       style={ [ useViewport( styles.item ), underlineStyle ] }
@@ -31,7 +33,7 @@ function SectionItem( props:SectionItemProps ): ReactElement {
           action()
         }
       }>
-      <Text style={ useViewport( styles.itemText ) }>{ title }</Text>
+      <Text style={ [ useViewport( styles.itemText ), { color: itemTextColor } ] }>{ title }</Text>
       { partner }
     </TouchableOpacity>
   )
@@ -44,10 +46,16 @@ function SectionItemList( props:SectionItemListProps ): ReactElement {
   const sectionItems: ReactElement[] = [],
     itemsLength: number = items.length
   for( let _this = 0; _this < itemsLength; _this++ ) {
-    const { title, partner, action } = items[ _this ]
+    const { title, partner, color, action } = items[ _this ]
     const underline: boolean = _this !== itemsLength - 1
     const sectionItem =
-      <SectionItem key={ _this } title={ title } partner={ partner } action={ action } underline={ underline } />
+      <SectionItem
+        key={ _this }
+        title={ title }
+        color={ color }
+        partner={ partner }
+        action={ action }
+        underline={ underline } />
     sectionItems.push( sectionItem )
   }
   return <>{ sectionItems }</>
@@ -93,7 +101,6 @@ const styles = StyleSheet.create( {
     alignItems: 'center',
   },
   itemText: {
-    color: textColor,
     fontSize: `${ fontSize } * 0.83` as unknown as number,
   },
 } )

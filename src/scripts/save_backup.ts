@@ -25,7 +25,7 @@ function saveBackup( inventory:InventoryIndex, history:DateList, units:Units, Bo
         catch( err:string ) {
           type Alert = 'alert'
           const action: Alert = 'alert'
-          let text = 'Uknown Issue'
+          let text = 'Unknown Issue'
           switch( err ) {
           case Errors.NETWORK_FAILURE:
             text = 'You have no internet access, please, check your network settings'
