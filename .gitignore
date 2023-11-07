@@ -1,3 +1,4 @@
+.env
 .expo/
 .vscode/
 node_modules/
