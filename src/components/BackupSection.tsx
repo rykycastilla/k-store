@@ -3,6 +3,7 @@ import loadBackup from '../scripts/load_backup'
 import React, { ReactElement, useContext } from 'react'
 import saveBackup from '../scripts/save_backup'
 import Section from './Section'
+import useLanguage from '../hooks/language'
 
 function BackupSection(): ReactElement {
   const {
@@ -12,22 +13,23 @@ function BackupSection(): ReactElement {
     historyData,
     unitsData,
   } = useContext( AppContext )
+  const [ language ] = useLanguage()
   const items = [
     {
-      title: 'Load',
+      title: language.load,
       action() {
-        const restoreWarning = 'Are you sure you want to restore this backup? your current data will be deleted'
-        loadBackup( SwitchableBooleanCard, SwitchableLoadingWall, restoreWarning )
+        const restoreWarning = language.loadWarning
+        loadBackup( SwitchableBooleanCard, SwitchableLoadingWall, restoreWarning, language )
       }
     },
     {
-      title: 'Save',
+      title: language.save,
       action() {
-        saveBackup( inventoryData, historyData, unitsData, SwitchableBooleanCard, SwitchableLoadingWall )
+        saveBackup( inventoryData, historyData, unitsData, SwitchableBooleanCard, SwitchableLoadingWall, language )
       }
     },
   ]
-  return <Section name="Backup" items={ items } />
+  return <Section name={ language.backup } items={ items } />
 }
 
 export default BackupSection

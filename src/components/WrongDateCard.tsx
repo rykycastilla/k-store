@@ -5,6 +5,7 @@ import Link from './Link'
 import { Linking, StyleSheet, Text, View } from 'react-native'
 import React, { ReactElement } from 'react'
 import { useHiding } from 'react-component-switcher'
+import useLanguage from '../hooks/language'
 import { useViewport } from 'react-native-viewport-provider'
 
 function Margin(): ReactElement {
@@ -15,10 +16,11 @@ function WrongDateCard( props:unknown, callerProps:unknown, id:number ): ReactEl
   props ; callerProps
   const hiding = useHiding( id )
   const emptyFunction: FunctionVoid = () => { return }
+  const [ language ] = useLanguage()
   return (
     <Card hiding={ hiding } noButtons action={ emptyFunction } quit={ emptyFunction }>
       <Text style={ useViewport( styles.text ) }>
-        There is a problem related to the device date. To fix it check date settings and connect the device to internet
+        { language.dateWarning }
       </Text>
       <Link
         text="Fix Date"

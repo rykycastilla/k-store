@@ -1,6 +1,7 @@
 import { DateList } from '../interfaces/history'
 import Errors from '../interfaces/Errors'
 import { InventoryIndex } from '../interfaces/inventory'
+import { Language } from '../hooks/language'
 import { LoadingWallCallerProps, LoadingWallProps } from '../components/LoadingWall'
 import postBackup, { PostBackupResult } from '../services/post_backup'
 import { SBC } from '../types'
@@ -10,9 +11,9 @@ import { Units } from '../interfaces/units'
 
 type SLW = SwitchableComponent<LoadingWallProps,LoadingWallCallerProps>
 
-function saveBackup( inventory:InventoryIndex, history:DateList, units:Units, BooleanCard:SBC, LoadingWall:SLW ) {
+function saveBackup( inventory:InventoryIndex, history:DateList, units:Units, BooleanCard:SBC, LoadingWall:SLW, language:Language ) {
   const callerProps = {
-    text: 'Are you sure you want to make a backup of your current inventory and articles?',
+    text: language.saveWarning,
     action() {
       const promise: Promise<PostBackupResult> = postBackup( inventory, history, units )
       const loadingCallerProps = {
@@ -25,19 +26,19 @@ function saveBackup( inventory:InventoryIndex, history:DateList, units:Units, Bo
         catch( err:string ) {
           type Alert = 'alert'
           const action: Alert = 'alert'
-          let text = 'Unknown Issue'
+          let text = language.unknownIssue
           switch( err ) {
           case Errors.NETWORK_FAILURE:
-            text = 'You have no internet access, please, check your network settings'
+            text = language.networkFailure
             break
           case Errors.FORBIDDEN:
-            text = 'You are not authorized to use the service. Log out and log in again with a valid account'
+            text = language.forbidden
             break
           case Errors.BAD_REQUEST:
-            text = 'Your inventory file is damaged or corrupt. To solve it, restore from your latest backup'
+            text = language.corruptBackup
             break
           case Errors.PAYLOAD_TOO_LARGE:
-            text = 'The server took too long to respond'
+            text = language.lateServerError
             break
           }
           const message = { text, action }

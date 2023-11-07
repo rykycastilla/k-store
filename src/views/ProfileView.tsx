@@ -12,6 +12,8 @@ import React, { ReactElement, useContext, useEffect, useRef } from 'react'
 import useBackButton from '../hooks/back_button'
 import { useViewport } from 'react-native-viewport-provider'
 
+import useLanguage from '../hooks/language'
+
 function useAnimation( hiding:boolean ): Animated.Value {
   const opacity = useRef( new Animated.Value( 0 ) ).current
   useEffect( () => {
@@ -64,13 +66,14 @@ function ProfileProperty( props:ProfilePropertyProps ): ReactElement {
 
 function DeleteAccountButton(): ReactElement {
   const { SwitchableBooleanCard, SwitchableLoadingWall } = useContext( AppContext )
+  const [ language ] = useLanguage()
   return (
     <TouchableOpacity
       style={ useViewport( styles.deleteAccountButton ) }
       onPress={
-        () => deleteAccount( SwitchableBooleanCard, SwitchableLoadingWall )
+        () => deleteAccount( SwitchableBooleanCard, SwitchableLoadingWall, language )
       }>
-      <Text style={ useViewport( styles.deleteAccountButtonText ) }>Delete</Text>
+      <Text style={ useViewport( styles.deleteAccountButtonText ) }>{ language.deleteAccount }</Text>
     </TouchableOpacity>
   )
 }
@@ -86,12 +89,13 @@ function ProfileView( props:ProfileViewProps, callerProps:ProfileViewCallerProps
   const hiding = useHiding( id )
   const opacity: Animated.Value = useAnimation( hiding )
   useBackButton( () => quit() )
+  const [ language ] = useLanguage()
   return (
     <Animated.View style={ [ styles.container, { opacity } ] }>
-      <AppView Back={ backButton } title="Profile">
+      <AppView Back={ backButton } title={ language.profile }>
         <ProfileImage uri={ picture } />
-        <ProfileProperty target="Name">{ name }</ProfileProperty>
-        <ProfileProperty target="Email">{ email }</ProfileProperty>
+        <ProfileProperty target={ language.profileName }>{ name }</ProfileProperty>
+        <ProfileProperty target={ language.profileEmail }>{ email }</ProfileProperty>
         <DeleteAccountButton />
       </AppView>
     </Animated.View>

@@ -59,7 +59,7 @@ function LanguageProvider( props:LanguageProviderProps ): ReactElement {
 
 function useLanguage(): [ Language, LanguageSetter ] {
   const { langCode, setLangCode } = useContext( LanguageContext )
-  const language: Language = useMemo( () => {
+  const language = useMemo( () => {
     switch( langCode ) {
     case Languages.EN:
       return english
@@ -68,7 +68,7 @@ function useLanguage(): [ Language, LanguageSetter ] {
     default:
       return english
     }
-  }, [ langCode ] )
+  }, [ langCode ] ) as Language
   return [ language, setLangCode ]
 }
 

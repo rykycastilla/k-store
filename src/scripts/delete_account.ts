@@ -1,12 +1,13 @@
 import deleteUser from '../services/delete_user'
 import Errors from '../interfaces/Errors'
 import { forgetWithoutDisclaimer } from './forget_session'
+import { Language } from '../hooks/language'
 import { SBC, SLW } from '../types'
 
-function deleteAccount( BooleanCard:SBC, LoadingWall:SLW ) {
+function deleteAccount( BooleanCard:SBC, LoadingWall:SLW, language:Language ) {
   LoadingWall
   const callerProps = {
-    text: 'Are you sure you want to delete your account (and your backup data). This action is IRREVERSIBLE',
+    text: language.deleteAccountWarning,
     action () {
       const promise: Promise<void> = deleteUser()
       const callerProps = {
@@ -18,13 +19,13 @@ function deleteAccount( BooleanCard:SBC, LoadingWall:SLW ) {
         catch( err:string ) {
           type Alert = 'alert'
           const action: Alert = 'alert'
-          let text = 'Unknown Issue'
+          let text = language.unknownIssue
           switch( err ) {
           case Errors.NETWORK_FAILURE:
-            text = 'You have no internet access, please, check your network settings'
+            text = language.networkFailure
             break
           case Errors.FORBIDDEN:
-            text = 'You are not authorized to use the service. Log out and log in again with a valid account'
+            text = language.forbidden
             break
           }
           const message = { text, action }

@@ -1,8 +1,9 @@
 import Errors from '../interfaces/Errors'
 import implementBackup from './implement_backup'
+import { Language } from '../hooks/language'
 import { SBC, SLW } from '../types'
 
-function loadBackup( BooleanCard:SBC, LoadingWall:SLW, restoreWarning:string ) {
+function loadBackup( BooleanCard:SBC, LoadingWall:SLW, restoreWarning:string, language:Language ) {
   const callerProps = {
     text: restoreWarning,
     action() {
@@ -14,25 +15,25 @@ function loadBackup( BooleanCard:SBC, LoadingWall:SLW, restoreWarning:string ) {
         catch( err:string ) {
           type Alert = 'alert'
           const action: Alert = 'alert'
-          let text = 'Unknown Issue'
+          let text = language.unknownIssue
           switch( err ) {
           case Errors.NETWORK_FAILURE:
-            text = 'You have no internet access, please, check your network settings'
+            text = language.networkFailure
             break
           case Errors.FORBIDDEN:
-            text = 'You are not authorized to use the service. Log out and log in again with a valid account'
+            text = language.forbidden
             break
           case Errors.NOT_FOUND:
-            text = 'There is no backup yet'
+            text = language.noBackup
             break
           case Errors.INTERNAL_SERVER_ERROR:
-            text = 'Your inventory backup is damaged or corrupt. To solve it, save a new valid backup'
+            text = language.corruptBackup
             break
           case Errors.WRONG_DATE:
-            text = 'Your device have no the correct date, please, solve it'
+            text = language.wrongDate
             break
           case Errors.PAYLOAD_TOO_LARGE:
-            text = 'The server took too long to respond'
+            text = language.lateServerError
             break
           }
           const message = { text, action }
