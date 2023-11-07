@@ -17,6 +17,7 @@ interface Headers {
 
 class FetchConfig {
   
+  cache: RequestCache = 'no-store'
   method: HttpVerb
   headers: Headers = {}
   body?: string
