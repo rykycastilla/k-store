@@ -22,6 +22,7 @@ interface AppContextData {
   SwitchableCheckBoxCard: SwitchableComponent<CheckBoxCardProps,CheckBoxCardCallerProps>,
   SwitchableLoadingWall: SwitchableComponent<LoadingWallProps,LoadingWallCallerProps>
   SwitchableProfileView: SwitchableComponent<ProfileViewProps,ProfileViewCallerProps>,
+  SwitchableWrongDateCard: SwitchableComponent<unknown,unknown>,
   inventoryData: InventoryIndex,
   historyData: DateList,
   defaultLanguage: Languages,

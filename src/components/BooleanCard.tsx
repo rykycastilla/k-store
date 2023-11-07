@@ -1,29 +1,13 @@
-import { fontSize, googleColor, margin, textColor } from '../styles.json'
+import { fontSize, margin, textColor } from '../styles.json'
 import Card from './Card'
 import { FunctionVoid } from '../types'
 import { HideFunction, useHiding } from 'react-component-switcher'
-import { Pressable, StyleSheet, Text } from 'react-native'
+import Link, { LinkProps } from './Link'
 import React, { ReactElement } from 'react'
+import { StyleSheet, Text } from 'react-native'
 import { useViewport } from 'react-native-viewport-provider'
 
-interface LinkProps {
-  text: string,
-  action: FunctionVoid,
-}
-
-function Link( props:LinkProps ): ReactElement {
-  const { text, action } = props
-  return (
-    <Pressable onPress={ action }>
-      <Text style={ useViewport( styles.link ) }>{ text }</Text>
-    </Pressable>
-  )
-}
-
-interface Link {
-  text: string,
-  action: FunctionVoid,
-}
+type Link = LinkProps
 
 interface BooleanCardProps { quit:HideFunction }
 
@@ -56,13 +40,7 @@ const styles = StyleSheet.create( {
     marginTop: margin as unknown as number,
     color: textColor,
     fontSize: `${ fontSize } * 0.83` as unknown as number,
-  },
-  link: {
-    width: `100vw - ${ margin } * 4` as unknown as number,
-    color: googleColor,
-    fontSize: `${ fontSize } * 0.71` as unknown as number,
-    textDecorationLine: 'underline',
-  },
+  }
 } )
 
 export default BooleanCard

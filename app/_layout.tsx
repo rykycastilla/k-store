@@ -5,6 +5,7 @@ import autoBackup from '../src/scripts/auto_backup'
 import { backgroundColor } from '../src/styles.json'
 import BooleanCard from '../src/components/BooleanCard'
 import CheckBoxCard from '../src/components/CheckBoxCard'
+import checkTime from '../src/scripts/check_time'
 import history, { DateList } from '../src/interfaces/history'
 import inventory, { InventoryIndex } from '../src/interfaces/inventory'
 import InventoryCard from '../src/components/InventoryCard'
@@ -19,11 +20,13 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import session from '../src/interfaces/session'
 import { setStatusBarBackgroundColor, setStatusBarStyle } from 'expo-status-bar'
 import units, { Units } from '../src/interfaces/units'
+import useActive from '../src/hooks/active'
 import useBackButton from '../src/hooks/back_button'
+import useInactive from '../src/hooks/inactive'
 import useSwitch from 'react-component-switcher'
 import ViewportProvider from 'react-native-viewport-provider'
 import ViewSelector from '../src/components/ViewSelector'
-import useInactive from '../src/hooks/inactive'
+import WrongDateCard from '../src/components/WrongDateCard'
 
 type AsyncFunction = () => Promise<void>
 
@@ -37,6 +40,7 @@ function AppContent(): ReactElement {
     SwitchableLoginView,
     SwitchableLoadingWall,
     SwitchableProfileView,
+    SwitchableWrongDateCard,
   } = useContext( AppContext )
   useEffect( () => {
     // Using login if the session does not exists
@@ -65,6 +69,7 @@ function AppContent(): ReactElement {
       <SwitchableCheckBoxCard.Component quit={ SwitchableCheckBoxCard.hide } />
       <SwitchableLoadingWall.Component quit={ SwitchableLoadingWall.hide } />
       <SwitchableProfileView.Component quit={ SwitchableProfileView.hide } />
+      <SwitchableWrongDateCard.Component />
       <ViewSelector />
     </>
   )
@@ -79,6 +84,7 @@ function App(): ReactElement {
   const SwitchableCheckBoxCard = useSwitch( CheckBoxCard, 400 )
   const SwitchableLoadingWall = useSwitch( LoadingWall, 250 )
   const SwitchableProfileView = useSwitch( ProfileView, 400 )
+  const SwitchableWrongDateCard = useSwitch( WrongDateCard, 400 )
   const [ pressing, setPressing ] = useState( false )
   const press = () => {
     setPressing( true )
@@ -105,6 +111,7 @@ function App(): ReactElement {
     SwitchableCheckBoxCard,
     SwitchableLoadingWall,
     SwitchableProfileView,
+    SwitchableWrongDateCard,
     inventoryData,
     historyData,
     defaultLanguage,
@@ -114,6 +121,7 @@ function App(): ReactElement {
     press,
   }
   useInactive( () => autoBackup( inventoryData, historyData, unitsData ) )  // Making backups automatically
+  useActive( () => checkTime( SwitchableWrongDateCard ) )  // Checking if the current date is valid
   return (
     <>
       <AppContext.Provider value={ data }>
