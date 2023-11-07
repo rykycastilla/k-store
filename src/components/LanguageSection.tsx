@@ -30,7 +30,7 @@ function selectAction( checkBoxCardCaller:CheckBoxCardCaller, option:Option, set
       setOption( newOption )
       setLanguage( newOption )
       appLanguage.change( newOption )
-      setDefaultLanguage( [ 'avoid_default_setting' as Languages ] )  // probablemente el bug de idioma se encuentre aqui
+      setDefaultLanguage( [ newOption ] )
     }
   }
   checkBoxCardCaller( callerProps )
