@@ -62,11 +62,11 @@ function articleRow( index:number, name:string, weight:number, price:number, ini
 <div class="cell" style="--size:1">${ index }</div>
 <div class="cell" style="--size:3">${ nameFixer( name ) }</div>
 <div class="cell" style="--size:2">${ numFixer( weight, true ) }${ unitsData.mass }</div>
-<div class="cell" style="--size:2">${ numFixer( price, true ) }${ unitsData.currency }</div>
-<div class="cell" style="--size:2">${ numFixer( init ) }</div>
-<div class="cell" style="--size:2">${ numFixer( input ) }</div>
-<div class="cell" style="--size:2">${ numFixer( output ) }</div>
-<div class="cell" style="--size:2">${ numFixer( end ) }</div>
+<div class="cell" style="--size:2">${ numFixer( price, true, 99999 ) }${ unitsData.currency }</div>
+<div class="cell" style="--size:2">${ numFixer( init, undefined, 999999 ) }</div>
+<div class="cell" style="--size:2">${ numFixer( input, undefined, 999999 ) }</div>
+<div class="cell" style="--size:2">${ numFixer( output, undefined, 999999 ) }</div>
+<div class="cell" style="--size:2">${ numFixer( end, undefined, 999999 ) }</div>
   `
 }
 
@@ -77,7 +77,7 @@ function tableFooter( totalInput:number, totalOutput:number, earns:number, langu
 <div class="cell" style="--size:4">${ language.earns }</div>
 <div class="cell" style="--size:6">${ totalInput }</div>
 <div class="cell" style="--size:6">${ totalOutput }</div>
-<div class="cell" style="--size:4">${ numFixer( earns, true ) }${ unitsData.currency }</div>
+<div class="cell" style="--size:4">${ numFixer( earns, true, 9999999 ) }${ unitsData.currency }</div>
   `
 }
 

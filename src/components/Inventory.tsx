@@ -35,9 +35,9 @@ function ItemCard( props:ItemCardProps ): ReactElement {
       <>
         <Text style={ useViewport( styles.articleName ) }>{ nameFixer( article ) }</Text>
         <View style={ useViewport( styles.propertiesContainer ) }>
-          <Text style={ useViewport( styles.properties ) }>{ numFixer( price, true ) }{ unitsData.currency }</Text>
+          <Text style={ useViewport( styles.properties ) }>{ numFixer( price, true, 99999 ) }{ unitsData.currency }</Text>
           <Text style={ useViewport( styles.properties ) }>{ numFixer( weight, true ) }{ unitsData.mass }</Text>
-          <Text style={ useViewport( styles.amount ) }>{ numFixer( amount ) }</Text>
+          <Text style={ useViewport( styles.amount ) }>{ numFixer( amount, undefined, 999999 ) }</Text>
         </View>
       </>
     </TouchableOpacity>
