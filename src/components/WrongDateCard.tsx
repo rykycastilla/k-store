@@ -23,7 +23,7 @@ function WrongDateCard( props:unknown, callerProps:unknown, id:number ): ReactEl
         { language.dateWarning }
       </Text>
       <Link
-        text="Fix Date"
+        text={ language.fixDateLink }
         action={ () => Linking.sendIntent( 'android.settings.DATE_SETTINGS' ) } />
       <Margin />
     </Card>
